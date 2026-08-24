@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#142b55">
-<title>AYDA Öğrenci Platformu • Demo</title>
-<meta name="description" content="AYDA Dil Akademisi öğrenci platformu demo deneyimi.">
+<title>AYDA Öğrenci Deneyimi • Kayıt Öncesi Demo</title>
+<meta name="description" content="AYDA Dil Akademisi kayıt öncesi öğrenci deneyimi: ders, tekrar, kütüphane ve sınav hazırlık demo platformu.">
 <style>
 :root{
   --navy:#142b55;--navy2:#203f76;--gold:#d5a64c;--cream:#f6f7f9;--card:#fff;
@@ -107,13 +107,25 @@ a{color:inherit}
 .exam-demo-score{font-size:34px;font-weight:900;color:var(--navy);margin:8px 0}
 @media(max-width:860px){.exam-demo{grid-template-columns:1fr}}
 
+
+.prospect-strip{margin:18px 0 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
+.prospect-strip h3{margin:0 0 5px;font-size:18px}
+.prospect-strip p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.prospect-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.final-cta{margin-top:30px;background:linear-gradient(125deg,#142b55,#203f76);color:#fff;border-radius:24px;padding:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
+.final-cta h2{margin:0 0 8px;font-size:26px;letter-spacing:-.03em}
+.final-cta p{margin:0;color:#d8e1ef;max-width:720px;line-height:1.6}
+.final-cta .actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:760px){.prospect-strip,.final-cta{grid-template-columns:1fr}.prospect-actions,.final-cta .actions{justify-content:flex-start}}
+@media(max-width:430px){.topbar .user .btn{padding:9px 10px;font-size:12px}}
+
 </style>
 </head>
 <body>
 <div class="shell">
   <aside class="sidebar" id="sidebar">
     <div class="brand"><div class="mark">A</div><div><strong>AYDA</strong><small>Öğrenci Platformu</small></div></div>
-    <div class="demo-pill">● DEMO ÖĞRENCİ HESABI</div>
+    <div class="demo-pill">● KAYIT ÖNCESİ ÖĞRENCİ DENEYİMİ</div>
     <nav class="nav" aria-label="Öğrenci menüsü">
       <button class="active" data-view="home"><span class="ico">⌂</span>Ana Sayfa</button>
       <button data-view="courses"><span class="ico">▤</span>Derslerim</button>
@@ -133,38 +145,49 @@ a{color:inherit}
     <header class="topbar">
       <div style="display:flex;align-items:center;gap:12px">
         <button class="mobile-menu" id="menuBtn" aria-label="Menüyü aç">☰</button>
-        <div class="top-left"><strong id="pageTitle">Ana Sayfa</strong><small>Öğrenci hesabında görünen demo deneyimi</small></div>
+        <div class="top-left"><strong id="pageTitle">Ana Sayfa</strong><small>Kayıt olmadan önce öğrenci deneyimini incele</small></div>
       </div>
-      <div class="user"><span><b>Demo Öğrenci</b><br><small style="color:var(--muted)">A2 Aktif</small></span><div class="avatar">D</div></div>
+      <div class="user"><a class="btn navy" href="https://www.aydadil.com/" target="_blank" rel="noopener">Programları İncele</a><div class="avatar">A</div></div>
     </header>
 
     <main class="content">
       <section class="view active" id="view-home">
         <div class="hero">
           <div>
-            <p class="eyebrow">HOŞ GELDİN, DEMO ÖĞRENCİ</p>
-            <h1>Bugün Almancana devam et.</h1>
-            <p>Ders tekrarların, ünite alıştırmaların, dijital kaynakların ve sınav hazırlık alanların aynı öğrenci ekranında.</p>
+            <p class="eyebrow">AYDA’DA ÖĞRENCİ OLSAYDIN</p>
+            <h1>Öğrenci deneyimini kendin gör.</h1>
+            <p>Bu sayfa kayıt olmayı düşünenler için hazırlanmış sınırlı bir öğrenci demosudur. Bir AYDA öğrencisinin ders, tekrar, kütüphane ve sınav hazırlık akışını doğrudan deneyebilirsin.</p>
             <div class="hero-actions">
-              <button class="btn primary jump" data-view="practice">Çalışmaya devam et →</button>
-              <button class="btn ghost jump" data-view="library">Kütüphaneyi aç</button>
+              <button class="btn primary jump" data-view="practice">A2 dersini dene →</button>
+              <button class="btn ghost jump" data-view="library">Kütüphaneyi gör</button>
             </div>
           </div>
           <aside class="progress-card">
-            <small>A2 DEMO İLERLEMESİ</small><div class="pct">%38</div><div class="bar"><span></span></div>
-            <small>Bu yüzde yalnızca demo deneyimini göstermek için örnektir.</small>
+            <small>ÖRNEK ÖĞRENCİ İLERLEMESİ</small><div class="pct">%38</div><div class="bar"><span></span></div>
+            <small>İlerleme ekranının öğrencide nasıl göründüğünü temsil eden örnek veridir.</small>
             <div class="statrow"><div class="stat"><b>9/24</b><span>Ünite görüntülendi</span></div><div class="stat"><b>27</b><span>Doğru kontrol</span></div></div>
           </aside>
         </div>
 
-        <div class="section-head"><div><h2>Derslerim</h2><p>Bir öğrenci, kayıtlı olduğu seviyenin ders ve tekrar alanlarını burada görür.</p></div><button class="btn jump" data-view="courses">Tümünü gör</button></div>
+        <div class="prospect-strip">
+          <div>
+            <h3>Bu bir tanıtım sayfasından çok, öğrenci deneyimi demosu.</h3>
+            <p>Kartları açabilir, üniteye girebilir, soru çözebilir, kütüphane filtrelerini kullanabilir ve sınav hazırlık mini denemesini tamamlayabilirsin.</p>
+          </div>
+          <div class="prospect-actions">
+            <button class="btn navy jump" data-view="practice">Dersi dene</button>
+            <button class="btn jump" data-view="exam">Sınav hazırlığını dene</button>
+          </div>
+        </div>
+
+        <div class="section-head"><div><h2>Derslerim</h2><p>Kayıt olduğunda kendi seviyene ait ders ve tekrar alanlarını bu yapıda görürsün.</p></div><button class="btn jump" data-view="courses">Tümünü gör</button></div>
         <div class="grid3">
           <article class="card course-card"><div class="level">A1</div><h3>A1 Almanca</h3><p>Temel seviye tekrar, kısa konu anlatımları, kelime ve ünite çalışmaları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">Video</span><span class="tag">Alıştırma</span></div><button class="btn open-level" data-level="A1">Demo içeriğini aç</button></article>
           <article class="card course-card"><div class="level">A2</div><h3>A2 Almanca</h3><p>Menschen A2 ünite tekrarları, konu özeti, gramer mantığı, soru ve konuşma çalışmaları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">Konu Özeti</span><span class="tag">Alıştırma</span></div><button class="btn navy open-level" data-level="A2">Aktif demo →</button></article>
           <article class="card course-card"><div class="level">B1</div><h3>B1 Almanca</h3><p>Video tekrar, kontrollü sorular, okuma-yazma ve B1 sınav destek alanları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">576 Soru Sistemi</span><span class="tag">İlerleme</span></div><button class="btn open-level" data-level="B1">Demo içeriğini aç</button></article>
         </div>
 
-        <div class="section-head"><div><h2>Öğrenci araçları</h2><p>Ders dışındaki çalışma alanlarına tek panelden erişim.</p></div></div>
+        <div class="section-head"><div><h2>Öğrenci araçları</h2><p>Kayıtlı öğrencinin ders dışında kullanabildiği çalışma alanlarından örnekler.</p></div></div>
         <div class="quick">
           <article class="card"><div class="bigico">▥</div><div><h3>Dijital Kütüphane</h3><p>Drive klasörleri, ders videoları, Quizlet ve online egzersizler.</p></div></article>
           <article class="card"><div class="bigico">✓</div><div><h3>Sınav Hazırlık</h3><p>TELC / Goethe seviyesine göre hazırlık, beceri başlıkları ve tekrarlar.</p></div></article>
@@ -173,17 +196,17 @@ a{color:inherit}
       </section>
 
       <section class="view" id="view-courses">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DERSLERİM</div><h1>Derslerim</h1><p>Demo hesapta, sistemin farklı seviyelerde nasıl göründüğünü inceleyebilirsin.</p></div>
+        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DERSLERİM</div><h1>Derslerim</h1><p>Kayıt öncesi demo için A1, A2 ve B1’den örnek ekranlar birlikte gösteriliyor.</p></div>
         <div class="grid3">
           <article class="card course-card"><div class="level">A1</div><h3>A1 • Grundlagen</h3><p>Kısa konu anlatımları, ünite tekrarları, temel cümle ve kelime çalışmaları.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">A1</span></div><button class="btn open-level" data-level="A1">Derse gir</button></article>
           <article class="card course-card"><div class="level">A2</div><h3>A2 • Wiederholung</h3><p>Ünite mantığı, örnekler, video kaynakları ve interaktif alıştırmalar.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">A2</span></div><button class="btn navy open-level" data-level="A2">Derse gir</button></article>
           <article class="card course-card"><div class="level">B1</div><h3>B1 • Intensiv</h3><p>Video + uygulama akışı, okuma, yazma, konuşma ve sınav desteği.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">B1</span></div><button class="btn open-level" data-level="B1">Derse gir</button></article>
         </div>
-        <div class="demo-note">Demo hesap, tek bir öğrencinin normalde aynı anda sahip olmayabileceği A1, A2 ve B1 ekranlarını karşılaştırmalı olarak gösterebilmek için tüm seviyeleri görünür tutar.</div>
+        <div class="demo-note">Bu kayıt öncesi demo, sistemi daha iyi tanıyabilmen için A1, A2 ve B1’den örnekleri aynı anda görünür tutar. Gerçek öğrenci hesabında yalnızca kayıtlı olduğun ders ve erişim alanları görünür.</div>
       </section>
 
       <section class="view" id="view-practice">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / TEKRAR & ALIŞTIRMA</div><h1>Tekrar ve Alıştırma</h1><p>Seviyeni seç, üniteyi aç ve öğrenci gibi içeriği kullan.</p></div>
+        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / TEKRAR & ALIŞTIRMA</div><h1>Tekrar ve Alıştırma</h1><p>Bir seviyeyi seç, örnek üniteyi aç ve gerçek öğrenci akışını dene.</p></div>
         <div class="level-tabs" id="levelTabs">
           <button data-level="A1">A1</button><button class="active" data-level="A2">A2</button><button data-level="B1">B1</button>
         </div>
@@ -206,7 +229,7 @@ a{color:inherit}
       </section>
 
       <section class="view" id="view-library">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DİJİTAL KÜTÜPHANE</div><h1>Dijital Kütüphane</h1><p>Öğrenci; ders, video, sınav, konu anlatımı, Quizlet ve online çalışma kaynaklarını seviyeye göre filtreler.</p></div>
+        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DİJİTAL KÜTÜPHANE</div><h1>Dijital Kütüphane</h1><p>Kayıtlı öğrenciler ders, video, sınav, konu anlatımı, Quizlet ve online çalışma kaynaklarını seviyelerine göre tek ekrandan filtreler.</p></div>
         <div class="library-layout">
           <aside class="card filter" id="libraryFilter">
             <button class="active" data-filter="ALL">Tüm Kaynaklar</button><button data-filter="A1">A1</button><button data-filter="A2">A2</button><button data-filter="B1">B1</button><button data-filter="SINAV">Sınav</button>
@@ -216,7 +239,7 @@ a{color:inherit}
       </section>
 
       <section class="view" id="view-exam">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / SINAV HAZIRLIK</div><h1>Sınav Hazırlık</h1><p>Seviyeye göre TELC / Goethe hazırlık alanları ve beceri odaklı çalışmalar.</p></div>
+        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / SINAV HAZIRLIK</div><h1>Sınav Hazırlık</h1><p>Öğrencilerin seviyesine göre TELC / Goethe hazırlık alanları; A2 örneğini açarak mini denemeyi doğrudan çözebilirsin.</p></div>
         <div class="exam-grid">
           <article class="card exam-card"><span class="badge">A1</span><h3>A1 Goethe / TELC Hazırlık</h3><p>Başlangıç seviyesinde kelime, temel yapı, okuma ve sınav pratiği.</p><div class="skills"><span>Kelime</span><span>Lesen</span><span>Temel Yapı</span></div><button class="btn" style="margin-top:16px">Demo alanını görüntüle</button></article>
           <article class="card exam-card"><span class="badge">A2</span><h3>A2 TELC Hazırlık</h3><p>Kelime, okuma, yazma ve konuşma hazırlıkları; sınav öncesi hedefli tekrar.</p><div class="skills"><span>Lesen</span><span>Schreiben</span><span>Sprechen</span></div><button class="btn navy" style="margin-top:16px" id="showExamDetail">A2 örneğini aç</button></article>
@@ -260,7 +283,7 @@ a{color:inherit}
       </section>
 
       <section class="view" id="view-progress">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / İLERLEMEM</div><h1>İlerlemem</h1><p>Demo verileri, öğrencinin panelde görebileceği ilerleme mantığını temsil eder.</p></div>
+        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / İLERLEMEM</div><h1>İlerlemem</h1><p>Bu örnek veriler, kayıtlı öğrencinin panelde görebileceği ilerleme mantığını temsil eder.</p></div>
         <div class="card profile-card"><div class="avatar-big">D</div><div><h2 style="margin:0 0 4px">Demo Öğrenci</h2><p style="margin:0;color:var(--muted)">Aktif seviye: A2 • Online Almanca</p><div class="tags" style="margin-top:12px"><span class="tag">9 ünite görüntülendi</span><span class="tag">27 doğru kontrol</span><span class="tag">Son çalışma: Ünite 2</span></div></div></div>
         <div class="section-head"><div><h2>Çalışma durumu</h2><p>Gerçek öğrenci kullanımında bu alan kaldığı yeri takip etmek için kullanılır.</p></div></div>
         <div class="grid3">
@@ -270,8 +293,19 @@ a{color:inherit}
         </div>
       </section>
 
+      <section class="final-cta" aria-label="Kayıt ve program bilgisi">
+        <div>
+          <h2>Sistem sana uygunsa, sıradaki adım programı seçmek.</h2>
+          <p>Demo yalnızca öğrenci deneyiminin küçük bir bölümünü gösterir. Güncel seviyeleri, kurs yapısını ve kayıt seçeneklerini AYDA üzerinden inceleyebilirsin.</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="https://www.aydadil.com/" target="_blank" rel="noopener">Programları İncele</a>
+          <a class="btn ghost" href="https://wa.me/905409122503" target="_blank" rel="noopener">Kayıt & Bilgi</a>
+        </div>
+      </section>
+
       <footer class="footer">
-        <span>© 2026 AYDA Dil Akademisi • Öğrenci Platformu Demo</span>
+        <span>© 2026 AYDA Dil Akademisi • Kayıt Öncesi Öğrenci Deneyimi</span>
         <span><a href="https://www.aydadil.com/" target="_blank">Web</a> · <a href="https://instagram.com/ayda.dil" target="_blank">Instagram</a> · <a href="https://youtube.com/@aydadil" target="_blank">YouTube</a></span>
       </footer>
     </main>
@@ -354,14 +388,14 @@ a{color:inherit}
     for(let i=data.units.length;i<12;i++){
       cards+=`<article class="unit locked"><span class="num">ÜNİTE ${i+1}</span><h3>Demo kapsamında gizli</h3><p>Gerçek öğrenci panelinde kayıtlı ders içeriği görünür.</p><button disabled>Demo sınırı</button></article>`;
     }
-    document.getElementById("unitsWrap").innerHTML=`<div class="unit-grid">${cards}</div><div class="demo-note">Bu demo, tam kurs içeriğini yayınlamak yerine öğrencinin panelde nasıl çalıştığını gösterir. Açık üniteler işlevsel örneklerdir.</div>`;
+    document.getElementById("unitsWrap").innerHTML=`<div class="unit-grid">${cards}</div><div class="demo-note">Kayıt öncesi demo, tam kurs içeriğini yayınlamaz; çalışma düzenini ve öğrenci deneyimini gösterir. Açık üniteler işlevsel örneklerdir.</div>`;
     document.querySelectorAll(".open-unit").forEach(btn=>btn.addEventListener("click",()=>openLesson(level,+btn.dataset.index)));
   }
 
   function openLesson(level,index){
     const d=levelData[level], L=d.lesson, chosen=d.units[index]||d.units[0];
     document.getElementById("lessonTitle").textContent=(level+" • Ünite "+(index+1)+" — "+chosen[0]);
-    document.getElementById("lessonSubtitle").textContent=chosen[1]+" • Demo öğrenci çalışma ekranı";
+    document.getElementById("lessonSubtitle").textContent=chosen[1]+" • Kayıt öncesi örnek öğrenci ekranı";
     document.getElementById("lessonSummary").textContent=index===0?L.summary:"Bu ünitenin tam içeriği demo kapsamında yayınlanmıyor. Öğrenci gerçek panelde konu anlatımını, video tekrarını, örnekleri ve ilgili alıştırmaları aynı akış içinde görür.";
     document.getElementById("lessonExamples").innerHTML=(index===0?L.examples:["Konu anlatımı","Örnek cümleler","Kontrollü alıştırma"]).map(x=>`<div class="example">${x}</div>`).join("");
     document.getElementById("lessonMeta").innerHTML=`<div><b>Seviye</b>${level}</div><div><b>Konu</b>${index===0?L.topic:chosen[1]}</div><div><b>Gramer / Odak</b>${index===0?L.grammar:"Üniteye göre değişir"}</div><div><b>Kaynaklar</b>Video + konu özeti + alıştırma</div>`;
