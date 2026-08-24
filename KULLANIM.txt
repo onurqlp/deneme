@@ -1,0 +1,12 @@
+AYDA Öğrenci Paneli Tanıtımı — Son Sürüm
+
+1. ZIP dosyasını tamamen bir klasöre çıkarın.
+2. index.html dosyasına çift tıklayın.
+3. index.html, style.css ve script.js aynı klasörde kalmalıdır.
+
+Bu sayfa www.aydadil.com ana kurs sitesinden ayrı bir kayıt öncesi tanıtım ve
+öğrenci paneli demo sayfasıdır.
+
+Site telefon, tablet, laptop ve geniş masaüstü ekranları için düzenlenmiştir.
+AYDA ana sitesi, sınav platformu, kütüphane, YouTube ve diğer dış bağlantılar
+için internet bağlantısı gerekir.

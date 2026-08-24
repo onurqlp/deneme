@@ -6,7 +6,11 @@
     document.getElementById("app-"+name)?.classList.add("active");
     document.querySelectorAll(".app-nav").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
     document.getElementById("appTitle").textContent=appTitles[name]||"AYDA";
-    document.querySelector(".app-shell")?.scrollIntoView({behavior:"smooth",block:"start"});
+    const shell=document.querySelector(".app-shell");
+    if(shell){
+      const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      shell.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"start"});
+    }
   }
   document.querySelectorAll(".app-nav,.app-jump").forEach(b=>b.addEventListener("click",()=>showAppView(b.dataset.view)));
 

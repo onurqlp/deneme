@@ -981,6 +981,18 @@ body{font-size:16px}
 }
 .course-card h3{font-size:18px}
 .course-card p{font-size:12px}
+.course-card.link-card a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:auto;
+  color:var(--navy);
+  font-size:12px;
+  font-weight:900;
+  text-decoration:none;
+}
+.course-card.link-card a:hover{text-decoration:underline}
+.info-note a{color:var(--navy);font-weight:900}
 .level-badge{
   width:46px;
   height:46px;
@@ -1132,4 +1144,164 @@ body{font-size:16px}
     grid-column:1/-1;
     margin-bottom:-4px;
   }
+}
+
+/* Final stability and accessibility pass */
+#demo,#kurslar,#sistem,#sinavlar,.app-shell{scroll-margin-top:82px}
+.app-shell,.app-main,.app-content,.app-view{min-width:0}
+.button,.app-nav,.mini-action,.unit-card button,.record-item,.quiz-option,
+.level-tabs button,.filter-tabs button,.library-filters button{
+  min-height:44px;
+}
+.button:focus-visible,.app-nav:focus-visible,.mini-action:focus-visible,
+.unit-card button:focus-visible,.record-item:focus-visible,.quiz-option:focus-visible,
+.level-tabs button:focus-visible,.filter-tabs button:focus-visible,
+.library-filters button:focus-visible,a:focus-visible{
+  outline:3px solid rgba(213,164,75,.7);
+  outline-offset:3px;
+}
+
+@media (max-width:760px){
+  .app-topbar{position:static}
+  .system-section{width:100%;padding-left:14px;padding-right:14px}
+  .footer{padding-bottom:98px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* Final typography and control scale */
+body{font-size:16px;line-height:1.5}
+.top-nav a{font-size:14px}
+.button{
+  min-height:50px;
+  padding:13px 20px;
+  border-radius:13px;
+  font-size:14px;
+  line-height:1.2;
+}
+.button.compact{min-height:46px;padding:11px 17px;font-size:13px}
+.section-heading{margin-bottom:28px}
+.section-heading p{max-width:760px;font-size:15.5px;line-height:1.7}
+.text-link{font-size:14px}
+
+/* Demo panel: readable without losing the app-like density */
+.app-nav{min-height:48px;padding:12px 11px;font-size:13px;line-height:1.25}
+.app-topbar b{font-size:15px}
+.app-topbar small{font-size:11.5px}
+.demo-account{font-size:11px;padding:8px 11px}
+.welcome-card p{font-size:15px;line-height:1.65}
+.mini-action{min-height:108px;padding:17px}
+.mini-action b{font-size:15px;line-height:1.35}
+.mini-action span{font-size:12.5px;line-height:1.5}
+.dashboard-course p{font-size:13.5px;line-height:1.6}
+.app-page-head p,.lesson-head p{font-size:14px;line-height:1.65}
+.level-tabs button,.filter-tabs button,.library-filters button,.yt-buttons button{
+  min-height:44px;
+  padding:10px 14px;
+  font-size:13px;
+}
+.unit-card{min-height:154px;padding:16px}
+.unit-card small{font-size:10.5px}
+.unit-card b{font-size:15px;line-height:1.45}
+.unit-card span{font-size:12px;line-height:1.5}
+.unit-card button{font-size:13.5px;padding-top:12px}
+.panel p{font-size:13.5px;line-height:1.65}
+.quiz-question{font-size:15px!important}
+.quiz-option{min-height:46px;padding:11px 12px;font-size:13.5px}
+.feedback{font-size:12px}
+.record-item{min-height:64px;padding:12px}
+.record-item b{font-size:13px;line-height:1.35}
+.record-item small{font-size:11px;line-height:1.45}
+.resource-card{min-height:150px;padding:15px}
+.resource-card small{font-size:10px}
+.resource-card b{font-size:14px;line-height:1.4}
+.resource-card p{font-size:12.5px;line-height:1.6}
+.exam-program-grid h4{font-size:14px}
+.exam-program-grid p{font-size:12.5px;line-height:1.55}
+.tip-card>span{font-size:10px}
+.tip-card p{font-size:12.5px;line-height:1.65}
+.schedule-card small,.status{font-size:10px}
+.schedule-card p{font-size:12.5px;line-height:1.6}
+.countdown{font-size:12px}
+.info-note{font-size:12.5px;line-height:1.65;padding:13px 15px}
+
+/* Lower promotional sections */
+.course-card{min-height:260px;padding:22px}
+.course-card h3{font-size:21px;line-height:1.25;margin:17px 0 9px}
+.course-card p{font-size:15px;line-height:1.7}
+.course-card.link-card a{min-height:48px;font-size:14.5px;line-height:1.35}
+.course-card.link-card a{
+  width:100%;
+  justify-content:center;
+  padding:0 16px;
+  border-radius:12px;
+  background:var(--navy);
+  color:#fff;
+  text-align:center;
+}
+.course-card.link-card a:hover{text-decoration:none;background:var(--navy2)}
+.level-badge{width:52px;height:52px;font-size:16px}
+.timeline article{padding:22px}
+.timeline h3{font-size:20px;line-height:1.3;margin:18px 0 9px}
+.timeline p{font-size:15px;line-height:1.7}
+.decision-grid article{padding:24px}
+.decision-grid article>span{font-size:11px}
+.decision-grid h3{font-size:21px;line-height:1.3;margin:12px 0 9px}
+.decision-grid p{font-size:15px;line-height:1.7}
+.decision-grid a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:50px;
+  margin-top:12px;
+  padding:0 16px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--soft);
+  font-size:14.5px;
+  text-align:center;
+}
+.final-cta{padding:40px}
+.final-cta h2{font-size:clamp(34px,3vw,44px);line-height:1.08}
+.final-cta p{font-size:15.5px;line-height:1.7}
+.footer{font-size:12.5px;line-height:1.6}
+.footer a{display:inline-flex;align-items:center;min-height:44px;font-size:13px}
+
+@media (max-width:980px){
+  .course-card{min-height:240px}
+  .timeline h3,.decision-grid h3{font-size:19px}
+}
+
+@media (max-width:760px){
+  body{font-size:15.5px}
+  .button{min-height:52px;padding:14px 17px;font-size:14.5px}
+  .student-first .hero-copy>p{font-size:15.5px;line-height:1.7}
+  .hero-actions .button{min-height:54px;font-size:15px}
+  .minimal-card>p{font-size:14px;line-height:1.65}
+  .mini-checks span{padding:11px 12px;font-size:13.5px;line-height:1.4}
+  .section-heading p{font-size:14.5px;line-height:1.65}
+  .app-nav{min-height:46px;padding:11px 13px;font-size:13px}
+  .app-topbar{height:64px}
+  .app-content{padding:14px}
+  .welcome-card p{font-size:14px}
+  .mini-action{min-height:104px;padding:15px}
+  .mini-action b{font-size:14px}
+  .mini-action span{font-size:12px}
+  .app-page-head p,.lesson-head p{font-size:13.5px}
+  .unit-card{min-height:146px;padding:15px}
+  .resource-card{min-height:140px}
+  .course-card{min-height:0;padding:21px}
+  .course-card h3{font-size:20px}
+  .course-card p,.timeline p,.decision-grid p{font-size:14.5px;line-height:1.68}
+  .course-card.link-card a,.decision-grid a{font-size:14px}
+  .timeline article,.decision-grid article{padding:20px}
+  .final-cta{padding:28px 22px}
+  .final-cta p{font-size:14.5px}
+  .footer{font-size:12px}
+  .mobile-sticky-cta{min-height:68px;padding:8px}
+  .mobile-sticky-cta a{min-height:50px;font-size:14px}
 }
