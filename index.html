@@ -1,542 +1,255 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#142b55">
-<title>AYDA Öğrenci Deneyimi • Kayıt Öncesi Demo</title>
-<meta name="description" content="AYDA Dil Akademisi kayıt öncesi öğrenci deneyimi: ders, tekrar, kütüphane ve sınav hazırlık demo platformu.">
-<style>
-:root{
-  --navy:#142b55;--navy2:#203f76;--gold:#d5a64c;--cream:#f6f7f9;--card:#fff;
-  --ink:#172033;--muted:#69758b;--line:#e2e7ef;--green:#1f8a63;--red:#c04b4b;
-  --soft:#eef3f9;--shadow:0 14px 36px rgba(21,43,84,.10);--r:18px
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,a,input{font:inherit}
-button{cursor:pointer}
-a{color:inherit}
-.shell{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr)}
-.sidebar{background:var(--navy);color:#fff;padding:22px 16px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh}
-.brand{display:flex;align-items:center;gap:11px;padding:2px 8px 16px;border-bottom:1px solid rgba(255,255,255,.12)}
-.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#fff;color:var(--navy);font-weight:900}
-.brand strong{display:block;font-size:17px}.brand small{color:#c8d3e5}
-.demo-pill{display:inline-flex;align-items:center;gap:7px;margin:0 8px;padding:8px 10px;border:1px solid rgba(213,166,76,.35);background:rgba(213,166,76,.12);border-radius:999px;color:#f2d796;font-size:12px;font-weight:800}
-.nav{display:grid;gap:6px}
-.nav button{width:100%;border:0;background:transparent;color:#dce5f3;text-align:left;padding:12px 13px;border-radius:12px;display:flex;align-items:center;gap:11px;font-weight:700}
-.nav button:hover,.nav button.active{background:rgba(255,255,255,.11);color:#fff}
-.nav .ico{width:23px;text-align:center;opacity:.95}
-.side-bottom{margin-top:auto;border-top:1px solid rgba(255,255,255,.12);padding-top:14px;display:grid;gap:7px}
-.side-bottom a{text-decoration:none;color:#cdd8e8;font-size:13px;padding:8px}
-.main{min-width:0}
-.topbar{height:76px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:10}
-.mobile-menu{display:none;border:1px solid var(--line);background:#fff;border-radius:10px;width:42px;height:42px}
-.top-left strong{display:block}.top-left small{color:var(--muted)}
-.user{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:900}
-.content{padding:30px;max-width:1340px;margin:0 auto}
-.view{display:none}.view.active{display:block}
-.hero{background:linear-gradient(125deg,var(--navy),var(--navy2));color:#fff;border-radius:28px;padding:34px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(270px,.55fr);gap:26px;box-shadow:var(--shadow)}
-.eyebrow{font-size:12px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#f0ca7a;margin:0 0 10px}
-.hero h1{font-size:clamp(30px,4vw,54px);line-height:1.02;letter-spacing:-.045em;margin:0 0 14px}
-.hero p{max-width:700px;color:#dbe4f2;line-height:1.7;margin:0}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}
-.btn{min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 14px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--ink)}
-.btn.primary{background:var(--gold);border-color:var(--gold);color:#1a2435}.btn.navy{background:var(--navy);border-color:var(--navy);color:#fff}.btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.20);color:#fff}
-.progress-card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:22px;align-self:stretch}
-.progress-card .pct{font-size:48px;font-weight:900}.bar{height:9px;background:rgba(255,255,255,.16);border-radius:99px;overflow:hidden;margin:10px 0 18px}.bar span{display:block;height:100%;width:38%;background:#f0c56d;border-radius:inherit}
-.progress-card small{color:#d5dfed}.statrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.stat{background:rgba(255,255,255,.08);padding:12px;border-radius:13px}.stat b{display:block;font-size:18px}.stat span{font-size:11px;color:#cfd9e8}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:30px 0 14px}.section-head h2{margin:0;font-size:24px;letter-spacing:-.025em}.section-head p{margin:4px 0 0;color:var(--muted)}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 25px rgba(31,45,69,.05);padding:20px;min-width:0}
-.course-card{display:flex;flex-direction:column;min-height:224px}
-.level{width:54px;height:54px;border-radius:16px;background:var(--soft);color:var(--navy);display:grid;place-items:center;font-size:20px;font-weight:900;margin-bottom:18px}
-.course-card h3{margin:0 0 7px}.course-card p{color:var(--muted);line-height:1.55;margin:0 0 14px}.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}.tag{font-size:11px;font-weight:800;padding:6px 8px;border-radius:999px;background:#f1f4f8;color:#536178}.course-card .btn{margin-top:14px;width:100%}
-.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick .card{display:flex;gap:14px;align-items:flex-start}.bigico{width:46px;height:46px;flex:0 0 auto;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:22px}.quick h3{margin:1px 0 5px;font-size:16px}.quick p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
-.titleblock{margin-bottom:20px}.titleblock .crumb{font-size:12px;color:var(--muted);font-weight:800}.titleblock h1{font-size:34px;letter-spacing:-.04em;margin:7px 0 6px}.titleblock p{margin:0;color:var(--muted)}
-.level-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.level-tabs button,.filter button{border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:999px;font-weight:800;color:#59667b}.level-tabs button.active,.filter button.active{background:var(--navy);border-color:var(--navy);color:#fff}
-.unit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.unit{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;min-height:140px;display:flex;flex-direction:column}
-.unit .num{font-size:11px;color:var(--muted);font-weight:900}.unit h3{font-size:15px;line-height:1.35;margin:7px 0}.unit p{font-size:12px;color:var(--muted);margin:0}.unit button{margin-top:auto;border:0;background:transparent;color:var(--navy);font-weight:900;text-align:left;padding:10px 0 0}
-.locked{opacity:.52}.locked button{cursor:not-allowed}
-.lesson-shell{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px}
-.lesson-main,.lesson-side{display:grid;gap:14px}
-.video-box{aspect-ratio:16/8.2;background:linear-gradient(135deg,#0e1d39,#213f75);color:#fff;border-radius:18px;display:grid;place-items:center;text-align:center;padding:24px;position:relative;overflow:hidden}
-.video-box:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;border:45px solid rgba(213,166,76,.13);right:-90px;top:-90px}
-.play{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--navy);font-size:25px;margin:0 auto 12px;position:relative;z-index:1}
-.lesson-card h3{margin:0 0 10px}.lesson-card p{color:var(--muted);line-height:1.65}.examples{display:grid;gap:8px}.example{padding:10px 12px;background:#f6f8fb;border-radius:10px;font-size:14px}
-.quiz-option{display:block;width:100%;margin:7px 0;border:1px solid var(--line);background:#fff;text-align:left;padding:11px 12px;border-radius:10px}.quiz-option.correct{border-color:#65b598;background:#eff9f5}.quiz-option.wrong{border-color:#db9696;background:#fff3f3}.feedback{min-height:22px;font-size:13px;font-weight:800;margin-top:8px}
-.mini-list{display:grid;gap:8px}.mini-list div{padding:10px;border:1px solid var(--line);border-radius:11px;font-size:13px}.mini-list b{display:block}
-.library-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:16px}.filter{display:grid;gap:7px;align-content:start}.filter button{text-align:left;border-radius:10px}.resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.resource{display:flex;flex-direction:column;min-height:160px}.resource .rtype{font-size:11px;color:var(--gold);font-weight:900;text-transform:uppercase}.resource h3{font-size:15px;margin:8px 0}.resource p{font-size:12px;color:var(--muted);margin:0}.resource .btn{margin-top:auto}
-.exam-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.exam-card .badge{display:inline-block;padding:6px 9px;border-radius:999px;background:var(--soft);font-size:11px;font-weight:900;color:var(--navy)}.exam-card h3{margin:14px 0 8px}.exam-card p{color:var(--muted);font-size:13px;line-height:1.55}.skills{display:flex;gap:5px;flex-wrap:wrap}.skills span{font-size:11px;padding:5px 7px;border:1px solid var(--line);border-radius:999px}
-.profile-card{display:grid;grid-template-columns:90px minmax(0,1fr);gap:20px;align-items:center}.avatar-big{width:84px;height:84px;border-radius:24px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:30px;font-weight:900}
-.demo-note{margin-top:22px;padding:14px 16px;border:1px solid #ead7aa;background:#fff9ea;border-radius:14px;color:#6c5421;font-size:13px}
-.footer{margin:30px 0 5px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}
-.footer a{text-decoration:none}
-@media(max-width:1050px){.grid4,.unit-grid{grid-template-columns:repeat(3,1fr)}.resource-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:860px){
- .shell{display:block}.sidebar{position:fixed;left:-280px;top:0;z-index:30;width:260px;transition:.2s}.sidebar.open{left:0}.mobile-menu{display:grid;place-items:center}.topbar{padding:0 16px}.content{padding:20px 16px}
- .hero{grid-template-columns:1fr}.grid3,.quick,.exam-grid{grid-template-columns:1fr 1fr}.grid4,.unit-grid{grid-template-columns:repeat(2,1fr)}
- .lesson-shell,.library-layout{grid-template-columns:1fr}.filter{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:560px){
- .top-left small{display:none}.user span{display:none}.hero{padding:24px;border-radius:20px}.hero h1{font-size:34px}
- .grid3,.quick,.exam-grid,.grid4,.unit-grid,.resource-grid{grid-template-columns:1fr}.filter{grid-template-columns:1fr 1fr}.content{padding:16px 12px}.card{padding:16px}
- .profile-card{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}
-}
-
-.exam-demo{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr);gap:14px}
-.exam-demo-main{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
-.exam-demo-side{background:linear-gradient(145deg,#f8f2e4,#fff);border:1px solid #ead9ae;border-radius:18px;padding:20px}
-.exam-demo-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-.exam-demo-head h3{margin:0;font-size:19px}
-.exam-demo-progress{font-size:12px;font-weight:900;color:var(--navy);background:var(--soft);padding:6px 9px;border-radius:999px}
-.exam-demo-q{font-size:18px;font-weight:800;line-height:1.45;margin:6px 0 14px}
-.exam-demo-options{display:grid;gap:8px}
-.exam-demo-option{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:11px;padding:11px 12px;font-weight:700}
-.exam-demo-option:hover{border-color:#aebbd0}
-.exam-demo-option.selected{border-color:var(--navy);background:#f1f5fb}
-.exam-demo-option.correct{border-color:#62b493;background:#eef9f4}
-.exam-demo-option.wrong{border-color:#d99898;background:#fff3f3}
-.exam-demo-feedback{min-height:22px;margin-top:10px;font-size:13px;font-weight:800}
-.exam-demo-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.exam-demo-side .tip-label{font-size:11px;font-weight:900;color:#8a6824;letter-spacing:.08em;text-transform:uppercase}
-.exam-demo-side h4{margin:8px 0 8px;font-size:17px}
-.exam-demo-side p{margin:0;color:#6e5a2d;font-size:13px;line-height:1.6}
-.exam-demo-score{font-size:34px;font-weight:900;color:var(--navy);margin:8px 0}
-@media(max-width:860px){.exam-demo{grid-template-columns:1fr}}
-
-
-.prospect-strip{margin:18px 0 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
-.prospect-strip h3{margin:0 0 5px;font-size:18px}
-.prospect-strip p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
-.prospect-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.final-cta{margin-top:30px;background:linear-gradient(125deg,#142b55,#203f76);color:#fff;border-radius:24px;padding:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
-.final-cta h2{margin:0 0 8px;font-size:26px;letter-spacing:-.03em}
-.final-cta p{margin:0;color:#d8e1ef;max-width:720px;line-height:1.6}
-.final-cta .actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
-@media(max-width:760px){.prospect-strip,.final-cta{grid-template-columns:1fr}.prospect-actions,.final-cta .actions{justify-content:flex-start}}
-@media(max-width:430px){.topbar .user .btn{padding:9px 10px;font-size:12px}}
-
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10284d">
+  <meta name="description" content="AYDA Dil Akademisi kayıt öncesi öğrenci deneyimi: canlı dersler, ders kayıtları, tekrar platformu, dijital kütüphane, YouTube örnekleri ve sınav hazırlık demosu.">
+  <title>AYDA Öğrenci Deneyimi • Kayıt Öncesi Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="shell">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand"><div class="mark">A</div><div><strong>AYDA</strong><small>Öğrenci Platformu</small></div></div>
-    <div class="demo-pill">● KAYIT ÖNCESİ ÖĞRENCİ DENEYİMİ</div>
-    <nav class="nav" aria-label="Öğrenci menüsü">
-      <button class="active" data-view="home"><span class="ico">⌂</span>Ana Sayfa</button>
-      <button data-view="courses"><span class="ico">▤</span>Derslerim</button>
-      <button data-view="practice"><span class="ico">✎</span>Tekrar & Alıştırma</button>
-      <button data-view="library"><span class="ico">▥</span>Dijital Kütüphane</button>
-      <button data-view="exam"><span class="ico">✓</span>Sınav Hazırlık</button>
-      <button data-view="progress"><span class="ico">↗</span>İlerlemem</button>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="AYDA ana sayfa">
+      <span class="brand-mark">A</span>
+      <span><strong>AYDA</strong><small>Dil Akademisi</small></span>
+    </a>
+    <nav class="top-nav" aria-label="Ana menü">
+      <a href="#kurslar">Kurslar</a>
+      <a href="#sistem">Sistem</a>
+      <a href="#demo">Demoyu Dene</a>
+      <a href="#sinavlar">Sınav</a>
     </nav>
-    <div class="side-bottom">
-      <a href="https://www.aydadil.com/" target="_blank" rel="noopener">↗ www.aydadil.com</a>
-      <a href="https://instagram.com/ayda.dil" target="_blank" rel="noopener">↗ Instagram · @ayda.dil</a>
-      <a href="https://youtube.com/@aydadil" target="_blank" rel="noopener">↗ YouTube · @aydadil</a>
-    </div>
-  </aside>
+    <a class="button primary compact" href="https://wa.me/905409112503?text=Merhaba%20AYDA%2C%20online%20Almanca%20kurslar%C4%B1%20hakk%C4%B1nda%20g%C3%BCncel%20program%20ve%20fiyat%20bilgisi%20almak%20istiyorum." target="_blank" rel="noopener">Program & Fiyat</a>
+  </header>
 
-  <div class="main">
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button class="mobile-menu" id="menuBtn" aria-label="Menüyü aç">☰</button>
-        <div class="top-left"><strong id="pageTitle">Ana Sayfa</strong><small>Kayıt olmadan önce öğrenci deneyimini incele</small></div>
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-copy">
+        <span class="eyebrow">KAYIT ÖNCESİ ÖĞRENCİ DENEYİMİ</span>
+        <h1>AYDA’da öğrenci olsaydın <em>neleri görecektin?</em></h1>
+        <p>Tanıtım metni okumak yerine sistemi kullan. Bir ders ünitesine gir, soru çöz, canlı ders kayıt ekranını dene, kütüphaneye bak, YouTube ders tekrarlarını izle ve sınav hazırlık alanını keşfet.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Öğrenci demosunu aç →</a>
+          <a class="button secondary" href="https://youtube.com/playlist?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&si=NtZqMyOhFVGQ71Fb" target="_blank" rel="noopener">Ücretsiz ders videoları ↗</a>
+        </div>
+        <div class="hero-proof">
+          <span>Canlı Zoom</span><span>Speaking + Etüt</span><span>Ders Kayıtları</span><span>A1–B2 Grup</span>
+        </div>
       </div>
-      <div class="user"><a class="btn navy" href="https://www.aydadil.com/" target="_blank" rel="noopener">Programları İncele</a><div class="avatar">A</div></div>
-    </header>
+      <aside class="hero-card">
+        <div class="live-dot">● CANLI EĞİTİM</div>
+        <strong>Bir kur nasıl ilerliyor?</strong>
+        <div class="hero-stat"><b>8 hafta</b><span>ortalama kur süresi</span></div>
+        <div class="hero-stat"><b>3 + 1</b><span>haftada 3 canlı ders + 1 speaking</span></div>
+        <div class="hero-stat"><b>+ Etüt</b><span>eksik tamamlama ve tekrar desteği</span></div>
+        <small>Program ve kontenjanlar seviyeye göre değişebilir.</small>
+      </aside>
+    </section>
 
-    <main class="content">
-      <section class="view active" id="view-home">
-        <div class="hero">
-          <div>
-            <p class="eyebrow">AYDA’DA ÖĞRENCİ OLSAYDIN</p>
-            <h1>Öğrenci deneyimini kendin gör.</h1>
-            <p>Bu sayfa kayıt olmayı düşünenler için hazırlanmış sınırlı bir öğrenci demosudur. Bir AYDA öğrencisinin ders, tekrar, kütüphane ve sınav hazırlık akışını doğrudan deneyebilirsin.</p>
-            <div class="hero-actions">
-              <button class="btn primary jump" data-view="practice">A2 dersini dene →</button>
-              <button class="btn ghost jump" data-view="library">Kütüphaneyi gör</button>
-            </div>
-          </div>
-          <aside class="progress-card">
-            <small>ÖRNEK ÖĞRENCİ İLERLEMESİ</small><div class="pct">%38</div><div class="bar"><span></span></div>
-            <small>İlerleme ekranının öğrencide nasıl göründüğünü temsil eden örnek veridir.</small>
-            <div class="statrow"><div class="stat"><b>9/24</b><span>Ünite görüntülendi</span></div><div class="stat"><b>27</b><span>Doğru kontrol</span></div></div>
-          </aside>
-        </div>
+    <section class="section trust-strip" aria-label="AYDA eğitim sistemi özeti">
+      <article><b>Her ay yeni gruplar</b><span>A1, A2, B1 ve B2 seviyelerinde.</span></article>
+      <article><b>Ders kayıtları</b><span>Kaçırdığın veya tekrar etmek istediğin dersler için.</span></article>
+      <article><b>Öğretmen geri bildirimi</b><span>Yazma, gramer ve genel ilerleme takibi.</span></article>
+      <article><b>telc · Goethe · ÖSD</b><span>Sınav hedefine göre ek hazırlık planı.</span></article>
+    </section>
 
-        <div class="prospect-strip">
-          <div>
-            <h3>Bu bir tanıtım sayfasından çok, öğrenci deneyimi demosu.</h3>
-            <p>Kartları açabilir, üniteye girebilir, soru çözebilir, kütüphane filtrelerini kullanabilir ve sınav hazırlık mini denemesini tamamlayabilirsin.</p>
-          </div>
-          <div class="prospect-actions">
-            <button class="btn navy jump" data-view="practice">Dersi dene</button>
-            <button class="btn jump" data-view="exam">Sınav hazırlığını dene</button>
-          </div>
+    <section class="section" id="kurslar">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow dark">KURSLAR</span>
+          <h2>Hangi seviyede ne çalışılıyor?</h2>
+          <p>AYDA’nın güncel kurs yapısındaki seviye açıklamalarının kısa özeti.</p>
         </div>
+        <a class="text-link" href="https://www.aydadil.com/kurslar/" target="_blank" rel="noopener">Canlı kurs sayfasını aç ↗</a>
+      </div>
+      <div class="course-grid">
+        <article class="course-card"><span class="level-badge">A1</span><h3>Başlangıç</h3><p>Sıfırdan başlayanlar için temel gramer, günlük iletişim, konuşma, dinleme, okuma ve yazma.</p><div class="tag-row"><span>Canlı Zoom</span><span>Speaking</span><span>Etüt</span><span>Kayıt</span></div></article>
+        <article class="course-card"><span class="level-badge">A2</span><h3>Günlük iletişim</h3><p>A1 temelinden sonra daha güçlü cümle kurma, daha uzun diyaloglar, yazma ve kelime geliştirme.</p><div class="tag-row"><span>Geçmiş zaman</span><span>Bağlaçlar</span><span>E-posta</span></div></article>
+        <article class="course-card"><span class="level-badge">B1</span><h3>Bağımsız kullanım</h3><p>Fikir belirtme, olay anlatma, yazılı ve sözlü iletişimi geliştirme; sınav hedefi olanlar için daha yoğun üretim.</p><div class="tag-row"><span>Fikir belirtme</span><span>Yazma</span><span>Sözlü pratik</span></div></article>
+        <article class="course-card"><span class="level-badge">B2</span><h3>İleri kullanım</h3><p>Akademik, mesleki ve günlük iletişimde daha doğal ve ayrıntılı Almanca; argümantasyon ve metin üretimi.</p><div class="tag-row"><span>Uzun metin</span><span>Argümantasyon</span><span>Sözlü prova</span></div></article>
+        <article class="course-card special"><span class="level-badge">C1</span><h3>Kişiye özel</h3><p>C1 seviyesinde grup dersi yerine mesleğe, akademik alana ve eksiklere göre bireysel özel ders planlanır.</p><div class="tag-row"><span>Bireysel plan</span><span>Öğretmen takibi</span></div></article>
+      </div>
+    </section>
 
-        <div class="section-head"><div><h2>Derslerim</h2><p>Kayıt olduğunda kendi seviyene ait ders ve tekrar alanlarını bu yapıda görürsün.</p></div><button class="btn jump" data-view="courses">Tümünü gör</button></div>
-        <div class="grid3">
-          <article class="card course-card"><div class="level">A1</div><h3>A1 Almanca</h3><p>Temel seviye tekrar, kısa konu anlatımları, kelime ve ünite çalışmaları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">Video</span><span class="tag">Alıştırma</span></div><button class="btn open-level" data-level="A1">Demo içeriğini aç</button></article>
-          <article class="card course-card"><div class="level">A2</div><h3>A2 Almanca</h3><p>Menschen A2 ünite tekrarları, konu özeti, gramer mantığı, soru ve konuşma çalışmaları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">Konu Özeti</span><span class="tag">Alıştırma</span></div><button class="btn navy open-level" data-level="A2">Aktif demo →</button></article>
-          <article class="card course-card"><div class="level">B1</div><h3>B1 Almanca</h3><p>Video tekrar, kontrollü sorular, okuma-yazma ve B1 sınav destek alanları.</p><div class="tags"><span class="tag">24 Ünite</span><span class="tag">576 Soru Sistemi</span><span class="tag">İlerleme</span></div><button class="btn open-level" data-level="B1">Demo içeriğini aç</button></article>
-        </div>
+    <section class="section system-section" id="sistem">
+      <div class="section-heading">
+        <div><span class="eyebrow">AYDA’DA KURS NASIL İŞLİYOR?</span><h2>Canlı ders tek başına değil.</h2><p>Öğrencinin haftalık çalışma döngüsü birkaç parçayı birlikte kullanır.</p></div>
+      </div>
+      <div class="timeline">
+        <article><span>01</span><div><h3>Seviye ve hedef</h3><p>Mevcut seviye, hedef, sınav tarihi ve haftalık çalışma düzeni netleştirilir.</p></div></article>
+        <article><span>02</span><div><h3>8 haftalık kur</h3><p>Haftada 3 canlı online ders ve 1 speaking dersiyle düzenli ilerleme.</p></div></article>
+        <article><span>03</span><div><h3>Etüt + kayıt</h3><p>Zorlanılan konular etütte tekrar edilir; paylaşılan ders kayıtlarına yeniden erişilir.</p></div></article>
+        <article><span>04</span><div><h3>Sınav hedefi varsa</h3><p>Okuma, dinleme, yazma ve konuşma hedef sınav formatına göre ayrıca çalışılır.</p></div></article>
+      </div>
+    </section>
 
-        <div class="section-head"><div><h2>Öğrenci araçları</h2><p>Kayıtlı öğrencinin ders dışında kullanabildiği çalışma alanlarından örnekler.</p></div></div>
-        <div class="quick">
-          <article class="card"><div class="bigico">▥</div><div><h3>Dijital Kütüphane</h3><p>Drive klasörleri, ders videoları, Quizlet ve online egzersizler.</p></div></article>
-          <article class="card"><div class="bigico">✓</div><div><h3>Sınav Hazırlık</h3><p>TELC / Goethe seviyesine göre hazırlık, beceri başlıkları ve tekrarlar.</p></div></article>
-          <article class="card"><div class="bigico">↗</div><div><h3>İlerleme</h3><p>Çözülen sorular, çalışılan üniteler ve kaldığın yer görünür.</p></div></article>
-        </div>
-      </section>
+    <section class="section demo-section" id="demo">
+      <div class="section-heading">
+        <div><span class="eyebrow dark">ŞİMDİ SİSTEMİ KULLAN</span><h2>Öğrenci paneli demosu</h2><p>Bu alan tanıtım değil; tıklayıp kullanabileceğin sınırlı bir öğrenci deneyimidir.</p></div>
+      </div>
 
-      <section class="view" id="view-courses">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DERSLERİM</div><h1>Derslerim</h1><p>Kayıt öncesi demo için A1, A2 ve B1’den örnek ekranlar birlikte gösteriliyor.</p></div>
-        <div class="grid3">
-          <article class="card course-card"><div class="level">A1</div><h3>A1 • Grundlagen</h3><p>Kısa konu anlatımları, ünite tekrarları, temel cümle ve kelime çalışmaları.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">A1</span></div><button class="btn open-level" data-level="A1">Derse gir</button></article>
-          <article class="card course-card"><div class="level">A2</div><h3>A2 • Wiederholung</h3><p>Ünite mantığı, örnekler, video kaynakları ve interaktif alıştırmalar.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">A2</span></div><button class="btn navy open-level" data-level="A2">Derse gir</button></article>
-          <article class="card course-card"><div class="level">B1</div><h3>B1 • Intensiv</h3><p>Video + uygulama akışı, okuma, yazma, konuşma ve sınav desteği.</p><div class="tags"><span class="tag">Menschen</span><span class="tag">B1</span></div><button class="btn open-level" data-level="B1">Derse gir</button></article>
-        </div>
-        <div class="demo-note">Bu kayıt öncesi demo, sistemi daha iyi tanıyabilmen için A1, A2 ve B1’den örnekleri aynı anda görünür tutar. Gerçek öğrenci hesabında yalnızca kayıtlı olduğun ders ve erişim alanları görünür.</div>
-      </section>
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <div class="app-brand"><span>A</span><b>AYDA Öğrenci</b></div>
+          <button class="app-nav active" data-view="dashboard">⌂ <span>Ana Sayfa</span></button>
+          <button class="app-nav" data-view="practice">✎ <span>Tekrar & Alıştırma</span></button>
+          <button class="app-nav" data-view="recordings">● <span>Canlı Ders Kayıtları</span></button>
+          <button class="app-nav" data-view="library">▥ <span>Dijital Kütüphane</span></button>
+          <button class="app-nav" data-view="youtube">▶ <span>Ücretsiz Videolar</span></button>
+          <button class="app-nav" data-view="exam">✓ <span>Sınav Hazırlık</span></button>
+          <button class="app-nav" data-view="schedule">◫ <span>Sınav Takvimi</span></button>
+        </aside>
 
-      <section class="view" id="view-practice">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / TEKRAR & ALIŞTIRMA</div><h1>Tekrar ve Alıştırma</h1><p>Bir seviyeyi seç, örnek üniteyi aç ve gerçek öğrenci akışını dene.</p></div>
-        <div class="level-tabs" id="levelTabs">
-          <button data-level="A1">A1</button><button class="active" data-level="A2">A2</button><button data-level="B1">B1</button>
-        </div>
-        <div id="unitsWrap"></div>
-      </section>
-
-      <section class="view" id="view-lesson">
-        <div class="titleblock"><div class="crumb"><button class="btn" id="backPractice">← Ünitelere dön</button></div><h1 id="lessonTitle">Ünite</h1><p id="lessonSubtitle"></p></div>
-        <div class="lesson-shell">
-          <div class="lesson-main">
-            <div class="video-box"><div><div class="play">▶</div><strong>Konu anlatım / tekrar videosu</strong><br><small>Demo görünüm • Öğrenci gerçek panelde ilgili video kaynağını izler.</small></div></div>
-            <article class="card lesson-card"><h3>Konu özeti</h3><p id="lessonSummary"></p><div class="examples" id="lessonExamples"></div></article>
-            <article class="card lesson-card"><h3>Mini alıştırma</h3><p id="quizQ"></p><div id="quizOptions"></div><div class="feedback" id="feedback"></div></article>
-          </div>
-          <aside class="lesson-side">
-            <article class="card lesson-card"><h3>Bu ünitede</h3><div class="mini-list" id="lessonMeta"></div></article>
-            <article class="card lesson-card"><h3>Çalışma akışı</h3><div class="mini-list"><div><b>1. İzle</b>Konu anlatımını tekrar et.</div><div><b>2. Mantığı hatırla</b>Kısa açıklama ve örnekleri incele.</div><div><b>3. Uygula</b>Alıştırmayı çöz ve geri bildirim al.</div><div><b>4. Pekiştir</b>Kütüphane ve sınav kaynaklarına geç.</div></div></article>
-          </aside>
-        </div>
-      </section>
-
-      <section class="view" id="view-library">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / DİJİTAL KÜTÜPHANE</div><h1>Dijital Kütüphane</h1><p>Kayıtlı öğrenciler ders, video, sınav, konu anlatımı, Quizlet ve online çalışma kaynaklarını seviyelerine göre tek ekrandan filtreler.</p></div>
-        <div class="library-layout">
-          <aside class="card filter" id="libraryFilter">
-            <button class="active" data-filter="ALL">Tüm Kaynaklar</button><button data-filter="A1">A1</button><button data-filter="A2">A2</button><button data-filter="B1">B1</button><button data-filter="SINAV">Sınav</button>
-          </aside>
-          <div class="resource-grid" id="resourceGrid"></div>
-        </div>
-      </section>
-
-      <section class="view" id="view-exam">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / SINAV HAZIRLIK</div><h1>Sınav Hazırlık</h1><p>Öğrencilerin seviyesine göre TELC / Goethe hazırlık alanları; A2 örneğini açarak mini denemeyi doğrudan çözebilirsin.</p></div>
-        <div class="exam-grid">
-          <article class="card exam-card"><span class="badge">A1</span><h3>A1 Goethe / TELC Hazırlık</h3><p>Başlangıç seviyesinde kelime, temel yapı, okuma ve sınav pratiği.</p><div class="skills"><span>Kelime</span><span>Lesen</span><span>Temel Yapı</span></div><button class="btn" style="margin-top:16px">Demo alanını görüntüle</button></article>
-          <article class="card exam-card"><span class="badge">A2</span><h3>A2 TELC Hazırlık</h3><p>Kelime, okuma, yazma ve konuşma hazırlıkları; sınav öncesi hedefli tekrar.</p><div class="skills"><span>Lesen</span><span>Schreiben</span><span>Sprechen</span></div><button class="btn navy" style="margin-top:16px" id="showExamDetail">A2 örneğini aç</button></article>
-          <article class="card exam-card"><span class="badge">B1</span><h3>B1 TELC Hazırlık</h3><p>Lesen, Sprachbausteine ve Hören başlıkları ile B1 sınav çalışmaları.</p><div class="skills"><span>Lesen</span><span>Sprachbausteine</span><span>Hören</span></div><button class="btn" style="margin-top:16px">Demo alanını görüntüle</button></article>
-        </div>
-        <article class="card" id="examDetail" style="display:none;margin-top:16px">
-          <div class="section-head" style="margin:0 0 12px"><div><h2>telc Deutsch A2 • Hızlı Bakış</h2><p>Öğrencinin sınav bilgilendirme ekranında görebileceği örnek yapı.</p></div></div>
-          <div class="grid4">
-            <div class="card"><b>Hören</b><p style="color:var(--muted);font-size:13px">Dinleme bölümü ve sınav akışı.</p></div>
-            <div class="card"><b>Lesen</b><p style="color:var(--muted);font-size:13px">Okuma soru tipleri ve pratik.</p></div>
-            <div class="card"><b>Schreiben</b><p style="color:var(--muted);font-size:13px">Yazma görevi ve örnek çalışmalar.</p></div>
-            <div class="card"><b>Sprechen</b><p style="color:var(--muted);font-size:13px">Konuşma bölümü ve kalıplar.</p></div>
+        <div class="app-main">
+          <div class="app-topbar">
+            <div><b id="appTitle">Ana Sayfa</b><small>Kayıt öncesi örnek öğrenci hesabı</small></div>
+            <span class="demo-account">DEMO • A2</span>
           </div>
 
-          <div class="exam-demo" aria-label="Sınav hazırlık mini deneme">
-            <section class="exam-demo-main">
-              <div class="exam-demo-head">
-                <h3>Mini Sınav Hazırlık Denemesi</h3>
-                <span class="exam-demo-progress" id="examDemoProgress">1 / 3</span>
+          <div class="app-content">
+            <section class="app-view active" id="app-dashboard">
+              <div class="welcome-card">
+                <div><span>ÖRNEK ÖĞRENCİ PANELİ</span><h3>Bugünkü çalışmana devam et.</h3><p>Ders tekrarların, alıştırmaların, kütüphanen ve sınav hazırlığın aynı yerde.</p><button class="button primary app-jump" data-view="practice">A2 dersini dene →</button></div>
+                <div class="progress-box"><small>A2 İLERLEME</small><b>%38</b><div class="progress-line"><i></i></div><span>9 / 24 ünite görüntülendi</span></div>
               </div>
-              <div class="exam-demo-q" id="examDemoQuestion">Soru yükleniyor…</div>
-              <div class="exam-demo-options" id="examDemoOptions"></div>
-              <div class="exam-demo-feedback" id="examDemoFeedback" role="status" aria-live="polite"></div>
-              <div class="exam-demo-actions">
-                <button class="btn navy" type="button" id="examDemoCheck">Cevabı kontrol et</button>
-                <button class="btn" type="button" id="examDemoNext" style="display:none">Sonraki soru →</button>
-                <button class="btn" type="button" id="examDemoRestart" style="display:none">Baştan başla</button>
+              <div class="mini-grid">
+                <button class="mini-action app-jump" data-view="practice"><b>A2 Tekrar</b><span>Ünite + soru çöz</span></button>
+                <button class="mini-action app-jump" data-view="recordings"><b>Ders Kayıtları</b><span>Örnek kayıt ekranı</span></button>
+                <button class="mini-action app-jump" data-view="youtube"><b>YouTube</b><span>Ücretsiz ders örnekleri</span></button>
+                <button class="mini-action app-jump" data-view="exam"><b>Sınav Hazırlık</b><span>Mini denemeyi çöz</span></button>
+              </div>
+              <div class="dashboard-course">
+                <div><span class="level-badge">A2</span><h3>A2 Almanca</h3><p>Menschen A2 ünite tekrarları, konu özeti, gramer mantığı, kontrollü alıştırmalar ve ek video kaynakları.</p></div>
+                <button class="button secondary app-jump" data-view="practice">Derse gir</button>
               </div>
             </section>
-            <aside class="exam-demo-side">
-              <div class="tip-label">AYDA SINAV TÜYOSU</div>
-              <h4 id="examDemoTipTitle">Form kelimeleri</h4>
-              <p id="examDemoTip">Geburtsdatum “doğum tarihi”, Geburtsort ise “doğum yeri” demektir. Formlarda bu kelimeler sık görülür.</p>
-              <div id="examDemoScoreWrap" style="display:none">
-                <div class="exam-demo-score" id="examDemoScore">0 / 3</div>
-                <p>Bu küçük alan sadece demo. Gerçek platformda kelime, form, boşluk ve karışık tekrar çalışmaları daha geniş içerikle devam eder.</p>
+
+            <section class="app-view" id="app-practice">
+              <div class="app-page-head"><span>TEKRAR & ALIŞTIRMA</span><h3>Bir üniteyi öğrenci gibi aç.</h3><p>Örnek içerik; tam kurs içeriğinin yalnızca küçük bir bölümünü gösterir.</p></div>
+              <div class="level-tabs">
+                <button data-level="A1">A1</button><button class="active" data-level="A2">A2</button><button data-level="B1">B1</button>
               </div>
-            </aside>
+              <div id="unitGrid" class="unit-grid"></div>
+            </section>
+
+            <section class="app-view" id="app-lesson">
+              <button class="back-link" id="backUnits">← Ünitelere dön</button>
+              <div class="lesson-head"><span id="lessonLevel">A2 • ÜNİTE 1</span><h3 id="lessonTitle">Mein Opa war auch schon Bäcker.</h3><p id="lessonTopic">Berufe und Familie</p></div>
+              <div class="lesson-grid">
+                <div class="lesson-main">
+                  <div class="video-placeholder"><div class="play-circle">▶</div><b>Konu anlatım / tekrar videosu</b><small>Gerçek öğrenci hesabında ilgili ders videosu burada açılır.</small></div>
+                  <article class="panel"><h4>Konu özeti</h4><p id="lessonSummary"></p><div id="lessonExamples" class="example-list"></div></article>
+                  <article class="panel"><h4>Mini alıştırma</h4><p id="quizQuestion" class="quiz-question"></p><div id="quizOptions"></div><div id="quizFeedback" class="feedback"></div></article>
+                </div>
+                <aside class="panel lesson-side"><h4>Bu ünitede</h4><div id="lessonMeta" class="meta-list"></div><h4>Çalışma akışı</h4><ol><li>Videoyu izle</li><li>Mantığı hatırla</li><li>Alıştırmayı çöz</li><li>Kütüphane / sınav kaynağına geç</li></ol></aside>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-recordings">
+              <div class="app-page-head"><span>CANLI DERS KAYITLARI</span><h3>Dersi kaçırırsan kayıt ekranından tekrar et.</h3><p>Bu oynatıcı özel bir öğrenci kaydını yayınlamaz; gerçek paneldeki kullanım şeklini gösterir.</p></div>
+              <div class="recording-layout">
+                <div>
+                  <div class="fake-player">
+                    <div class="fake-stage">
+                      <span id="recordChip">A2 • CANLI DERS KAYDI</span>
+                      <h3 id="recordTitle">Wohin mit der Kommode?</h3>
+                      <p id="recordDesc">Wechselpräpositionen • Wo? / Wohin?</p>
+                      <button id="recordPlay" class="player-button" type="button">▶</button>
+                    </div>
+                    <div class="player-bottom"><div class="player-progress"><i id="recordProgress"></i></div><div><span id="recordTime">00:00 / 01:18:00</span><small>Demo oynatıcı</small></div></div>
+                  </div>
+                  <div class="info-note">YouTube’daki örnek videolar herkese açıktır. Canlı ders kayıtları ise yalnızca ilgili öğrenci erişimine açılan kayıtları temsil eder.</div>
+                </div>
+                <div class="record-list" id="recordList">
+                  <button class="record-item active" data-rec="0"><span>A2</span><div><b>Wohin mit der Kommode?</b><small>1 sa 18 dk • Wechselpräpositionen</small></div></button>
+                  <button class="record-item" data-rec="1"><span>A2</span><div><b>Wenn es warm ist ...</b><small>1 sa 11 dk • wenn-Nebensatz</small></div></button>
+                  <button class="record-item" data-rec="2"><span>B1</span><div><b>obwohl / trotzdem</b><small>1 sa 24 dk • karşıtlık</small></div></button>
+                  <button class="record-item" data-rec="3"><span>ET</span><div><b>Haftalık etüt tekrarı</b><small>52 dk • eksik tamamlama</small></div></button>
+                </div>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-library">
+              <div class="app-page-head"><span>DİJİTAL KÜTÜPHANE</span><h3>Ders dışı kaynakları seviyene göre filtrele.</h3><p>Materyal, video, konu anlatımı, Quizlet ve sınav kaynaklarından örnekler.</p></div>
+              <div class="library-layout">
+                <div class="library-filters" id="libraryFilters">
+                  <button class="active" data-filter="ALL">Tümü</button><button data-filter="A1">A1</button><button data-filter="A2">A2</button><button data-filter="B1">B1</button><button data-filter="SINAV">Sınav</button>
+                </div>
+                <div id="resourceGrid" class="resource-grid"></div>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-youtube">
+              <div class="app-page-head"><span>ÜCRETSİZ DERS ÖRNEKLERİ</span><h3>Önce anlatım tarzını izle.</h3><p>AYDA’nın herkese açık YouTube ders tekrarları kayıt öncesinde ücretsiz izlenebilir.</p></div>
+              <div class="youtube-layout">
+                <div class="youtube-frame"><iframe id="youtubeFrame" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&rel=0" title="AYDA ücretsiz ders tekrarları" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <aside class="panel"><span class="red-kicker">AYDA YOUTUBE</span><h4>Ücretsiz örnek ders tekrarları</h4><p>Kursu düşünüyorsan önce anlatım biçimini gör. Öğrenci hesabındaki özel kayıtlar ve alıştırmalar bundan ayrı tutulur.</p><div class="yt-buttons" id="ytButtons"><button class="active" data-index="0">Playlist başı</button><button data-index="1">Video 2</button><button data-index="2">Video 3</button><button data-index="3">Video 4</button></div><a class="button primary full" href="https://youtube.com/playlist?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&si=NtZqMyOhFVGQ71Fb" target="_blank" rel="noopener">YouTube’da aç ↗</a></aside>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-exam">
+              <div class="app-page-head"><span>SINAV HAZIRLIK</span><h3>telc · Goethe · ÖSD hedefi olan öğrenci ne görür?</h3><p>Seviye ve sınava göre okuma, dinleme, yazma ve konuşma çalışmaları ayrıca planlanabilir.</p></div>
+              <div class="exam-program-grid">
+                <article><b>A1</b><h4>Başlangıç sınav pratiği</h4><p>Kelime, form, temel okuma ve basit üretim.</p></article>
+                <article class="featured"><b>A2</b><h4>telc / Goethe / ÖSD</h4><p>Kelime, Lesen, Schreiben ve Sprechen odaklı çalışma.</p></article>
+                <article><b>B1–B2</b><h4>Üretim + strateji</h4><p>Deneme analizi, yazma düzeltmesi ve sözlü prova.</p></article>
+              </div>
+              <div class="exam-demo">
+                <div class="panel">
+                  <div class="quiz-top"><h4>Mini sınav hazırlık denemesi</h4><span id="examProgress">1 / 3</span></div>
+                  <p id="examQuestion" class="quiz-question"></p>
+                  <div id="examOptions"></div>
+                  <div id="examFeedback" class="feedback"></div>
+                  <div class="quiz-actions"><button class="button primary" id="examCheck">Cevabı kontrol et</button><button class="button secondary" id="examNext" hidden>Sonraki →</button><button class="button secondary" id="examRestart" hidden>Baştan başla</button></div>
+                </div>
+                <aside class="tip-card"><span>AYDA SINAV TÜYOSU</span><h4 id="examTipTitle">Form kelimeleri</h4><p id="examTip"></p><div id="examScoreWrap" hidden><b id="examScore">0 / 3</b><small>Demo skoru</small></div></aside>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-schedule">
+              <div class="app-page-head"><span>SINAV TAKVİMİ</span><h3>Hedef sınav tarihini çalışma planına bağla.</h3><p>Doğrulanmış tarih varsa gösterilir; doğrulanmamış tarih üretilmez.</p></div>
+              <div class="filter-tabs" id="examFilters"><button class="active" data-kind="all">Tümü</button><button data-kind="telc">telc</button><button data-kind="osd">ÖSD</button></div>
+              <div class="schedule-grid">
+                <article class="schedule-card" data-exam="telc"><span class="status success" id="telcStatus">Yaklaşan sınav</span><small>telc Deutsch A2</small><h4>30 Ağustos 2026</h4><p>AYDA’nın daha önce paylaşılan A2 sınav bilgilendirme sayfasındaki tarih.</p><b id="telcCountdown" class="countdown"></b><button class="button secondary app-jump" data-view="exam">Hazırlık demosunu aç</button></article>
+                <article class="schedule-card" data-exam="osd"><span class="status info">Güncel tarih teyidi</span><small>ÖSD • A1–B2</small><h4>Tarihi AYDA’dan sor</h4><p>Bu demoda doğrulanmamış ÖSD tarihi gösterilmez. Seviye ve merkez bilgisine göre güncel oturum teyit edilir.</p><a class="button secondary" href="https://wa.me/905409112503?text=Merhaba%20AYDA%2C%20%C3%96SD%20s%C4%B1nav%20tarihleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">Güncel ÖSD tarihini sor</a></article>
+                <article class="schedule-card" data-exam="telc osd"><span class="status info">Planlama</span><small>Sınav hedefi</small><h4>Tarih → çalışma takvimi</h4><p>Sınava kalan süre; genel Almanca, deneme, yazma düzeltmesi ve sözlü prova yoğunluğunu değiştirir.</p><a class="button secondary" href="https://www.aydadil.com/sinavhazirlik/" target="_blank" rel="noopener">Sınav hazırlığı ↗</a></article>
+              </div>
+              <div class="info-note">Resmî sınav tarihleri, kayıt şartları, ücretler ve prosedürlerde ilgili sınav kurumunun güncel duyurusu esas alınmalıdır.</div>
+            </section>
           </div>
-        </article>
-      </section>
-
-      <section class="view" id="view-progress">
-        <div class="titleblock"><div class="crumb">ÖĞRENCİ PANELİ / İLERLEMEM</div><h1>İlerlemem</h1><p>Bu örnek veriler, kayıtlı öğrencinin panelde görebileceği ilerleme mantığını temsil eder.</p></div>
-        <div class="card profile-card"><div class="avatar-big">D</div><div><h2 style="margin:0 0 4px">Demo Öğrenci</h2><p style="margin:0;color:var(--muted)">Aktif seviye: A2 • Online Almanca</p><div class="tags" style="margin-top:12px"><span class="tag">9 ünite görüntülendi</span><span class="tag">27 doğru kontrol</span><span class="tag">Son çalışma: Ünite 2</span></div></div></div>
-        <div class="section-head"><div><h2>Çalışma durumu</h2><p>Gerçek öğrenci kullanımında bu alan kaldığı yeri takip etmek için kullanılır.</p></div></div>
-        <div class="grid3">
-          <article class="card"><small style="color:var(--muted)">GENEL İLERLEME</small><h2 style="font-size:42px;margin:10px 0">%38</h2><div style="height:9px;background:#edf1f5;border-radius:99px"><span style="display:block;width:38%;height:100%;background:var(--navy);border-radius:99px"></span></div></article>
-          <article class="card"><small style="color:var(--muted)">ALIŞTIRMALAR</small><h2 style="font-size:42px;margin:10px 0">27</h2><p style="color:var(--muted);margin:0">Doğru kontrol • demo veri</p></article>
-          <article class="card"><small style="color:var(--muted)">SON ÜNİTE</small><h2 style="font-size:24px;margin:15px 0 8px">Wohin mit der Kommode?</h2><button class="btn navy open-level" data-level="A2">Devam et</button></article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="final-cta" aria-label="Kayıt ve program bilgisi">
-        <div>
-          <h2>Sistem sana uygunsa, sıradaki adım programı seçmek.</h2>
-          <p>Demo yalnızca öğrenci deneyiminin küçük bir bölümünü gösterir. Güncel seviyeleri, kurs yapısını ve kayıt seçeneklerini AYDA üzerinden inceleyebilirsin.</p>
-        </div>
-        <div class="actions">
-          <a class="btn primary" href="https://www.aydadil.com/" target="_blank" rel="noopener">Programları İncele</a>
-          <a class="btn ghost" href="https://wa.me/905409122503" target="_blank" rel="noopener">Kayıt & Bilgi</a>
-        </div>
-      </section>
+    <section class="section decision-section" id="sinavlar">
+      <div class="section-heading">
+        <div><span class="eyebrow">HANGİ PROGRAM?</span><h2>Kursa karar verirken hedefe göre seç.</h2><p>AYDA’nın güncel kurs sayfasındaki program mantığının kısa karşılaştırması.</p></div>
+      </div>
+      <div class="decision-grid">
+        <article><span>GRUP KURSU</span><h3>Düzenli ve planlı ilerleme</h3><p>A1–B2 seviyelerinde 8 haftalık kur; canlı ders, speaking, etüt ve kayıt desteği.</p><a href="https://www.aydadil.com/kurslar/" target="_blank" rel="noopener">Grup kursunu incele ↗</a></article>
+        <article><span>VIP ÖZEL DERS</span><h3>Daha bireysel takip</h3><p>Hızlı eksik kapatma, esnek program veya yoğun öğretmen takibi isteyen öğrenciler için.</p><a href="https://www.aydadil.com/kurslar/" target="_blank" rel="noopener">VIP seçeneklerini incele ↗</a></article>
+        <article><span>SINAV HAZIRLIK</span><h3>telc · Goethe · ÖSD</h3><p>Deneme analizi, yazma düzeltmesi, sözlü prova ve sınav formatına uygun beceri çalışmaları.</p><a href="https://www.aydadil.com/sinavhazirlik/" target="_blank" rel="noopener">Sınav hazırlığını incele ↗</a></article>
+      </div>
+    </section>
 
-      <footer class="footer">
-        <span>© 2026 AYDA Dil Akademisi • Kayıt Öncesi Öğrenci Deneyimi</span>
-        <span><a href="https://www.aydadil.com/" target="_blank">Web</a> · <a href="https://instagram.com/ayda.dil" target="_blank">Instagram</a> · <a href="https://youtube.com/@aydadil" target="_blank">YouTube</a></span>
-      </footer>
-    </main>
+    <section class="section final-cta">
+      <div><span class="eyebrow">DEMoyu GÖRDÜN</span><h2>Şimdi sana uygun seviyeyi ve güncel programı netleştir.</h2><p>Her ay yeni gruplar açılıyor. Güncel saat, kontenjan ve fiyat bilgisi için AYDA’ya doğrudan ulaşabilirsin.</p></div>
+      <div class="cta-actions"><a class="button primary" href="https://wa.me/905409112503?text=Merhaba%20AYDA%2C%20demo%20sayfas%C4%B1n%C4%B1%20inceledim.%20Bana%20uygun%20seviye%2C%20g%C3%BCncel%20program%20ve%20fiyat%20bilgisi%20almak%20istiyorum." target="_blank" rel="noopener">WhatsApp’tan Program & Fiyat Al</a><a class="button ghost" href="https://www.aydadil.com/" target="_blank" rel="noopener">www.aydadil.com ↗</a></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>AYDA Dil Akademisi</b><span>Online Almanca • A1–B2 • Sınav Hazırlık</span></div>
+    <div><a href="https://www.aydadil.com/" target="_blank" rel="noopener">Web</a><a href="https://instagram.com/ayda.dil" target="_blank" rel="noopener">Instagram</a><a href="https://youtube.com/@aydadil" target="_blank" rel="noopener">YouTube</a></div>
+  </footer>
+
+
+  <div class="mobile-sticky-cta" aria-label="Mobil hızlı işlemler">
+    <a href="#demo">Demoyu Aç</a>
+    <a class="hot" href="https://wa.me/905409112503?text=Merhaba%20AYDA%2C%20demo%20sayfas%C4%B1n%C4%B1%20inceledim.%20G%C3%BCncel%20program%20ve%20fiyat%20bilgisi%20almak%20istiyorum." target="_blank" rel="noopener">WhatsApp</a>
   </div>
-</div>
 
-<script>
-(function(){
-  const titles={home:"Ana Sayfa",courses:"Derslerim",practice:"Tekrar & Alıştırma",lesson:"Ünite Çalışması",library:"Dijital Kütüphane",exam:"Sınav Hazırlık",progress:"İlerlemem"};
-  const sidebar=document.getElementById("sidebar");
-  const levelData={
-    A1:{
-      units:[
-        ["Guten Tag!","Tanışma ve temel ifadeler"],["Freunde, Kollegen und ich","Kişiler ve iletişim"],["In Hamburg","Şehir ve yerler"],["Guten Appetit!","Yiyecek ve içecek"],["Tag für Tag","Günlük rutin"],["Zeit mit Freunden","Boş zaman"],["Kontakte","İletişim"],["Meine Wohnung","Ev ve yaşam"]
-      ],
-      lesson:{
-        title:"Guten Tag!",topic:"Tanışma ve temel iletişim",grammar:"sein • heißen • kişisel bilgiler",
-        summary:"A1 başlangıcında öğrenci kendini tanıtma, adını söyleme ve temel kişisel bilgi sorma kalıplarını tekrar eder. Demo alanında konu özeti, örnek cümle ve kısa kontrol sorusu birlikte gösterilir.",
-        examples:["Ich heiße Anna.","Ich bin aus der Türkei.","Wie heißen Sie?"],
-        q:"Ich ___ Onur. Hangi seçenek doğru?",options:["heiße","heißt","heißen"],answer:0,explain:"Ich ile fiil biçimi heiße olur."
-      }
-    },
-    A2:{
-      units:[
-        ["Mein Opa war auch schon Bäcker.","Berufe und Familie"],["Wohin mit der Kommode?","Wohnen und Umzug"],["Hier finden Sie Ruhe und Erholung.","Reisen und Unterkunft"],["Was darf es sein?","Einkaufen und Service"],["Schau mal, der schöne Dom!","Kultur und Veranstaltungen"],["Meine Lieblingsveranstaltung","Zeitangaben"],["Wir könnten montags joggen gehen.","Sport und Fitness"],["Hoffentlich ist es nicht das Herz!","Gesundheit"]
-      ],
-      lesson:{
-        title:"Mein Opa war auch schon Bäcker.",topic:"Berufe und Familie",grammar:"unser/euer • Perfekt tekrarı • Präteritum war/hatte",
-        summary:"Aile hikâyesi anlatırken kişileri ve geçmişteki durumları birbirine bağlarız. unser/euer isimden önce artikel gibi çekilir. war ve hatte geçmişteki durum ve sahipliği kısa biçimde anlatır.",
-        examples:["Das ist unser Onkel.","Früher hatte meine Oma ein Café.","Wir haben gestern lange telefoniert."],
-        q:"Das ist ___ Familienfoto.",options:["unser","unsere","unseren"],answer:0,explain:"Familienfoto nötr ve Nominativ olduğu için doğru biçim unser."
-      }
-    },
-    B1:{
-      units:[
-        ["Wer bin ich?","Kişilik ve kendini ifade"],["Erinnerungen","Geçmiş ve deneyimler"],["Wo ich wohne","Yaşam alanı"],["Obwohl ich Ihnen das erklärt habe, ...","Şikâyet ve karşıtlık"],["Arbeit und Alltag","İş yaşamı"],["Etwas planen","Birlikte planlama"],["Kultur und Sprache","Günlük dil"],["Beruf und Stärken","Kariyer"]
-      ],
-      lesson:{
-        title:"Obwohl ich Ihnen das erklärt habe, ...",topic:"Müşteri hizmetlerinde sorun ve karşıtlık",grammar:"obwohl • trotzdem",
-        summary:"obwohl beklenmeyen karşıtlığı yan cümleyle kurar; trotzdem ise ikinci bir ana cümlede sonucu öne çıkarır. Anlam yakın olsa da cümle yapıları farklıdır.",
-        examples:["Obwohl ich bezahlt habe, kam die Ware nicht.","Ich habe bezahlt. Trotzdem kam die Ware nicht.","Warum ist der Anschluss gesperrt, obwohl die Rechnung bezahlt ist?"],
-        q:"___ ich dreimal angerufen habe, bekam ich keine Antwort.",options:["Trotzdem","Obwohl","Denn"],answer:1,explain:"Çekimli fiil habe sonda olduğu için obwohl yan cümlesi gerekir."
-      }
-    }
-  };
-
-  const resources=[
-    {level:"A1",type:"Ders",title:"A1 Ders Materyalleri",desc:"Ders içinde kullanılan temel materyal klasörü."},
-    {level:"A1",type:"Video",title:"A1 Menschen Ders Videoları",desc:"Ders ve tekrar videolarına erişim."},
-    {level:"A1",type:"Quizlet",title:"A1 Menschen Kelime Alıştırmaları",desc:"Seviyeye uygun kelime tekrarları."},
-    {level:"A1",type:"Konu",title:"A1 Kısa Konu Anlatımları",desc:"Ünite gruplarına ayrılmış kısa anlatımlar."},
-    {level:"A2",type:"Ders",title:"A2 Ders Materyalleri",desc:"Yararlı materyaller ve ders kaynakları."},
-    {level:"A2",type:"Video",title:"A2 Menschen Ders Videoları",desc:"A2 ders videoları ve tekrar kaynakları."},
-    {level:"A2",type:"Konu",title:"A2 Konu Anlatım Videoları",desc:"Gramer ve ünite konu anlatımları."},
-    {level:"A2",type:"Quizlet",title:"A2 Menschen Kelime Alıştırmaları",desc:"Kelime tekrar ve pekiştirme alanı."},
-    {level:"B1",type:"Video",title:"B1 Menschen Ünite Videoları",desc:"Ünite bazlı video tekrarları."},
-    {level:"B1",type:"Konuşma",title:"B1 Sprechen Çalışmaları",desc:"Sich vorstellen, Meinung äußern ve Etwas planen."},
-    {level:"SINAV",type:"Sınav",title:"A1 Sınav Hazırlık",desc:"Goethe / TELC başlangıç seviye kaynakları."},
-    {level:"SINAV",type:"Sınav",title:"A2 Sınav Hazırlık",desc:"Lesen, Schreiben ve Sprechen odaklı tekrar."},
-    {level:"SINAV",type:"Sınav",title:"B1 TELC Hazırlık",desc:"Lesen, Sprachbausteine ve Hören çalışmaları."}
-  ];
-
-  function showView(name){
-    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-    const el=document.getElementById("view-"+name); if(el) el.classList.add("active");
-    document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
-    document.getElementById("pageTitle").textContent=titles[name]||"AYDA";
-    sidebar.classList.remove("open");
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
-  document.getElementById("menuBtn").addEventListener("click",()=>sidebar.classList.toggle("open"));
-
-  let currentLevel="A2";
-  function renderUnits(level){
-    currentLevel=level;
-    document.querySelectorAll("#levelTabs button").forEach(b=>b.classList.toggle("active",b.dataset.level===level));
-    const data=levelData[level];
-    let cards=data.units.map((u,i)=>`<article class="unit"><span class="num">ÜNİTE ${i+1}</span><h3>${u[0]}</h3><p>${u[1]}</p><button class="open-unit" data-index="${i}">Üniteyi aç →</button></article>`).join("");
-    for(let i=data.units.length;i<12;i++){
-      cards+=`<article class="unit locked"><span class="num">ÜNİTE ${i+1}</span><h3>Demo kapsamında gizli</h3><p>Gerçek öğrenci panelinde kayıtlı ders içeriği görünür.</p><button disabled>Demo sınırı</button></article>`;
-    }
-    document.getElementById("unitsWrap").innerHTML=`<div class="unit-grid">${cards}</div><div class="demo-note">Kayıt öncesi demo, tam kurs içeriğini yayınlamaz; çalışma düzenini ve öğrenci deneyimini gösterir. Açık üniteler işlevsel örneklerdir.</div>`;
-    document.querySelectorAll(".open-unit").forEach(btn=>btn.addEventListener("click",()=>openLesson(level,+btn.dataset.index)));
-  }
-
-  function openLesson(level,index){
-    const d=levelData[level], L=d.lesson, chosen=d.units[index]||d.units[0];
-    document.getElementById("lessonTitle").textContent=(level+" • Ünite "+(index+1)+" — "+chosen[0]);
-    document.getElementById("lessonSubtitle").textContent=chosen[1]+" • Kayıt öncesi örnek öğrenci ekranı";
-    document.getElementById("lessonSummary").textContent=index===0?L.summary:"Bu ünitenin tam içeriği demo kapsamında yayınlanmıyor. Öğrenci gerçek panelde konu anlatımını, video tekrarını, örnekleri ve ilgili alıştırmaları aynı akış içinde görür.";
-    document.getElementById("lessonExamples").innerHTML=(index===0?L.examples:["Konu anlatımı","Örnek cümleler","Kontrollü alıştırma"]).map(x=>`<div class="example">${x}</div>`).join("");
-    document.getElementById("lessonMeta").innerHTML=`<div><b>Seviye</b>${level}</div><div><b>Konu</b>${index===0?L.topic:chosen[1]}</div><div><b>Gramer / Odak</b>${index===0?L.grammar:"Üniteye göre değişir"}</div><div><b>Kaynaklar</b>Video + konu özeti + alıştırma</div>`;
-    document.getElementById("quizQ").textContent=index===0?L.q:"Demo soru: Gerçek öğrenci panelinde bu üniteye ait kontrollü alıştırmalar burada görünür.";
-    const opts=index===0?L.options:["Örnek seçenek A","Örnek seçenek B","Örnek seçenek C"];
-    const answer=index===0?L.answer:1, explain=index===0?L.explain:"Demo etkileşim tamamlandı.";
-    document.getElementById("quizOptions").innerHTML=opts.map((o,i)=>`<button class="quiz-option" data-i="${i}">${o}</button>`).join("");
-    document.getElementById("feedback").textContent="";
-    document.querySelectorAll("#quizOptions .quiz-option").forEach(btn=>btn.addEventListener("click",()=>{
-      document.querySelectorAll("#quizOptions .quiz-option").forEach(x=>x.classList.remove("correct","wrong"));
-      const ok=+btn.dataset.i===answer; btn.classList.add(ok?"correct":"wrong");
-      if(!ok) document.querySelectorAll("#quizOptions .quiz-option")[answer].classList.add("correct");
-      document.getElementById("feedback").textContent=ok?"✓ Doğru. "+explain:"✕ Tekrar düşün. Doğru cevap gösterildi. "+explain;
-    }));
-    showView("lesson");
-  }
-
-  document.querySelectorAll("#levelTabs button").forEach(b=>b.addEventListener("click",()=>renderUnits(b.dataset.level)));
-  document.querySelectorAll(".open-level").forEach(b=>b.addEventListener("click",()=>{showView("practice");renderUnits(b.dataset.level)}));
-  document.getElementById("backPractice").addEventListener("click",()=>showView("practice"));
-
-  function renderResources(filter="ALL"){
-    const arr=resources.filter(r=>filter==="ALL"||r.level===filter);
-    document.getElementById("resourceGrid").innerHTML=arr.map(r=>`<article class="card resource"><span class="rtype">${r.level} • ${r.type}</span><h3>${r.title}</h3><p>${r.desc}</p><button class="btn" type="button" data-demo-resource>Önizle</button></article>`).join("");
-    document.querySelectorAll("[data-demo-resource]").forEach(b=>b.addEventListener("click",()=>{b.textContent="Demo önizleme ✓";setTimeout(()=>b.textContent="Önizle",1300)}));
-  }
-  document.querySelectorAll("#libraryFilter button").forEach(b=>b.addEventListener("click",()=>{
-    document.querySelectorAll("#libraryFilter button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderResources(b.dataset.filter);
-  }));
-  document.getElementById("showExamDetail").addEventListener("click",()=>{
-    const d=document.getElementById("examDetail");
-    d.style.display=d.style.display==="none"?"block":"none";
-    if(d.style.display==="block") d.scrollIntoView({behavior:"smooth",block:"start"});
-  });
-
-  const examDemoQuestions=[
-    {
-      q:'"Geburtsdatum" ne demektir?',
-      options:["Doğum yeri","Doğum tarihi","Medeni hâl"],
-      answer:1,
-      feedback:"Doğru cevap: Geburtsdatum = doğum tarihi.",
-      tipTitle:"Form kelimeleri",
-      tip:"Geburtsdatum “doğum tarihi”, Geburtsort ise “doğum yeri” demektir. Formlarda bu kelimeler sık görülür."
-    },
-    {
-      q:'Cümleyi tamamla: "Bitte ___ Sie das Formular aus."',
-      options:["füllen","fahren","finden"],
-      answer:0,
-      feedback:"Doğru yapı: Bitte füllen Sie das Formular aus. → Lütfen formu doldurun.",
-      tipTitle:"Fiili bağlamdan bul",
-      tip:"Boşluk sorularında cümlenin konusuna bak. Formular kelimesi, ausfüllen (form doldurmak) fiilini güçlü biçimde işaret eder."
-    },
-    {
-      q:'Hangisi sağlık / randevu bağlamına en uygundur?',
-      options:["der Termin","die Kaution","das Gleis"],
-      answer:0,
-      feedback:"Termin = randevu. Arzt, Praxis, Rezept ve Apotheke gibi kelimeler de sağlık bağlamında sık görülür.",
-      tipTitle:"Kelimeleri konu grubuyla öğren",
-      tip:"Aynı konudaki kelimeleri birlikte çalışmak sınav metnini daha hızlı anlamana yardım eder."
-    }
-  ];
-
-  let examDemoIndex=0, examDemoScore=0, examDemoSelected=null, examDemoLocked=false;
-  const qEl=document.getElementById("examDemoQuestion");
-  const oEl=document.getElementById("examDemoOptions");
-  const fEl=document.getElementById("examDemoFeedback");
-  const pEl=document.getElementById("examDemoProgress");
-  const checkBtn=document.getElementById("examDemoCheck");
-  const nextBtn=document.getElementById("examDemoNext");
-  const restartBtn=document.getElementById("examDemoRestart");
-  const tipTitle=document.getElementById("examDemoTipTitle");
-  const tipEl=document.getElementById("examDemoTip");
-  const scoreWrap=document.getElementById("examDemoScoreWrap");
-  const scoreEl=document.getElementById("examDemoScore");
-
-  function renderExamDemo(){
-    const item=examDemoQuestions[examDemoIndex];
-    examDemoSelected=null; examDemoLocked=false;
-    pEl.textContent=`${examDemoIndex+1} / ${examDemoQuestions.length}`;
-    qEl.textContent=item.q;
-    tipTitle.textContent=item.tipTitle;
-    tipEl.textContent=item.tip;
-    fEl.textContent="";
-    checkBtn.style.display="inline-flex";
-    nextBtn.style.display="none";
-    restartBtn.style.display="none";
-    scoreWrap.style.display="none";
-    oEl.innerHTML=item.options.map((opt,i)=>`<button type="button" class="exam-demo-option" data-exam-i="${i}">${opt}</button>`).join("");
-    oEl.querySelectorAll(".exam-demo-option").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        if(examDemoLocked) return;
-        examDemoSelected=Number(btn.dataset.examI);
-        oEl.querySelectorAll(".exam-demo-option").forEach(x=>x.classList.remove("selected"));
-        btn.classList.add("selected");
-      });
-    });
-  }
-
-  checkBtn.addEventListener("click",()=>{
-    if(examDemoSelected===null){
-      fEl.textContent="Önce bir seçenek seç.";
-      return;
-    }
-    const item=examDemoQuestions[examDemoIndex];
-    examDemoLocked=true;
-    const buttons=[...oEl.querySelectorAll(".exam-demo-option")];
-    buttons.forEach((b,i)=>{
-      b.classList.remove("selected");
-      if(i===item.answer) b.classList.add("correct");
-      if(i===examDemoSelected && i!==item.answer) b.classList.add("wrong");
-    });
-    if(examDemoSelected===item.answer){
-      examDemoScore++;
-      fEl.textContent="✓ Doğru. "+item.feedback;
-    }else{
-      fEl.textContent="✕ "+item.feedback;
-    }
-    checkBtn.style.display="none";
-    if(examDemoIndex<examDemoQuestions.length-1){
-      nextBtn.style.display="inline-flex";
-    }else{
-      scoreEl.textContent=`${examDemoScore} / ${examDemoQuestions.length}`;
-      scoreWrap.style.display="block";
-      restartBtn.style.display="inline-flex";
-      pEl.textContent="Tamamlandı";
-    }
-  });
-
-  nextBtn.addEventListener("click",()=>{
-    examDemoIndex++;
-    renderExamDemo();
-  });
-
-  restartBtn.addEventListener("click",()=>{
-    examDemoIndex=0; examDemoScore=0;
-    renderExamDemo();
-  });
-
-  renderExamDemo();
-  renderUnits("A2"); renderResources("ALL");
-})();
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
