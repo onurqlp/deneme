@@ -1,5 +1,5 @@
 (() => {
-  const appTitles={dashboard:"Ana Sayfa",practice:"Tekrar & Alıştırma",lesson:"Ünite Çalışması",recordings:"Canlı Ders Kayıtları",library:"Dijital Kütüphane",youtube:"Ücretsiz Videolar",exam:"Sınav Hazırlık",schedule:"Sınav Takvimi"};
+  const appTitles={dashboard:"Ana Sayfa",replays:"Ders Tekrarları",practice:"Tekrar & Alıştırma",lesson:"Ünite Çalışması",recordings:"Canlı Ders Kayıtları",library:"Dijital Kütüphane",exam:"Sınav Hazırlık",schedule:"Sınav Takvimi"};
 
   function showAppView(name){
     document.querySelectorAll(".app-view").forEach(v=>v.classList.remove("active"));
@@ -109,9 +109,26 @@
   }
   document.querySelectorAll("#libraryFilters button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#libraryFilters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderResources(b.dataset.filter)}));
 
-  const ytBase="https://www.youtube-nocookie.com/embed/videoseries?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&rel=0";
-  const youtubeFrame=document.getElementById("youtubeFrame");
-  document.querySelectorAll("#ytButtons button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#ytButtons button").forEach(x=>x.classList.remove("active"));b.classList.add("active");const i=+b.dataset.index;youtubeFrame.src=ytBase+(i?`&index=${i}`:"")}));
+
+  /* Tarih bazlı Ders Tekrarları */
+  const replayItems=[
+    {date:"11.06.2026",level:"A2",title:"11.06.2026 Dersi Tekrarı",desc:"Wohnen & Wechselpräpositionen • örnek tekrar akışı",index:0},
+    {date:"09.06.2026",level:"A2",title:"09.06.2026 Dersi Tekrarı",desc:"wenn-Nebensatz • cümle sırası ve örnekler",index:1},
+    {date:"06.06.2026",level:"A2",title:"06.06.2026 Dersi Tekrarı",desc:"Perfekt • geçmiş zaman tekrarı",index:2},
+    {date:"04.06.2026",level:"A2",title:"04.06.2026 Dersi Tekrarı",desc:"Kelime & Sprechen • ders içi tekrar",index:3}
+  ];
+  const replayBase="https://www.youtube-nocookie.com/embed/videoseries?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&rel=0";
+  document.querySelectorAll(".replay-row").forEach((btn,i)=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".replay-row").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      const r=replayItems[i];
+      document.getElementById("replayDate").textContent=`${r.date} • ${r.level}`;
+      document.getElementById("replayTitle").textContent=r.title;
+      document.getElementById("replayDesc").textContent=r.desc;
+      document.getElementById("replayFrame").src=replayBase+(r.index?`&index=${r.index}`:"");
+    });
+  });
 
   const examQs=[
     {q:'"Geburtsdatum" ne demektir?',opts:["Doğum yeri","Doğum tarihi","Medeni hâl"],a:1,fb:"Geburtsdatum = doğum tarihi.",tip:"Formlarda Geburtsdatum doğum tarihi, Geburtsort doğum yeri anlamına gelir.",title:"Form kelimeleri"},
