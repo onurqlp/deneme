@@ -1411,3 +1411,100 @@ main#top{min-height:calc(100vh - 82px)}
     align-items:flex-start;
   }
 }
+
+/* Mobile and tablet menu: compact, non-overlapping and tap friendly */
+.mobile-menu-toggle{display:none}
+.app-menu-panel{
+  display:flex;
+  flex:1;
+  min-height:0;
+  flex-direction:column;
+}
+
+@media (max-width:900px){
+  .app-shell{grid-template-columns:1fr}
+  .app-sidebar{
+    position:relative;
+    top:auto;
+    z-index:4;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    width:100%;
+    min-height:0;
+    overflow:visible;
+    padding:10px 12px;
+    gap:0 10px;
+  }
+  .app-brand{
+    display:flex;
+    min-width:0;
+    margin:0;
+    padding:0;
+    border:0;
+    justify-content:flex-start;
+  }
+  .app-brand b{display:block;font-size:14px;white-space:nowrap}
+  .app-brand span{width:38px;height:38px;flex:0 0 38px}
+  .mobile-menu-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    min-width:92px;
+    min-height:44px;
+    padding:9px 13px;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:11px;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    font-size:13px;
+    font-weight:850;
+  }
+  .mobile-menu-toggle b{font-size:18px;line-height:1}
+  .app-menu-panel{
+    display:none;
+    grid-column:1/-1;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    padding-top:10px;
+  }
+  .app-sidebar.menu-open .app-menu-panel{display:grid}
+  .app-menu-panel .app-nav{
+    width:100%;
+    min-width:0;
+    min-height:50px;
+    margin:0;
+    padding:10px 11px;
+    justify-content:flex-start;
+    white-space:normal;
+    line-height:1.3;
+  }
+  .app-menu-panel .app-nav span{display:inline}
+  .sidebar-resources{
+    display:grid;
+    grid-column:1/-1;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin-top:3px;
+    padding:12px 0 0;
+    border-top:1px solid rgba(255,255,255,.14);
+  }
+  .sidebar-resources p{
+    display:block;
+    grid-column:1/-1;
+    margin:0 2px 3px;
+    font-size:10px;
+  }
+  .sidebar-resources a{
+    min-width:0;
+    min-height:48px;
+    padding:10px 11px;
+    white-space:normal;
+  }
+  .app-topbar{position:static;top:auto}
+}
+
+@media (max-width:340px){
+  .app-menu-panel,.sidebar-resources{grid-template-columns:1fr}
+  .mobile-menu-toggle{min-width:84px;padding-inline:10px}
+}

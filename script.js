@@ -1,11 +1,22 @@
 (() => {
   const appTitles={dashboard:"Ana Sayfa",replays:"Ders Tekrarları",practice:"Tekrar & Alıştırma",lesson:"Ünite Çalışması",recordings:"Canlı Ders Kayıtları",library:"Dijital Kütüphane",exam:"Sınav Hazırlık",schedule:"Sınav Takvimi"};
+  const appSidebar=document.querySelector(".app-sidebar");
+  const mobileMenuToggle=document.querySelector(".mobile-menu-toggle");
+
+  function setMobileMenu(open){
+    appSidebar?.classList.toggle("menu-open",open);
+    mobileMenuToggle?.setAttribute("aria-expanded",String(open));
+    if(mobileMenuToggle) mobileMenuToggle.querySelector("b").textContent=open?"×":"☰";
+  }
+  mobileMenuToggle?.addEventListener("click",()=>setMobileMenu(!appSidebar?.classList.contains("menu-open")));
+  document.addEventListener("keydown",event=>{if(event.key==="Escape") setMobileMenu(false)});
 
   function showAppView(name){
     document.querySelectorAll(".app-view").forEach(v=>v.classList.remove("active"));
     document.getElementById("app-"+name)?.classList.add("active");
     document.querySelectorAll(".app-nav").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
     document.getElementById("appTitle").textContent=appTitles[name]||"AYDA";
+    if(window.matchMedia("(max-width: 900px)").matches) setMobileMenu(false);
     const shell=document.querySelector(".app-shell");
     if(shell){
       const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -6,7 +6,8 @@ AYDA Öğrenci Paneli Tanıtımı — Son Sürüm
 
 Bu sürüm yalnızca kayıt öncesi öğrenci paneli demosunu gösterir. Ana site,
 kurslar, seviye testleri, sınav platformu ve kütüphane bağlantıları masaüstünde
-sol menünün altında; mobilde yatay panel menüsünde bulunur.
+sol menünün altında bulunur. Telefon ve tabletlerde “Menü” düğmesine dokunarak
+iki sütunlu menü açılır; seçim yapıldığında menü otomatik kapanır.
 
 Site telefon, tablet, laptop ve geniş masaüstü ekranları için düzenlenmiştir.
 AYDA ana sitesi, sınav platformu, kütüphane, YouTube ve diğer dış bağlantılar
