@@ -1,7 +1,9 @@
 name: COIN.LIVE Market Snapshot
+# GitHub's scheduled workflows are best-effort, not exact 5-minute timers.
+# Off-the-hour slots avoid the busiest top-of-hour scheduling queue.
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "2-59/5 * * * *"
   workflow_dispatch:
   push:
     paths:
@@ -11,28 +13,62 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: coin-live-market
+  group: coin-live-market-data
   cancel-in-progress: false
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
-      - name: Checkout
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
+          ref: main
           persist-credentials: true
-      - name: Retrieve verified public futures quotes
-        run: python3 coin-live/snapshot.py
-      - name: Calculate ranked multi-timeframe signals
-        run: python3 coin-live/signals.py
-      - name: Publish updated snapshot and signals
+      - name: Log trigger and UTC clock
         run: |
+          echo "event=${{ github.event_name }} utc=$(date -u +%FT%TZ)"
+          echo "workflow ref=${{ github.ref }} commit=${{ github.sha }}"
+      - name: Retrieve verified perpetual futures quotes
+        run: python3 coin-live/snapshot.py
+      - name: Rank closed 15m / 1h / 4h candle signals
+        run: python3 coin-live/signals.py
+      - name: Verify timestamps, market and candle provider
+        run: |
+          python3 - <<'PY'
+          import json,datetime
+          from pathlib import Path
+          market=json.loads(Path("coin-live/market-snapshot.json").read_text())
+          signals=json.loads(Path("coin-live/signals-snapshot.json").read_text())
+          assert market["provider"]==signals["provider"],"provider mismatch"
+          assert len(market["rows"])>=20,"incomplete futures market"
+          assert signals["analyzed"]>=10,"technical analysis coverage too low"
+          for x in (market,signals):
+              t=datetime.datetime.fromisoformat(x["fetched_at"])
+              assert 0<=(datetime.datetime.now(datetime.timezone.utc)-t).total_seconds()<480,"stale generated output"
+          print("Verified",market["provider"],len(market["rows"]),"markets",signals["analyzed"],"technical analyses")
+          PY
+      - name: Publish fresh public market and signal data
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add coin-live/market-snapshot.json coin-live/signals-snapshot.json
-          if ! git diff --cached --quiet; then
-            git commit -m "data: refresh COIN.LIVE market snapshot [skip ci]"
-            git pull --rebase origin main
-            git push origin HEAD:main
+          if git diff --cached --quiet; then
+            echo "No data change to publish"
+            exit 0
           fi
+          git commit -m "data: refresh COIN.LIVE market snapshots [skip ci]"
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              echo "Published verified market snapshots"
+              exit 0
+            fi
+            echo "GitHub push race; retry $i"
+            sleep $((i*3))
+          done
+          echo "Could not publish refreshed snapshots"
+          exit 1
