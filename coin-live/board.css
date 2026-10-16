@@ -11,3 +11,35 @@
 .modal{position:fixed;inset:0;background:#000b;display:none;justify-content:center;align-items:center;padding:20px;z-index:5}.modal.open{display:flex}.modalCard{background:#101c2e;border:1px solid #3b5573;border-radius:15px;padding:22px;width:min(400px,100%);box-shadow:0 20px 70px #0009}.modalCard h3{margin:0 0 8px;font-size:20px}.modalCard p{font-size:12px;color:#a5bed8}.modalCard input{width:100%;background:#1b2c40;color:#fff;border:1px solid #3c536d;border-radius:9px;padding:11px;font:inherit;margin:8px 0}.modalCard .buttons{justify-content:flex-end;margin-top:10px}.modalCard .level{margin-top:9px}button:disabled{opacity:.5;cursor:default}
 @media(max-width:1060px){.hero,.panels{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:620px){.shell{padding:14px}.brand{font-size:22px}.headerRight{flex-wrap:wrap;justify-content:flex-start}.intro{margin:16px 0 13px}.hero{padding:16px;gap:14px}.heroSide{grid-template-columns:repeat(2,minmax(0,1fr))}.level{padding:10px}.level b{font-size:16px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric{padding:11px}.metric strong{font-size:19px}.header{align-items:flex-start}#chart{height:270px}.ticker{padding:8px 9px}}
+
+
+/* COIN.LIVE EDGE: verified provenance and 1% early-movement watch */
+.healthStrip{margin-top:14px;border:1px solid #4d5262;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:#171e2d}
+.healthStrip .healthIcon{font-size:21px;color:#f8c668;line-height:1}
+.healthText{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
+.healthText strong{font-size:12px;font-weight:850;letter-spacing:.35px}
+.healthText small{color:#9db4ce;font-size:11px;line-height:1.5}
+.healthTimestamp{font-size:11px;white-space:nowrap;color:#b0c5dd;font-weight:700}
+.healthStrip.live{border-color:#286b59;background:#0d2c2c}
+.healthStrip.live .healthIcon{color:var(--green)}
+.healthStrip.warn{border-color:#80633d;background:#322919}
+.healthStrip.warn .healthIcon{color:var(--yellow)}
+.healthStrip.stale{border-color:#89434c;background:#321d28}
+.healthStrip.stale .healthIcon{color:var(--red)}
+.edgeBanner{padding:14px 15px;background:linear-gradient(110deg,#172e40,#182236);border-bottom:1px solid #273a54}
+.edgeHeadline{font-size:16px;font-weight:850;letter-spacing:-.35px;margin-bottom:5px;color:#b9d4ec}
+.edgeHeadline.focused{color:#fbd17a}
+.edgeHeadline.muted{color:#8093b2}
+.edgeAlert{border-bottom:1px solid #22334b;display:flex;justify-content:space-between;gap:8px;padding:10px 14px;background:#182b3c}
+.edgeAlert:nth-child(even){background:#142438}
+.edgeAlert span{font-size:11px;font-weight:600;color:#cbdfed;line-height:1.45}
+.edgeAlert small{font-size:10px;font-variant-numeric:tabular-nums;color:#7ca3c7;flex-shrink:0}
+.edgeAlert.red{background:#38242c}
+#edgeCandidates .rank{grid-template-columns:30px minmax(0,1fr) auto;gap:9px}
+#edgeCandidates .rankNum{width:29px;height:29px}
+#edgeCandidates .rankSymbol{font-size:13px}
+#edgeCandidates .rankSub{font-size:10px;white-space:normal}
+#edgeCandidates .rankRight{white-space:nowrap}
+#edgeCandidates .rankRight small{display:block;margin-top:4px}
+#earlyWatch[hidden]{display:none!important}
+@media(max-width:620px){.healthStrip{padding:10px;gap:8px}.healthTimestamp{display:none}.healthText strong{font-size:11px}}
