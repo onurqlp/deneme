@@ -20,11 +20,68 @@
 .selbtn{border:none;background:transparent;color:var(--blue);cursor:pointer;font-weight:700}
 @media(max-width:1020px){.siggrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:570px){.siggrid{grid-template-columns:1fr}.controlbar select{flex:1;min-width:0}}
-</style></head><body><main>
+</style><link rel="stylesheet" href="./pro.css?v=3"></head><body><main>
 <header class="top"><div><div class="brand">COIN<b>.LIVE</b> <span class="mini">FUTURES INTELLIGENCE</span></div><div class="mini">BINANCE / BYBIT / OKX · SALT OKUNUR · CANLI RADAR</div></div><div class="buttons"><span class="badge"><i class="led" id="dot"></i><span id="connection">BAĞLANIYOR</span></span><button id="soundBtn" class="btn">🔕 Ses kapalı</button><button id="notifyBtn" class="btn">🔔 Bildirim aç</button></div></header>
 <section class="hero"><div><div class="mini">100 PARİTELİ PİYASA RADARI</div><h1>Hareketi <em>erken fark et.</em></h1><p>10x kaldıraç hedefli, 1 hafta–1 ay fırsat takibinin ilk aşaması. Koşullu AL / SAT / BEKLE kararları, otomatik stoplar, 3 hedef ve pozisyon büyüklüğü. Hiçbir tahmin kesin kazanç değildir.</p></div><div><div class="clock" id="clock">--:--:--</div><div class="small" id="updated">Piyasa verisi bekleniyor</div></div></section>
 <div class="controlbar"><label for="provider" class="small">CANLI VERİ KAYNAĞI</label><select id="provider"><option value="Auto">Otomatik: Binance → Bybit → OKX</option><option value="Binance">Binance Futures</option><option value="Bybit">Bybit Futures</option><option value="OKX">OKX Swap</option></select><span class="badge" id="sourceName">Kaynak bağlanıyor</span><span class="small" id="techStatus">15m / 1H / 4H analiz yükleniyor</span></div><div class="error" id="error"></div><section id="signalCards" class="siggrid"><div class="empty">Giriş / stop / hedef sinyalleri hazırlanıyor…</div></section>
 <section class="metrics"><div class="metric"><small>CANLI İZLENEN PARİTE</small><strong id="count">0</strong></div><div class="metric"><small>5 DK HAREKET EŞİĞİNDE</small><strong id="moves">0</strong></div><div class="metric"><small>BU OTURUM ALARMI</small><strong id="alertsCount">0</strong></div><div class="metric"><small>İZLEME SÜRESİ</small><strong id="uptime">0 dk</strong></div></section>
+
+<section id="proWorkspace" aria-label="Profesyonel piyasa ekranı">
+  <div class="proBand">
+    <div class="proStat"><span>BTC / 24 SAAT</span><strong id="proBTC">—</strong><small>Canlı kaynak</small></div>
+    <div class="proStat"><span>ETH / 24 SAAT</span><strong id="proETH">—</strong><small>Canlı kaynak</small></div>
+    <div class="proStat"><span>100 COIN PİYASA GENİŞLİĞİ</span><strong id="proBreadth">—</strong><small id="proBreadthDetail">Taranıyor</small></div>
+    <div class="proStat"><span>BTC PİYASA REJİMİ</span><strong id="proRegime">—</strong><small id="proRegimeHint">Veri bekleniyor</small></div>
+    <div class="proStat"><span>TEYİTLİ AL / SAT</span><strong id="proSignals">0</strong><small id="proSignalsHint">Teknik mumlar bekleniyor</small></div>
+  </div>
+  <div class="paneGrid">
+    <div class="proPanel">
+      <div class="proHead">
+        <div><h2>📊 GRAFİK • MARKET STRUCTURE</h2><span class="tinyTag" id="chartStatus">Piyasa verileri bekleniyor</span></div>
+        <div class="proTools">
+          <select id="chartCoin" aria-label="Grafiği gösterilecek coin"><option value="BTCUSDT">BTC / USDT</option></select>
+          <button data-candle="15m" class="active">15M</button><button data-candle="1h">1H</button><button data-candle="4h">4H</button><button data-candle="1d">1D</button>
+          <button id="chartZoomIn" title="Yakınlaştır">＋</button><button id="chartZoomOut" title="Uzaklaştır">−</button><button id="chartReset" title="Görünümü sıfırla">⟲</button>
+        </div>
+      </div>
+      <canvas id="proChart" role="img" aria-label="Canlı fiyat mum grafiği, ortalamalar, destek ve direnç, varsa sanal işlem hedefleri"></canvas>
+      <div id="chartHover"></div><div id="chartLegend"></div>
+    </div>
+    <div class="proPanel">
+      <div class="proHead"><div><h2 id="analysisTitle">BTCUSDT / USDT</h2><span class="tinyTag">15M giriş · 1H momentum · 4H trend</span></div><span id="analysisSignal" class="signalbig wait">BEKLE</span></div>
+      <div class="proRight">
+        <div class="proMuted">SEÇİLİ PARİTE</div><div class="proStrong" id="analysisPrice">—</div>
+        <div class="proMuted" id="analysisExplain">Veri analizi başlatılıyor</div>
+        <div class="signalLabels"><span id="analysisScore">—/100</span><span>10x varsayılan · isolated kuralı</span><span>1:2–1:3 hedef mantığı</span></div>
+        <div id="analysisRows" class="analysisList"></div>
+        <div class="proAlertBox">
+          <label>Özel fiyat alarmı<input type="number" id="customAlertPrice" step="any" placeholder="Hedef fiyat" min=".00000001" aria-label="Özel fiyat alarmı seviyesi"></label>
+          <label>Koşul<select id="customAlertDir"><option value="above">ÜZERİ</option><option value="below">ALTI</option></select></label>
+          <button id="customAlertAdd">Alarm kur</button>
+        </div>
+        <div id="customAlertList"></div>
+        <div class="proDisclaimer" id="proNotice" role="status">Sinyaller kesin kazanç vaadi değildir. Veri eksikse sistem BEKLE der.</div>
+      </div>
+    </div>
+  </div>
+  <div class="proGridLower">
+    <section class="proPanel">
+      <div class="proHead"><div><h2>📰 CANLI KRİPTO HABER AKIŞI</h2><span class="tinyTag" id="newsSource">Haber kaynağına bağlanılıyor</span></div><button class="tinyBtn" id="newsReload">↻ Haberleri yenile</button></div>
+      <div id="newsFeed" class="newsFeed"><div class="empty">Kaynak doğrulanıyor. Haberler kaynak ve tarih ile gösterilecek.</div></div>
+      <div class="newsSources"><a href="https://www.binance.com/en/support/announcement" target="_blank" rel="noopener noreferrer">Binance Duyuruları ↗</a><a href="https://www.coindesk.com/" target="_blank" rel="noopener noreferrer">CoinDesk ↗</a><a href="https://cointelegraph.com/" target="_blank" rel="noopener noreferrer">Cointelegraph ↗</a></div>
+      <div class="proDisclaimer">Haber başlıkları üçüncü taraf kaynaklardan gelir. Kaynak zaman damgası doğrulanamıyorsa sistem haber üretmez. Haberler otomatik AL/SAT sinyali değildir.</div>
+    </section>
+    <section class="proPanel">
+      <div class="proHead"><div><h2>🧪 100 USDT SANAL TRADING DESK</h2><span class="tinyTag">Isolated · emir GÖNDERMEZ</span></div><button class="tinyBtn" id="paperExport">CSV dışa aktar</button></div>
+      <div class="paperTop"><div><small>NAKİT BAKİYE</small><b id="paperBalance">$100.00</b></div><div><small>TAHMİNİ ÖZKAYNAK</small><b id="paperEquity">$100.00</b></div><div><small>ARDIŞIK KAYIP</small><b id="paperStreak">0/2</b></div></div>
+      <div class="paperTrade" id="paperTrade">Sanal işlem bulunmuyor.</div>
+      <div class="paperButtons"><button id="paperOpen">Sinyal bekleniyor</button><button id="paperClose" class="danger" disabled>Sanal kapat</button><button id="paperReset" class="danger">100$ sıfırla</button></div>
+      <div class="paperOptions" id="paperGuard">Tek işlem, 2 stopta dur, komisyon modeli: her yönde %0,04.</div>
+      <div class="paperLog" id="paperLog"></div>
+      <div class="proDisclaimer">Gerçek para yok. Kayıtlar yalnız bu tarayıcıda saklanır. İşlem açma, kademeli kâr alma, stop ve örnek ücretler hesaplanır. Gerçekleşen fiyat, slippage ve likidasyon gerçek borsa emirleriyle eşdeğer değildir.</div>
+    </section>
+  </div>
+</section>
 <div class="layout"><div><section class="panel"><div class="panelhead"><div><h2>⚡ Canlı Futures Radarı</h2><div class="subhead">100 USDT perpetual · 15m/1H/4H mum teyidi · funding / OI</div></div><button class="btn" id="refreshBtn">↻ Yenile</button></div><div class="filters"><input id="search" placeholder="Coin ara: WAL, BTC, ZRO..." aria-label="Coin ara"><select id="sort"><option value="score">Radar skoru</option><option value="up">En çok yükselen 24s</option><option value="down">En çok düşen 24s</option><option value="vol">Hacim</option><option value="five">5 dk hareket</option></select><select id="filter"><option value="all">Tüm pariteler</option><option value="long">LONG yönlü</option><option value="short">SHORT yönlü</option><option value="fav">★ Favoriler</option><option value="alarm">Alarm eşiğinde</option><option value="signal">AL / SAT sinyali</option></select></div><div class="scroll"><table><thead><tr><th>COIN</th><th>FİYAT</th><th>24 SAAT</th><th>5 DAKİKA</th><th>24S HACİM</th><th>FUNDING</th><th>RADAR</th><th>SİNYAL</th><th>★</th></tr></thead><tbody id="rows"><tr><td colspan="9" class="empty">Binance canlı verisine bağlanılıyor...</td></tr></tbody></table></div><div class="footnote">Radar skoru fırsat sıralamasıdır; kazanma olasılığı değildir. Sinyaller 4H + 1H trend, 15m kapanmış mum teyidi, ATR stop ve en az 1:2 risk/getiri koşuluyla oluşturulur. Stop ve hedefler tahmindir, garanti değildir.</div></section></div>
 <aside>
 <section class="panel"><div class="panelhead"><div><h2>📈 Coin Detayı</h2><div class="subhead" id="detailName">Radardan bir coin seç</div></div><a id="tradeLink" target="_blank" rel="noopener noreferrer" href="https://www.binance.com/en/futures/BTCUSDT">Binance ↗</a></div><div class="rightpad" id="detail"><div class="empty">Fiyat, funding ve alarm eşiği burada gösterilecek.</div></div></section>
@@ -82,14 +139,17 @@ async function fallback(next){if(S.loading)return;S.loading=true;clear();error("
 async function activate(){if(S.loading)return;S.loading=true;clear();status("VERİ BAĞLANIYOR",false);error("");const requested=$("provider").value,options=requested==="Auto"?["Binance","Bybit","OKX"]:[requested];let success=false,reasons=[];for(const p of options){try{if(p==="Binance")await binance();if(p==="Bybit")await bybit();if(p==="OKX")await okx();success=true;break;}catch(e){reasons.push(p+": "+e.message);clear();}}if(!success){status("VERİ BAĞLANAMADI",false);error(reasons.join(" | ")+". Bölgesel erişim veya CORS engeli olabilir.");}S.loading=false;if(success){S.timers.push(setInterval(scanTech,16000));setTimeout(scanTech,1000);}render();}
 function update(symbol,p,v,ch){const o=S.items.get(symbol);if(!o||!positive(p))return;o.price=p;if(positive(v))o.volume=v;if(Number.isFinite(ch))o.change=ch;const h=o.history,t=Date.now();if(!h.length||t-h[h.length-1][0]>10000)h.push([t,p]);while(h.length>1&&h[1][0]<=t-300000)h.shift();o.ready=!!(h[0]&&t-h[0][0]>=270000);o.five=o.ready?(p/h[0][1]-1)*100:NaN;checkAlert(o,"MOVE");}
 async function candles(o,tf){let data;if(S.provider==="Binance"){data=await get(F+"/fapi/v1/klines?symbol="+encodeURIComponent(o.symbol)+"&interval="+tf+"&limit=90");return data.map(x=>({t:+x[0],open:+x[1],high:+x[2],low:+x[3],close:+x[4],vol:+x[5]}));}
-if(S.provider==="Bybit"){const tfMap={"15m":"15","1h":"60","4h":"240"};data=await get(B+"/v5/market/kline?category=linear&symbol="+encodeURIComponent(o.symbol)+"&interval="+tfMap[tf]+"&limit=90");if(data.retCode!==0)throw Error("Bybit kline");return data.result.list.map(x=>({t:+x[0],open:+x[1],high:+x[2],low:+x[3],close:+x[4],vol:+x[5]})).reverse();}
-const tfMap={"15m":"15m","1h":"1H","4h":"4H"};data=await get(O+"/api/v5/market/candles?instId="+encodeURIComponent(o.symbol.replace(/USDT$/,"-USDT-SWAP"))+"&bar="+tfMap[tf]+"&limit=90");if(data.code!=="0")throw Error("OKX candles");return data.data.map(x=>({t:+x[0],open:+x[1],high:+x[2],low:+x[3],close:+x[4],vol:+x[5]})).reverse();}
+if(S.provider==="Bybit"){const tfMap={"15m":"15","1h":"60","4h":"240","1d":"D"};data=await get(B+"/v5/market/kline?category=linear&symbol="+encodeURIComponent(o.symbol)+"&interval="+tfMap[tf]+"&limit=90");if(data.retCode!==0)throw Error("Bybit kline");return data.result.list.map(x=>({t:+x[0],open:+x[1],high:+x[2],low:+x[3],close:+x[4],vol:+x[5]})).reverse();}
+const tfMap={"15m":"15m","1h":"1H","4h":"4H","1d":"1D"};data=await get(O+"/api/v5/market/candles?instId="+encodeURIComponent(o.symbol.replace(/USDT$/,"-USDT-SWAP"))+"&bar="+tfMap[tf]+"&limit=90");if(data.code!=="0")throw Error("OKX candles");return data.data.map(x=>({t:+x[0],open:+x[1],high:+x[2],low:+x[3],close:+x[4],vol:+x[5]})).reverse();}
 function ema(a,len){let x=a[0];const mult=2/(len+1);for(let i=1;i<a.length;i++)x=a[i]*mult+x*(1-mult);return x;}
 function rsi(a){let g=0,l=0;for(let i=a.length-14;i<a.length;i++){const d=a[i]-a[i-1];if(d>0)g+=d;else l-=d;}return l===0?100:g===0?0:100-100/(1+g/l);}
 function atr(a){let sum=0;for(let i=a.length-14;i<a.length;i++){const p=a[i-1];sum+=Math.max(a[i].high-a[i].low,Math.abs(a[i].high-p.close),Math.abs(a[i].low-p.close));}return sum/14;}
 function decision(o,series){const t=series[0],h=series[1],four=series[2];if([t,h,four].some(a=>a.length<55))throw Error("Yetersiz mum");const a=t.slice(0,-1),b=h.slice(0,-1),c=four.slice(0,-1);const p=o.price,x=a.at(-1),hour=b.map(z=>z.close),fourH=c.map(z=>z.close),mins=a.map(z=>z.close),ema1=ema(hour.slice(-55),20),ema2=ema(hour.slice(-80),50),ema4=ema(fourH.slice(-55),20),ema15=ema(mins.slice(-55),20),r=rsi(hour),range=atr(a),vol=a.slice(-21,-1).reduce((z,q)=>z+q.vol,0)/20,volRatio=vol>0?x.vol/vol:1;
-const bull=ema1>ema2&&b.at(-1).close>ema1&&c.at(-1).close>ema4&&p>ema15&&r>47&&r<77&&volRatio>=0.8;
-const bear=ema1<ema2&&b.at(-1).close<ema1&&c.at(-1).close<ema4&&p<ema15&&r>23&&r<53&&volRatio>=0.8;
+const previous=a.at(-2),rangeHigh=Math.max(...a.slice(-9,-1).map(z=>z.high)),rangeLow=Math.min(...a.slice(-9,-1).map(z=>z.low));
+const longTrigger=(x.close>rangeHigh&&x.close>x.open)||(previous.close<ema15&&x.close>ema15&&x.close>x.open);
+const shortTrigger=(x.close<rangeLow&&x.close<x.open)||(previous.close>ema15&&x.close<ema15&&x.close<x.open);
+const bull=ema1>ema2&&b.at(-1).close>ema1&&c.at(-1).close>ema4&&p>ema15&&r>49&&r<74&&volRatio>=1.15&&longTrigger;
+const bear=ema1<ema2&&b.at(-1).close<ema1&&c.at(-1).close<ema4&&p<ema15&&r>26&&r<51&&volRatio>=1.15&&shortTrigger;
 const stale=!positive(p)||Math.abs(p-x.close)>Math.max(range*2,p*.045);
 const slip=Math.max(range*1.7,p*.009),stopPct=slip/p*100;
 const dir=stale||stopPct>7||stopPct<.3?"BEKLE":bull?"AL (LONG)":bear?"SAT (SHORT)":"BEKLE";
@@ -148,6 +208,7 @@ $("refreshBtn").textContent="↻ Tekrar bağlan";$("refreshBtn").onclick=activat
 document.addEventListener("click",e=>{const fav=e.target.closest("[data-fav]");if(fav){const symbol=fav.dataset.fav;S.favs.has(symbol)?S.favs.delete(symbol):S.favs.add(symbol);save();render();return;}const row=e.target.closest("[data-symbol]");if(row){S.selected=row.dataset.symbol;const o=S.items.get(S.selected);if(o)o.techAt=0;detail();scanTech();}});
 $("soundBtn").onclick=async()=>{if(!S.sound){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)throw Error("Desteklenmiyor");S.audio=S.audio||new A();await S.audio.resume();S.sound=true;$("soundBtn").textContent="🔊 Ses açık";}catch(e){error("Ses: "+e.message);}}else{S.sound=false;$("soundBtn").textContent="🔕 Ses kapalı";}};
 $("notifyBtn").onclick=async()=>{if(!("Notification" in window)){error("Tarayıcı bildirimi desteklenmiyor.");return;}try{const r=await Notification.requestPermission();$("notifyBtn").textContent=r==="granted"?"🔔 Bildirim açık":"🔕 İzin yok";}catch(e){error(e.message);}};
+window.CoinLiveAPI={S,candles,fmt,pc,usd,baseScore,plan,render,scanTech,activate};
 calc();alertUI();activate();setInterval(render,3500);
 })();
-</script></body></html>
+</script><script src="./pro.js?v=3" defer></script></body></html>
