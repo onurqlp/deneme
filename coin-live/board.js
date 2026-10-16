@@ -66,6 +66,7 @@
    if(Array.isArray(signals?.signals)){
       const stamp=Date.parse(signals.fetched_at);
       S.signalStamp=Number.isFinite(stamp)?stamp:0;
+      S.signalProvider=signals.provider||"";
       S.signalSet=signals.signals;
       S.bySymbol=new Map(S.signalSet.map(x=>[x.symbol,x]));
       $("analyzedCount").textContent=String(signals.analyzed||0);
