@@ -1,0 +1,17 @@
+name: COIN.LIVE Quality Check
+on:
+  push:
+    paths:
+      - "coin-live/**"
+      - ".github/workflows/coin-live-quality.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout published dashboard
+        uses: actions/checkout@v4
+      - name: Verify scripts, dashboard and free data contracts
+        run: node coin-live/verify.mjs
