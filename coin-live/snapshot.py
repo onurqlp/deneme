@@ -58,7 +58,7 @@ def hyperliquid():
     r=valid(r)
     if len(r)<20:raise ValueError(f"Hyperliquid insufficient instruments {len(r)}")
     return r
-SOURCES=[("Binance",binance),("Bybit",bybit),("OKX",okx),("Hyperliquid",hyperliquid)]
+SOURCES=[("OKX",okx),("Hyperliquid",hyperliquid),("Bybit",bybit),("Binance",binance)]
 def main():
     errors=[];provider=None;rows=[]
     for name,fn in SOURCES:
@@ -71,8 +71,12 @@ def main():
             errors.append(message);print("[FAIL]",message,flush=True)
     fetched_at=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     obj={"provider":provider or "UNAVAILABLE","fetched_at":fetched_at,"generated_by":"GitHub Actions public API polling","quote":"USDC" if provider=="Hyperliquid" else "USDT","rows":rows,"errors":errors}
-    OUT.write_text(json.dumps(obj,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
+    # Never overwrite a valid published snapshot with an empty/unavailable response.
+    if not provider:
+        print("No market provider; retaining previous verified snapshot.",flush=True)
+        sys.exit(2)
+    temp=OUT.with_suffix(".json.tmp")
+    temp.write_text(json.dumps(obj,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
+    temp.replace(OUT)
     print(f"snapshot={OUT} source={obj['provider']} rows={len(rows)} fetched={fetched_at}",flush=True)
-    # A failure will not destroy the previous working snapshot if caller handles it.
-    if not provider:sys.exit(2)
 if __name__=="__main__":main()
