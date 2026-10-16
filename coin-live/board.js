@@ -201,6 +201,27 @@
     return '<tr><td class="grey">'+(i+1)+'</td><td class="sym">'+escape(m.symbol.replace(/USDT$/,""))+'<span class="grey"> / '+escape(m.quote)+'</span></td><td>'+fmt(m.price)+'</td><td class="'+(m.change>=0?"green":"red")+'">'+pct(m.change)+'</td><td>'+compact(m.volume)+'</td><td class="blue">'+(s?score(s)+'/100':"—")+'</td><td><span class="chip '+(ready?(s.signal==="AL"?"long":"short"):"wait")+'">'+status+'</span></td></tr>';
    }).join(""):'<tr><td colspan="7" class="newsEmpty">Fiyat verisi henüz gelmedi.</td></tr>';
  }
+ function renderHealth(isRecent,marketAge){
+   const bar=$("healthStrip"),title=$("healthTitle"),details=$("healthDetails"),stamp=$("healthTimestamp");
+   const serverAge=S.signalStamp?age(S.signalStamp):Infinity;
+   if(isRecent){
+      bar.className="healthStrip live";
+      title.textContent="DOĞRUDAN "+S.provider.toUpperCase()+" FİYATLARI CANLI · ERKEN UYARI AÇIK";
+      details.textContent=serverAge>15?"GitHub analizinin üzerinden "+(Number.isFinite(serverAge)?serverAge:"?")+" dk geçti. Eski sinyaller işlem sayılmaz; doğrudan borsa mumlarını tarayan KIVILCIM radarı devrede.":
+        "Sunucu analizi "+serverAge+" dk önce. AL/SAT için ayrıca yeni 15M/1H/4H kapanış teyidi gerekir.";
+      stamp.textContent="Fiyat: "+dtime(S.marketStamp);
+   }else if(S.market.length&&marketAge<=30){
+      bar.className="healthStrip warn";title.textContent="YEDEK FİYAT · İŞLEM YOK";
+      details.textContent="Yedek fiyat "+marketAge+" dk önce alındı. AL/SAT kapalı; canlı borsa bağlantıları tekrar deneniyor.";
+      stamp.textContent="Son fiyat: "+dtime(S.marketStamp);
+   }else{
+      bar.className="healthStrip stale";title.textContent="VERİ BAYATLADI · AL/SAT KAPALI";
+      details.textContent=S.market.length?
+        "Son sunucu fiyatı "+marketAge+" dk eski. Bu, kayıp sinyali değil veri güvenliği uyarısıdır. Bağlantı yeniden deneniyor.":
+        "Henüz doğrulanmış fiyat alınamadı. Erken radar dahil bütün işlem yönleri beklemede.";
+      stamp.textContent=S.market.length?"Son: "+dtime(S.marketStamp):"Fiyat yok";
+   }
+ }
  function render(){
    $("count").textContent=S.market.length;
    const marketAge=age(S.marketStamp),isRecent=S.live&&Date.now()-S.lastLive<45000;
@@ -210,6 +231,7 @@
    $("sourceName").textContent=S.market.length?(isRecent?"Doğrudan "+S.provider:S.provider+" veri yedeği · "+marketAge+" dk"):"Bağlanıyor";
    $("updated").textContent=S.market.length?dtime(S.marketStamp):"—";
    $("proBTC").textContent=pct(S.prices.get("BTCUSDT")?.change);
+   renderHealth(isRecent,marketAge);
    renderHero();renderTop();renderEarly();renderTable();draw();
  }
  function candleDraw(){
