@@ -103,9 +103,14 @@ def main():
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
         signals=list(pool.map(lambda row:measure(row,provider),selected))
     good=[x for x in signals if x["score"]>0]
+    if len(good)<10:
+        raise RuntimeError(f"Only {len(good)} symbols with verifiable OHLC; keeping previous output")
+    stamp=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     output={"provider":provider,"fetched_at":stamp,"market_fetched_at":market.get("fetched_at"),"total_market":len(rows),
             "analyzed":len(good),"selected":len(selected),"signals":sorted(signals,key=lambda x:x.get("score",0),reverse=True),
             "disclaimer":"Conditional price/volatility scenarios. Not verified predictive probability or a guarantee."}
-    OUT.write_text(json.dumps(output,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
+    temp=OUT.with_suffix(".json.tmp")
+    temp.write_text(json.dumps(output,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
+    temp.replace(OUT)
     print(f"PROVIDER={provider} ANALYZED={len(good)}/{len(selected)} AL={sum(x['signal']=='AL' for x in signals)} SAT={sum(x['signal']=='SAT' for x in signals)} WAIT={sum(x['signal']=='BEKLE' for x in signals)} DURATION={time.time()-begin:.1f}s")
 if __name__=="__main__":main()
