@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070c15">
+<meta name="description" content="COIN.LIVE: ücretsiz canlı USDT perpetual coin radarı, otomatik risk ve teyitli AL/SAT/BEKLE panosu.">
+<title>COIN.LIVE | Akıllı Futures Masası</title>
+<link rel="stylesheet" href="./board.css?v=1">
+</head>
+<body>
+<main class="shell">
+<header class="header">
+  <div><div class="brand">COIN<span>.LIVE</span> <span class="subbrand">SMART DESK</span></div><div class="subbrand">KENDİ TARAMASI · TEK BAKIŞTA KARAR</div></div>
+  <div class="headerRight">
+    <span class="pill"><span class="dot" id="statusDot"></span><span id="connection">Veri aranıyor</span></span>
+    <button class="btn" id="soundButton" title="Sesli alarm izni">🔕 Alarm sesi</button>
+    <button class="btn" id="notificationButton" title="Bildirim izni">🔔 Bildirim</button>
+    <button class="btn" id="calcButton">▦ Hesap Makinesi</button>
+  </div>
+</header>
+<div id="error" class="dataErr" style="display:none"></div>
+<section class="intro">
+  <div class="eyebrow">OTOMATİK 15M · 1H · 4H ANALİZİ</div>
+  <h1>Coin seçme. <span class="blue">Sonucu gör.</span></h1>
+  <p>100 coin canlı radarında fiyat, momentum, hacim ve erken hareket adayları otomatik sıralanır. Uygun sinyal yoksa sistem açıkça <strong>BEKLE</strong> der.</p>
+</section>
+<section class="hero">
+  <div>
+    <div class="herokicker" id="verdictKicker">GÜNCEL PİYASA KARARI</div>
+    <h2 class="wait" id="verdictHeadline">VERİ BEKLENİYOR</h2>
+    <div class="heroReason" id="verdictReason">Ücretsiz piyasa kaynakları ve otomatik analizler kontrol ediliyor.</div>
+    <div class="decisionMeta" id="verdictTags"><span class="chip wait">Kural bazlı analiz</span><span class="chip wait">10x varsayılan</span></div>
+    <div class="signalTime" id="decisionTime">İşlem emri gönderilmez · kâr garantisi yoktur</div>
+  </div>
+  <div class="heroSide" id="levels">
+    <div class="level"><small>GİRİŞ</small><b>—</b></div><div class="level"><small>STOP</small><b>—</b></div>
+    <div class="level"><small>HEDEF 1</small><b>—</b></div><div class="level"><small>HEDEF 2</small><b>—</b></div>
+    <div class="level"><small>HEDEF 3</small><b>—</b></div><div class="level"><small>ÖNERİLEN TEMİNAT</small><b>—</b></div>
+  </div>
+</section>
+<div class="metrics">
+  <div class="metric"><span>TARANAN COIN</span><strong id="count">0</strong><small>Perpetual futures</small></div>
+  <div class="metric"><span>ANALİZ EDİLEN</span><strong id="analyzedCount">0</strong><small>15M + 1H + 4H</small></div>
+  <div class="metric"><span>TEYİTLİ SİNYAL</span><strong id="activeSignals">0</strong><small>Güncel ve uygun</small></div>
+  <div class="metric"><span>BTC 24 SAAT</span><strong id="proBTC">—</strong><small>Genel piyasa yönü</small></div>
+  <div class="metric"><span>SON GÜNCELLEME</span><strong id="updated">—</strong><small id="sourceName">Kaynağa bağlanılıyor</small></div>
+</div>
+<div class="ticker"><span class="tickerLabel">● HABER AKIŞI</span><div class="tickerNews" id="newsTicker">Doğrulanmış haber kaynağı bekleniyor...</div></div>
+<section class="panels">
+  <div>
+    <section class="panel">
+      <div class="panelHead"><h3>🏆 Sistem Seçimi · En İyi 5 Aday</h3><p>İşlem sinyali ve erken hareket adayı ayrı gösterilir. Sıralama olasılık değildir.</p></div>
+      <div id="topCandidates"><div class="newsEmpty">Fırsatlar sıralanıyor...</div></div>
+    </section>
+    <section class="panel">
+      <div class="panelHead"><h3 id="chartTitle">📊 Otomatik Seçilen Coin Grafiği</h3><p id="chartStatus">15 dakikalık kapanmış mumlar hazırlanıyor</p></div>
+      <canvas id="chart" role="img" aria-label="Mum grafiği ve koşullu giriş, stop, hedef çizgileri"></canvas>
+      <div class="chartCaption" id="chartCaption">Grafik, sistemin seçtiği adayı gösterir. Destek/direnç ile senaryo seviyeleri geçmiş veriden hesaplanır.</div>
+    </section>
+  </div>
+  <div>
+    <section class="panel">
+      <div class="panelHead"><h3>🌋 Erken Hareket Radarı</h3><p>Henüz AL/SAT olmayan ama dikkat edilmesi gerekenler</p></div>
+      <div id="earlyWatch"><div class="newsEmpty">Analizler yükleniyor.</div></div>
+    </section>
+    <section class="panel">
+      <div class="panelHead"><h3>🛡️ Sistem Riski · Otomatik</h3><p>100 USDT varsayılan sermaye · 10x · izole örnek</p></div>
+      <div id="riskBreakdown" class="detailRows"><div class="detailRow"><span>Risk bütçesi</span><b>Seviyeye göre hesaplanır</b></div></div>
+    </section>
+    <section class="panel">
+      <div class="panelHead"><h3>📰 Gerçek Kripto Haberleri</h3><p id="newsStatus">Kaynak ve zaman damgası gösterilir</p></div>
+      <div class="newsList" id="newsList"><div class="newsEmpty">Haber akışı yükleniyor...</div></div>
+      <div class="chartCaption"><a href="https://www.coindesk.com/" target="_blank" rel="noopener noreferrer">CoinDesk ↗</a> · <a href="https://cointelegraph.com/" target="_blank" rel="noopener noreferrer">Cointelegraph ↗</a> · <a href="https://www.binance.com/en/support/announcement" target="_blank" rel="noopener noreferrer">Binance Duyuruları ↗</a></div>
+    </section>
+  </div>
+</section>
+<section class="panel">
+  <div class="panelHead"><h3>📡 Canlı Borsa Tabelası · 100 Parite</h3><p>Otomatik sıralama; fiyatları ve teyit durumunu elle seçmene gerek yok.</p></div>
+  <div class="scroller"><table class="board"><thead><tr><th>#</th><th>COIN</th><th>FİYAT</th><th>24 SAAT</th><th>HACİM</th><th>RADAR</th><th>KARAR</th></tr></thead><tbody id="rows"><tr><td colspan="7" class="newsEmpty">Piyasa verisi bekleniyor...</td></tr></tbody></table></div>
+</section>
+<div class="foot">COIN.LIVE • Ücretsiz halka açık vadeli işlem verileri. Borsa API'si engellenirse en son güncellenmiş GitHub veri yedeği kullanılır; kaynağın yaşı gösterilir. AL/SAT yalnızca yeterli, güncel ve aynı borsadan analiz verisi varsa görünür. Tarayıcı açıkken alarm ve bildirim çalışabilir. Sinyaller istatistiksel olarak doğrulanmış bir başarı oranı veya kesin kâr garantisi değildir. Gerçek para emri gönderilmez.</div>
+</main>
+<div class="modal" id="calculatorModal" role="dialog" aria-modal="true" aria-label="Mini teminat hesap makinesi">
+  <div class="modalCard">
+    <div class="between"><h3>Mini Hesap Makinesi</h3><button class="btn" id="closeCalculator">✕</button></div>
+    <p>Sadece bakiyeni değiştir. Kaldıraç (10x), stop mesafesi ve önerilen işlem riski sistemden gelir.</p>
+    <label for="balanceInput" class="eyebrow">BAKİYEN (USDT)</label>
+    <input type="number" min="10" max="1000000" step="10" value="100" id="balanceInput">
+    <div id="calculatorResult" class="detailRows"><div class="detailRow"><span>Uygun sinyal</span><b>Bekleniyor</b></div></div>
+    <div class="buttons"><button id="resetBalance" class="btn">100 USDT</button><button id="saveBalance" class="btn on">Kaydet ve kapat</button></div>
+    <p>İzole kaldıraçta tasfiye/stop kayması riski vardır; belirtilen kayıp azami garanti değildir.</p>
+  </div>
+</div>
+<script src="./board.js?v=1" defer></script>
+</body></html>
