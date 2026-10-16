@@ -217,7 +217,7 @@ $("refreshBtn").textContent="↻ Tekrar bağlan";$("refreshBtn").onclick=activat
 document.addEventListener("click",e=>{const fav=e.target.closest("[data-fav]");if(fav){const symbol=fav.dataset.fav;S.favs.has(symbol)?S.favs.delete(symbol):S.favs.add(symbol);save();render();return;}const row=e.target.closest("[data-symbol]");if(row){S.selected=row.dataset.symbol;const o=S.items.get(S.selected);if(o)o.techAt=0;detail();scanTech();}});
 $("soundBtn").onclick=async()=>{if(!S.sound){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)throw Error("Desteklenmiyor");S.audio=S.audio||new A();await S.audio.resume();S.sound=true;$("soundBtn").textContent="🔊 Ses açık";}catch(e){error("Ses: "+e.message);}}else{S.sound=false;$("soundBtn").textContent="🔕 Ses kapalı";}};
 $("notifyBtn").onclick=async()=>{if(!("Notification" in window)){error("Tarayıcı bildirimi desteklenmiyor.");return;}try{const r=await Notification.requestPermission();$("notifyBtn").textContent=r==="granted"?"🔔 Bildirim açık":"🔕 İzin yok";}catch(e){error(e.message);}};
-window.CoinLiveAPI={S,candles,fmt,pc,usd,baseScore,plan,render,scanTech,activate};
+window.CoinLiveAPI={S,candles,fmt,pc,usd,baseScore,plan,render,scanTech,activate,checkAlert};
 calc();alertUI();setTimeout(()=>window.CoinLiveFix?window.CoinLiveFix.activate():activate(),700);setInterval(render,3500);
 })();
-</script><script src="./datafix.js?v=1" defer></script><script src="./pro.js?v=6" defer></script></body></html>
+</script><script src="./datafix.js?v=2" defer></script><script src="./pro.js?v=6" defer></script></body></html>
