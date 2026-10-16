@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - "coin-live/snapshot.py"
+      - "coin-live/signals.py"
       - ".github/workflows/coin-live-market.yml"
 permissions:
   contents: write
@@ -15,7 +16,7 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,11 +24,13 @@ jobs:
           persist-credentials: true
       - name: Retrieve verified public futures quotes
         run: python3 coin-live/snapshot.py
-      - name: Publish updated snapshot
+      - name: Calculate ranked multi-timeframe signals
+        run: python3 coin-live/signals.py
+      - name: Publish updated snapshot and signals
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add coin-live/market-snapshot.json
+          git add coin-live/market-snapshot.json coin-live/signals-snapshot.json
           if ! git diff --cached --quiet; then
             git commit -m "data: refresh COIN.LIVE market snapshot [skip ci]"
             git pull --rebase origin main
