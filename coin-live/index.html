@@ -118,7 +118,7 @@ else {const threshold=Math.max(.5,n("threshold",3)),volume=Math.max(1,n("minVolu
 const k=o.symbol+"-"+type+"-"+dir,at=S.lastAlarm.get(k)||0;if(Date.now()-at<1800000)return;S.lastAlarm.set(k,Date.now());S.alertCount++;
 S.alerts.unshift({symbol:o.symbol,dir,move:type==="SIGNAL"?0:o.five,time:new Date().toLocaleString("tr-TR"),type,txt});S.alerts.length=Math.min(80,S.alerts.length);save();alertUI();
 if(S.sound&&S.audio){try{const osc=S.audio.createOscillator(),g=S.audio.createGain(),now=S.audio.currentTime;osc.frequency.value=dir==="LONG"?760:460;g.gain.setValueAtTime(.001,now);g.gain.exponentialRampToValueAtTime(.13,now+.03);g.gain.exponentialRampToValueAtTime(.001,now+.5);osc.connect(g).connect(S.audio.destination);osc.start();osc.stop(now+.51);}catch(e){}}
-if("Notification" in window&&Notification.permission==="granted"&&document.visibilityState==="visible"){try{new Notification("COIN.LIVE "+o.symbol,{body:txt+" (kesin işlem garantisi yok)"});}catch(e){}}
+if("Notification" in window&&Notification.permission==="granted"){try{new Notification("COIN.LIVE "+o.symbol,{body:txt+" (kesin işlem garantisi yok)"});}catch(e){}}
 }
 function alertUI(){$("alertList").innerHTML=S.alerts.length?S.alerts.slice(0,20).map(a=>'<div class="alertItem"><strong class="'+(a.dir==="LONG"?"green":"red")+'">'+esc(a.symbol)+' · '+esc(a.type==="SIGNAL"?"AL/SAT SİNYALİ":"HAREKET")+'</strong><div class="small">'+esc(a.txt||pc(a.move))+'</div><time>'+esc(a.time)+'</time></div>').join(""):'<div class="empty">Henüz alarm oluşmadı.</div>';}
 function render(){
