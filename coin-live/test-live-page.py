@@ -31,7 +31,7 @@ if not edge or edge=="15M + 1H + 4H · olağandışı hacim · destek/direnç":
     sys.exit(4)
 if "CANLI" in (value("connection") or ""):
     import re as rx
-    match=rx.search(r"(\\d+) coin analiz edildi",edge)
+    match=rx.search(r"(\d+) coin analiz edildi",edge)
     if not match or int(match.group(1))<1:
         print("FAIL: Live market is available, but independent OHLC radar did not finish a scan.",flush=True)
         sys.exit(5)
