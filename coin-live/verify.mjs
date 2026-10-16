@@ -1,27 +1,23 @@
-
 import fs from "node:fs";
 import assert from "node:assert/strict";
-const html=fs.readFileSync(new URL("./index.html",import.meta.url),"utf8");
-const pro=fs.readFileSync(new URL("./pro.js",import.meta.url),"utf8");
-const css=fs.readFileSync(new URL("./pro.css",import.meta.url),"utf8");
+const path=new URL("./",import.meta.url);
+const html=fs.readFileSync(new URL("index.html",path),"utf8");
+const js=fs.readFileSync(new URL("board.js",path),"utf8");
+const css=fs.readFileSync(new URL("board.css",path),"utf8");
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
-assert.equal(ids.length,new Set(ids).size,"Duplicate HTML element IDs");
-const set=new Set(ids),inline=html.match(/<script>([\s\S]*?)<\/script>/i)?.[1];
-assert.ok(inline&&inline.length>3000,"Inline trading engine missing");
-new Function(inline);
-new Function(pro);
-const lookups=[...pro.matchAll(/\$\("([^"]+)"\)/g)].map(x=>x[1]);
-const missing=[...new Set(lookups)].filter(id=>!set.has(id));
-assert.deepEqual(missing,[],"Missing DOM IDs in Pro: "+missing.join(", "));
-const required=["proChart","newsFeed","signalCards","volcanoList","paperOpen","paperClose","proBTC","analysisRows","provider","soundBtn","notifyBtn"];
-assert.ok(required.every(x=>set.has(x)),"Required dashboard panels missing");
-assert.ok(html.includes("window.CoinLiveAPI="),"Base-to-Pro API contract missing");
-assert.ok(html.includes("pro.js?"),"Pro script not linked");
-assert.ok(html.includes("pro.css?"),"Pro CSS not linked");
-assert.ok(css.length>3000,"Pro CSS missing");
-assert.ok(pro.includes('Notification.permission'),"Browser alarm permission missing");
-assert.ok(pro.includes("min-api.cryptocompare.com"),"News source missing");
-assert.ok(inline.includes("wss://fstream.binance.com/market/ws/!miniTicker@arr"),"Binance live WebSocket missing");
-assert.ok(inline.includes("/v5/market/tickers"),"Bybit backup missing");
-assert.ok(inline.includes("/api/v5/market/tickers"),"OKX backup missing");
-console.log("PASS: JS parser; "+ids.length+" DOM ids; "+lookups.length+" Pro DOM lookups; API/news/alarm/provider contracts.");
+assert.equal(ids.length,new Set(ids).size,"Duplicate element IDs");
+new Function(js);
+const set=new Set(ids),used=[...js.matchAll(/\$\("([^"]+)"\)/g)].map(x=>x[1]);
+const missing=[...new Set(used)].filter(x=>!set.has(x));
+assert.deepEqual(missing,[],"Missing board DOM IDs: "+missing.join(", "));
+for(const id of ["connection","count","activeSignals","updated","sourceName","verdictHeadline","levels","riskBreakdown","topCandidates","earlyWatch","newsList","rows","chart","calculatorModal","balanceInput","soundButton","notificationButton"]){
+ assert.ok(set.has(id),"Missing required dashboard control: "+id);
+}
+assert.ok(html.includes('board.js?')&&html.includes('board.css?'),"Board assets not referenced");
+assert.ok(css.length>3000,"Board stylesheet incomplete");
+for(const text of ["market-snapshot.json","signals-snapshot.json","api.hyperliquid.xyz","market/tickers?instType=SWAP","Notification.permission","role"]){
+ if(text!=="role")assert.ok(js.includes(text),"Market/signal feature absent: "+text);
+}
+assert.ok(!html.includes('id="paperOpen"'),"Paper trading desk must be removed from primary UI");
+assert.ok(!html.includes('data-candle='),"Timeframe chooser must be removed");
+console.log("PASS: simple UI, DOM references, JS syntax, market quotes, remote signals, live sources, no paper desk or timeframe selector");
