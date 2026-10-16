@@ -20,7 +20,7 @@
 .selbtn{border:none;background:transparent;color:var(--blue);cursor:pointer;font-weight:700}
 @media(max-width:1020px){.siggrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:570px){.siggrid{grid-template-columns:1fr}.controlbar select{flex:1;min-width:0}}
-</style><link rel="stylesheet" href="./pro.css?v=3"></head><body><main>
+</style><link rel="stylesheet" href="./pro.css?v=4"></head><body><main>
 <header class="top"><div><div class="brand">COIN<b>.LIVE</b> <span class="mini">FUTURES INTELLIGENCE</span></div><div class="mini">BINANCE / BYBIT / OKX · SALT OKUNUR · CANLI RADAR</div></div><div class="buttons"><span class="badge"><i class="led" id="dot"></i><span id="connection">BAĞLANIYOR</span></span><button id="soundBtn" class="btn">🔕 Ses kapalı</button><button id="notifyBtn" class="btn">🔔 Bildirim aç</button></div></header>
 <section class="hero"><div><div class="mini">100 PARİTELİ PİYASA RADARI</div><h1>Hareketi <em>erken fark et.</em></h1><p>10x kaldıraç hedefli, 1 hafta–1 ay fırsat takibinin ilk aşaması. Koşullu AL / SAT / BEKLE kararları, otomatik stoplar, 3 hedef ve pozisyon büyüklüğü. Hiçbir tahmin kesin kazanç değildir.</p></div><div><div class="clock" id="clock">--:--:--</div><div class="small" id="updated">Piyasa verisi bekleniyor</div></div></section>
 <div class="controlbar"><label for="provider" class="small">CANLI VERİ KAYNAĞI</label><select id="provider"><option value="Auto">Otomatik: Binance → Bybit → OKX</option><option value="Binance">Binance Futures</option><option value="Bybit">Bybit Futures</option><option value="OKX">OKX Swap</option></select><span class="badge" id="sourceName">Kaynak bağlanıyor</span><span class="small" id="techStatus">15m / 1H / 4H analiz yükleniyor</span></div><div class="error" id="error"></div><section id="signalCards" class="siggrid"><div class="empty">Giriş / stop / hedef sinyalleri hazırlanıyor…</div></section>
@@ -163,7 +163,10 @@ const stop=move===1?p-slip:move===-1?p+slip:NaN;
 const targets=move?[p+move*slip,p+move*slip*2,p+move*slip*3]:[];
 const reasons=[];reasons.push(ema1>ema2?"1H yukarı trend":"1H aşağı trend");reasons.push(c.at(-1).close>ema4?"4H güçlü":"4H zayıf");reasons.push("15m hacim "+volRatio.toFixed(1)+"x");reasons.push("RSI "+r.toFixed(0));
 if(stale)reasons.push("fiyat kapanmış mumdan uzak");if(stopPct>7)reasons.push("stop çok geniş");
-o.tech={at:Date.now(),trend:bull?"LONG":bear?"SHORT":"MIXED",rsi:r,atr:range,volumeRatio:volRatio};
+const bbClose=mins.slice(-20),bbAvg=bbClose.reduce((a,b)=>a+b,0)/20,bbStdev=Math.sqrt(bbClose.reduce((a,b)=>a+(b-bbAvg)**2,0)/20);
+const bbWidth=bbAvg>0?bbStdev*4/bbAvg*100:NaN;
+const bias=ema1>ema2&&c.at(-1).close>ema4?"LONG":ema1<ema2&&c.at(-1).close<ema4?"SHORT":"KARIŞIK";
+o.tech={at:Date.now(),trend:bull?"LONG":bear?"SHORT":"MIXED",rsi:r,atr:range,volumeRatio:volRatio,bbWidth,bias};
 o.sig=dir;o.entry=p;o.stop=stop;o.targets=targets;o.why=reasons.join(" · ");o.stopPct=stopPct;o.rsi=r;o.atr=range;o.techAt=Date.now();o.techError="";o.ratio=move?3:0;checkAlert(o,"SIGNAL");}
 async function scanTech(){
  if(S.techLock||!S.connected)return;S.techLock=true;const key=S.key,ordered=[...S.items.values()].sort((a,b)=>a.symbol===S.selected?-1:b.symbol===S.selected?1:a.techAt-b.techAt);
@@ -216,4 +219,4 @@ $("notifyBtn").onclick=async()=>{if(!("Notification" in window)){error("Tarayıc
 window.CoinLiveAPI={S,candles,fmt,pc,usd,baseScore,plan,render,scanTech,activate};
 calc();alertUI();activate();setInterval(render,3500);
 })();
-</script><script src="./pro.js?v=3" defer></script></body></html>
+</script><script src="./pro.js?v=4" defer></script></body></html>
