@@ -169,9 +169,10 @@
    if(!Array.isArray(raw))throw Error("Mum API yanıtı hatası");
    return raw.map(x=>({t:num(x.t),open:num(x.o),high:num(x.h),low:num(x.l),close:num(x.c),vol:num(x.v)})).sort((a,b)=>a.t-b.t);
  }
+ const originalCandles=API.candles;
  API.activate=activate;API.candles=async(o,tf)=>{
    if(["Hyperliquid","Snapshot"].includes(S.provider))return candles(o,tf);
-   throw Error("Ana mum API kullanılmalı");
+   return originalCandles(o,tf);
  };
  window.CoinLiveFix={activate,candles,readSnapshot};
  // Use as soon as deferred scripts load; initial base app defers activation.
