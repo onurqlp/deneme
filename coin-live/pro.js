@@ -144,6 +144,32 @@
     }
   }
   $("newsReload").onclick=newsRefresh;
+
+  function volcanoRender(){
+    const now=Date.now(),list=[...S.items.values()].filter(o=>
+      o.tech&&o.techAt&&now-o.techAt<12*60000&&o.volume>15000000&&Math.abs(o.change)<16&&Number.isFinite(o.tech.volumeRatio)
+    );
+    const options=list.map(o=>{
+      const t=o.tech,volRatio=t.volumeRatio||0,bb=Number.isFinite(t.bbWidth)?t.bbWidth:Infinity,oi=Number.isFinite(o.oiDelta)?o.oiDelta:NaN;
+      let score=18;
+      score+=Math.max(0,Math.min(19,(volRatio-1)*17));
+      score+=Math.max(0,Math.min(20,(7-bb)*3));
+      score+=Math.max(0,Math.min(18,Number.isFinite(oi)?oi*3:0));
+      score+=Math.max(0,Math.min(11,11-Math.abs(o.change)*1.1));
+      score+=Math.max(0,Math.min(8,Math.abs(o.funding||0)*8500));
+      if(o.sig!=="BEKLE")score+=5;
+      if(Number.isFinite(o.five)&&Math.abs(o.five)>4)score-=16;
+      const bias=t.bias||"BELİRSİZ";
+      return {o,score:Math.max(0,Math.min(100,Math.round(score))),bb,oi,volRatio,bias};
+    }).sort((a,b)=>b.score-a.score).slice(0,6);
+    $("volcanoSummary").textContent=list.length+" coin ölçüldü · "+(options.length?"en iyi 6 izleniyor":"veri birikiyor");
+    $("volcanoList").innerHTML=options.length?options.map(v=>
+      '<div class="volcanoCard" data-symbol="'+safe(v.o.symbol)+'"><div class="volcanoHeading"><strong>'+safe(v.o.symbol)+'</strong><span>RADAR '+v.score+'/100</span></div>'+
+      '<div class="volcanoFacts"><span>24s '+pc(v.o.change)+'</span><span>Hacim '+v.volRatio.toFixed(1)+'x</span><span>BB '+(Number.isFinite(v.bb)?v.bb.toFixed(1)+'%':'—')+'</span><span>OI '+pc(v.oi)+'</span></div>'+
+      '<div class="volcanoFoot">Ön eğilim: '+safe(v.bias)+' · '+(v.o.sig==="BEKLE"?"GİRİŞ TEYİDİ YOK":safe(v.o.sig))+'</div></div>'
+    ).join(""):'<div class="empty">Teyit edilebilir erken hareket adayı henüz yok. Analizler 4 coinlik gruplar halinde ilerliyor.</div>';
+  }
+
   function market(){
     const items=[...S.items.values()],len=items.length;
     if(!len)return;
@@ -166,7 +192,7 @@
       $("chartCoin").value=S.items.has(old)?old:(S.items.has("BTCUSDT")?"BTCUSDT":items[0].symbol);
       if($("chartCoin").value!==S.selected)S.selected=$("chartCoin").value;
     }else if($("chartCoin").value!==S.selected)$("chartCoin").value=S.selected;
-    renderAnalysis();
+    renderAnalysis();volcanoRender();
   }
   function renderAnalysis(){
     const o=S.items.get(S.selected);if(!o)return;
@@ -177,7 +203,24 @@
     $("analysisSignal").className="signalbig "+(valid?(o.sig.startsWith("AL")?"buy":"sell"):"wait");
     $("analysisPrice").textContent=fmt(o.price)+" USDT";
     $("analysisExplain").textContent=stale?"Güncel 4H/1H/15M teyidi bekleniyor. Önce grafik ve mum verileri yüklenmeli.":o.why;
+
     $("analysisScore").textContent=baseScore(o)+"/100 · sıralama puanı, olasılık değil";
+    const candle=P.barsSymbol===o.symbol&&P.bars.length>=35?P.bars.slice(0,-1):[];
+    let bbText="—",macdText="—",vwapText="—",volumeText="—";
+    if(candle.length>=35){
+      const prices=candle.map(b=>b.close),last20=prices.slice(-20),mean=last20.reduce((a,b)=>a+b,0)/20;
+      const std=Math.sqrt(last20.reduce((a,b)=>a+(b-mean)**2,0)/20);
+      const width=mean>0?std*4/mean*100:NaN;bbText=Number.isFinite(width)?width.toFixed(2)+"% ("+P.tf+")":"—";
+      const fast=emaSeries(candle,12),slow=emaSeries(candle,26),macd=fast.map((v,i)=>v-slow[i]);
+      const signal=emaSeries(macd.map(x=>({close:x})),9);
+      const delta=macd.at(-1)-signal.at(-1);
+      macdText=delta>0?"Pozitif ("+P.tf+")":delta<0?"Negatif ("+P.tf+")":"Nötr";
+      const recent=candle.slice(-20),totalVol=recent.reduce((a,b)=>a+b.vol,0);
+      const vwap=totalVol>0?recent.reduce((a,b)=>a+(b.high+b.low+b.close)/3*b.vol,0)/totalVol:NaN;
+      vwapText=Number.isFinite(vwap)?fmt(vwap)+" ("+P.tf+")":"—";
+      const avg=recent.slice(0,-1).reduce((a,b)=>a+b.vol,0)/19;
+      volumeText=avg>0?(recent.at(-1).vol/avg).toFixed(2)+"x ("+P.tf+")":"—";
+    }
     const fields=[
       ["Fiyat / piyasa",fmt(o.price)+" · "+S.provider],
       ["Giriş",valid?fmt(o.entry):"BEKLE"],
@@ -193,7 +236,11 @@
       ["1H RSI",Number.isFinite(o.rsi)?o.rsi.toFixed(1):"—"],
       ["Funding",Number.isFinite(o.funding)?pc(o.funding*100):"Veri yok"],
       ["OI",Number.isFinite(o.oi)?usd(o.oi):"Veri yok"],
-      ["OI değişim (ölçüldüyse)",Number.isFinite(o.oiDelta)?pc(o.oiDelta):"Henüz yok"]
+      ["OI değişim (ölçüldüyse)",Number.isFinite(o.oiDelta)?pc(o.oiDelta):"Henüz yok"],
+      ["Bollinger bant genişliği",bbText],
+      ["MACD histogram yönü",macdText],
+      ["Hacim / önceki 19 mum",volumeText],
+      ["20 mum VWAP tahmini",vwapText]
     ];
     $("analysisRows").innerHTML=fields.map(([k,v])=>'<div class="analysisRow"><span>'+safe(k)+'</span><b>'+safe(v)+'</b></div>').join("");
     $("paperOpen").disabled=!valid;
