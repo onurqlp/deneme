@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - "coin-live/test-live-page.py"
+      - "coin-live/index.html"
+      - "coin-live/board.js"
+      - "coin-live/board.css"
       - ".github/workflows/coin-live-browser.yml"
 permissions:
   contents: read
