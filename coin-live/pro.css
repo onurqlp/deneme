@@ -60,3 +60,15 @@
 .customAlarm button{border:none;background:none;color:#ff8099;cursor:pointer}
 @media(max-width:1040px){.paneGrid,.proGridLower{grid-template-columns:1fr}.proBand{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:580px){.proBand{grid-template-columns:repeat(2,minmax(0,1fr))}.proStat{padding:11px}#proChart{height:310px}.proHead{padding:12px}.paperTop b{font-size:15px}}
+
+.volcanoGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px}
+.volcanoCard{cursor:pointer;border:1px solid #2d4260;border-radius:12px;background:linear-gradient(135deg,#182a41,#101b2c);padding:13px;min-width:0}
+.volcanoCard:hover{border-color:#e6aa58}
+.volcanoHeading{display:flex;gap:7px;justify-content:space-between;align-items:center}
+.volcanoHeading strong{font-size:14px}
+.volcanoHeading span{font-size:11px;color:#ffce7d;font-weight:800}
+.volcanoFacts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;color:#b2cee5;font-size:11px;font-variant-numeric:tabular-nums}
+.volcanoFacts span{background:#122038;border-radius:5px;padding:4px 6px}
+.volcanoFoot{margin-top:8px;font-size:10px;color:#89a5c3}
+@media(max-width:1000px){.volcanoGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){.volcanoGrid{grid-template-columns:1fr}}
