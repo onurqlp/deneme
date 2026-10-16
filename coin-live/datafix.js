@@ -123,7 +123,7 @@
      while(hist.length>1&&hist[1][0]<=stamp-300000)hist.shift();o.history=hist;
      o.ready=hist.length>1&&stamp-hist[0][0]>270000;
      o.five=o.ready?(r.price/hist[0][1]-1)*100:NaN;
-     // Only base app confirmed-signal alerts will fire; no automatic order.
+     if(typeof API.checkAlert==="function")API.checkAlert(o,"MOVE");
    }
    S.lastTick=now();S.connected=true;
    el("sourceName").textContent=source+" · DOĞRUDAN API · "+(source==="Hyperliquid"?"USDC":"USDT")+" PERP";
