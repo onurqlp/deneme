@@ -1,0 +1,19 @@
+name: COIN.LIVE Real Browser Smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "coin-live/test-live-page.py"
+      - ".github/workflows/coin-live-browser.yml"
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for latest Pages deployment
+        run: sleep 35
+      - name: Test actual GitHub Pages website with headless Chrome
+        run: python3 coin-live/test-live-page.py
