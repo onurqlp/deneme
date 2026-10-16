@@ -3,7 +3,7 @@
  const $=id=>document.getElementById(id),OKX="https://www.okx.com",HL="https://api.hyperliquid.xyz/info";
  const S={market:[],signalSet:[],bySymbol:new Map(),prices:new Map(),provider:"",source:"",marketStamp:0,signalStamp:0,
   live:false,lastLive:0,lastRender:0,news:[],balance:100,sound:false,ctx:null,lastAlarms:new Map(),priceHistory:new Map(),
-  firstPaint:true,boot:Date.now(),quote:"USDT",newsFetched:0,directRunning:false,directFails:0,liveTimer:null,refreshTimer:null,chosen:null};
+  firstPaint:true,boot:Date.now(),quote:"USDT",newsFetched:0,directRunning:false,directFails:0,liveTimer:null,refreshTimer:null,chosen:null,localSignals:new Map()};
  try{const b=Number(localStorage.getItem("coinlive.balance"));if(b>=10&&b<=1e6)S.balance=b;}catch(e){}
  $("balanceInput").value=S.balance;
  const numeric=x=>x===null||x===undefined||x===""?NaN:Number(x);
@@ -51,6 +51,7 @@
    S.market=cleaned;S.prices=new Map(cleaned.map(x=>[x.symbol,x]));
    S.source=source;S.provider=provider;S.marketStamp=stamp;S.live=live;S.lastLive=live?Date.now():0;
    S.quote=cleaned[0].quote||"USDT";
+   if(live)error("");
    render();
  }
  async function loadSnapshots(){
@@ -73,14 +74,19 @@
       render();
    }else if(signalErr){$("analyzedCount").textContent="—";}
    if(!S.market.length)error("Fiyat kaynağına erişilemiyor: "+(marketErr||"Borsa verisi yok")+".");
-   else if(age(S.marketStamp)>30&&!S.live)error("Fiyat yedeği 30 dakikadan eski. İşlem sinyalleri kapalı.");
+   else if(age(S.marketStamp)>30&&!S.live)error("GECİKMİŞ YEDEK · Son doğrulanmış fiyat "+age(S.marketStamp)+" dakika önce. AL/SAT devre dışı; canlı veri kaynaklarına yeniden bağlanılıyor. Eski fiyatla işlem yapmayın.");
    else error("");
  }
  function isReady(s){
    if(!s||!(s.signal==="AL"||s.signal==="SAT")||!valid(s.entry)||!valid(s.stop)||!Array.isArray(s.targets)||s.targets.length!==3)return false;
-   if(!S.market.length||!Number.isFinite(S.signalStamp)||S.signalStamp<=0)return false;
-   if(Date.now()-S.signalStamp>15*60000||Date.now()-S.marketStamp>30*60000)return false;
-   if(S.provider!==S.signalProvider)return false;
+   if(!S.market.length||!S.live||Date.now()-S.lastLive>45000)return false;
+   if(s.engine==="BROWSER"){
+      if(!Number.isFinite(s.generatedAt)||Date.now()-s.generatedAt>8*60000||s.provider!==S.provider)return false;
+   }else{
+      if(!Number.isFinite(S.signalStamp)||S.signalStamp<=0)return false;
+      if(Date.now()-S.signalStamp>15*60000||Date.now()-S.marketStamp>30*60000)return false;
+      if(S.provider!==S.signalProvider)return false;
+   }
    const m=S.prices.get(s.symbol);if(!m||m.quote!==(s.quote||"USDT"))return false;
    const stopPct=Math.abs(s.entry-s.stop)/s.entry;
    if(!Number.isFinite(stopPct)||stopPct<.003||stopPct>.055)return false;
@@ -96,7 +102,11 @@
    const value=numeric(s?.score);return Number.isFinite(value)?Math.max(0,Math.min(100,value)):0;
  }
  function rankedSignals(){
-   return S.signalSet.filter(x=>S.prices.has(x.symbol)&&score(x)>0).sort((a,b)=>{
+   const server=(Date.now()-S.signalStamp<=25*60000)?S.signalSet:[];
+   const local=[...S.localSignals.values()].filter(x=>Date.now()-x.generatedAt<=10*60000&&x.provider===S.provider);
+   const combined=new Map(server.map(x=>[x.symbol,x]));
+   for(const x of local)combined.set(x.symbol,x);
+   return [...combined.values()].filter(x=>S.prices.has(x.symbol)&&score(x)>0).sort((a,b)=>{
      const aReady=isReady(a)?1:0,bReady=isReady(b)?1:0;
      return bReady-aReady||score(b)-score(a);
    });
@@ -105,12 +115,15 @@
    if(!s||!isReady(s))return null;
    const m=S.prices.get(s.symbol),stopDist=Math.abs(s.entry-s.stop)/s.entry;
    const riskClass=stopDist>.03||m.volume<3e7?"ÇOK YÜKSEK":stopDist>.018||m.volume<1.5e8?"YÜKSEK":"ORTA-YÜKSEK";
-   const perTrade=riskClass==="ÇOK YÜKSEK"?.005:riskClass==="YÜKSEK"?.01:.02;
-   const notional=Math.min(S.balance*perTrade/stopDist,S.balance*10*.25);
+   const perTrade=riskClass==="ÇOK YÜKSEK"?.0035:riskClass==="YÜKSEK"?.005:.01;
+   // Illustrative 0.10% total taker fees + 0.05% adverse slippage on notional.
+   // The cap is a target only: gaps, liquidation, outages can cause larger losses.
+   const friction=.0015;
+   const notional=Math.min(S.balance*perTrade/(stopDist+friction),S.balance*10*.20);
    return {class:riskClass,perTrade,notional,margin:notional/10,
-     loss:notional*stopDist,stopPct:stopDist*100,
-     roi:s.targets.map((t,i)=>((Math.abs(t-s.entry)/s.entry)*10*100)),
-     expectedPnL:s.targets.map(t=>notional*Math.abs(t-s.entry)/s.entry)};
+     loss:notional*(stopDist+friction),stopPct:stopDist*100,friction,
+     roi:s.targets.map(t=>((Math.abs(t-s.entry)/s.entry-friction)*10*100)),
+     expectedPnL:s.targets.map(t=>notional*(Math.abs(t-s.entry)/s.entry-friction))};
  }
  function mainPick(){
    return rankedSignals().find(isReady)||null;
@@ -119,7 +132,7 @@
    return rankedSignals().filter(x=>!isReady(x)).slice(0,6);
  }
  function selected(){
-   const signal=mainPick();return signal||rankedSignals()[0]||null;
+   const signal=mainPick();return signal||rankedSignals()[0]||window.CoinLiveEdge?.bestChartSignal?.()||null;
  }
  function mkLevel(title,value,kind=""){
    return '<div class="level '+kind+'"><small>'+title+'</small><b>'+escape(value)+'</b></div>';
@@ -128,14 +141,16 @@
    const s=mainPick(),a=selected();S.chosen=a;
    $("activeSignals").textContent=rankedSignals().filter(isReady).length;
    $("verdictKicker").textContent=s?"TEYİTLİ SİNYAL · İŞLEM SENARYOSU":"GÜNCEL KARAR · UYGUN TEYİT YOK";
-   $("decisionTime").textContent=S.signalStamp?"Analiz: "+dLong(S.signalStamp)+" · Kaynak: "+escape(S.signalProvider||"—"):"Analiz verisi bekleniyor";
+   $("decisionTime").textContent=s?.engine==="BROWSER"?
+     "Teyit: "+dLong(s.generatedAt)+" · Doğrudan "+escape(s.provider)+" mumları":
+     S.signalStamp?"Sunucu analizi: "+dLong(S.signalStamp)+" · Kaynak: "+escape(S.signalProvider||"—"):"Analiz verisi bekleniyor";
    const title=$("verdictHeadline");
    if(!s){
       title.textContent="BEKLE";
       title.className="wait";
       let reason="15M giriş + 1H momentum + 4H trend birlikte doğrulanmadı; zorla işlem açma.";
       if(!S.signalSet.length)reason="Teknik veri henüz gelmedi. Kapanmış mumlar analiz edilene kadar sinyal önerilmiyor.";
-      else if(age(S.signalStamp)>15)reason="Analiz 15 dakikadan eski. Yeni mum teyidi gelmeden alım/satım yapılmamalı.";
+      else if(age(S.signalStamp)>15)reason=S.live?"Sunucu analizi gecikti. Tarayıcı, canlı borsadan yeni 15M/1H/4H mumlarını bağımsız tarıyor; erken radar açık.":"Hem fiyat hem analiz eski. Canlı bağlantı sağlanana kadar işlem kapalı.";
       else if(S.provider!==S.signalProvider)reason="Fiyat ve teknik sinyal farklı borsalardan geliyor; güvenilir işlem yönü oluşana kadar BEKLE.";
       $("verdictReason").textContent=reason;
       $("verdictTags").innerHTML='<span class="chip wait">AL/SAT TETİĞİ YOK</span><span class="chip wait">10x varsayılan · nakitte bekle</span>';
@@ -154,11 +169,11 @@
      const r=risk(s);
      return [["Varsayılan bakiye",money(S.balance)],["Risk sınıfı",r.class],["Hesap risk yüzdesi","%"+(r.perTrade*100).toFixed(1)],
        ["Kullanılacak teminat",money(r.margin)],["10x pozisyon",money(r.notional)],
-       ["Stopta brüt kayıp",money(r.loss)],["Hedef 1 brüt kazanç",money(r.expectedPnL[0])],
-       ["Hedef 2 brüt kazanç",money(r.expectedPnL[1])],["Hedef 3 brüt kazanç",money(r.expectedPnL[2])],
-       ["Kaldıraç sonrası TP3 (brüt)","+"+r.roi[2].toFixed(1)+"%"]];
-   })():[["Varsayılan bakiye",money(S.balance)],["Risk limiti","Sinyale göre %0,5–2"],["Kaldıraç","10x, izole model"],
-     ["Teminat","0 USDT · BEKLE"],["Pozisyon","AÇMA"],["Maks. teminat sınırı",money(S.balance*.25)]];
+       ["Stopta tahmini kayıp*",money(r.loss)],["Hedef 1 tahmini net*",money(r.expectedPnL[0])],
+       ["Hedef 2 tahmini net*",money(r.expectedPnL[1])],["Hedef 3 tahmini net*",money(r.expectedPnL[2])],
+       ["10x TP3 tahmini net*",r.roi[2].toFixed(1)+"%"],["*Ücret/kayma varsayımı","%0,15 pozisyon · garanti değil"]];
+   })():[["Varsayılan bakiye",money(S.balance)],["Risk limiti","İşlem başına hedef ≤%1 (garanti değil)"],["Kaldıraç","10x, izole model"],
+     ["Teminat","0 USDT · BEKLE"],["Pozisyon","AÇMA"],["Maks. teminat sınırı",money(S.balance*.20)]];
    $("riskBreakdown").innerHTML=rows.map(([k,v])=>'<div class="detailRow"><span>'+escape(k)+'</span><b>'+escape(v)+'</b></div>').join("");
    $("calculatorResult").innerHTML=$("riskBreakdown").innerHTML;
  }
@@ -265,16 +280,16 @@
     S.priceHistory.set(m.symbol,hist);
     if(hist.length<2||t-hist[0][0]<270000)continue;
     const diff=(m.price/hist[0][1]-1)*100;
-    if(Math.abs(diff)>=4&&m.volume>=50000000)notify("hareket-"+m.symbol,m.symbol+" · "+pct(diff)+" / 5 dk · "+S.provider);
+    if(Math.abs(diff)>=.9&&m.volume>=20000000)notify("hareket-"+m.symbol+"-"+(diff>0?"up":"down"),m.symbol+" · 5 dakikada "+pct(diff)+" · "+S.provider+" · SADECE ERKEN UYARI",true);
    }
    for(const s of rankedSignals())if(isReady(s)&&!S.firstPaint)notify("signal-"+s.symbol+"-"+s.signal,s.symbol+" · "+s.signal+" sinyali · stop "+fmt(s.stop));
    S.firstPaint=false;
  }
- function notify(key,body){
+ function notify(key,body,early=false){
    const time=Date.now(),last=S.lastAlarms.get(key)||0;
-   if(time-last<1800000)return;S.lastAlarms.set(key,time);
+   if(time-last<(early?900000:1800000))return;S.lastAlarms.set(key,time);
    if(S.sound&&S.ctx){try{const osc=S.ctx.createOscillator(),g=S.ctx.createGain();osc.frequency.value=630;g.gain.value=.06;osc.connect(g).connect(S.ctx.destination);osc.start();osc.stop(S.ctx.currentTime+.35);}catch(e){}}
-   if("Notification" in window&&Notification.permission==="granted"&&document.visibilityState==="visible"){
+   if("Notification" in window&&Notification.permission==="granted"){
     try{new Notification("COIN.LIVE alarm",{body});}catch(e){}
    }
  }
@@ -320,6 +335,7 @@
       S.signalStamp=Date.parse(sig.fetched_at)||0;$("analyzedCount").textContent=sig.analyzed||0;render();}
    await direct();track();S.refreshTimer=setInterval(poll,15000);setInterval(loadSnapshots,5*60000);setInterval(loadNews,300000);loadNews();
  }
+ window.CoinLiveDesk={state:S,render,notify,fmt,pct,money,score,isReady};
  S.signalProvider="";
  if(typeof ResizeObserver!=="undefined")new ResizeObserver(draw).observe($("chart"));else window.addEventListener("resize",draw);
  bootstrap().catch(e=>error("Başlatma hatası: "+e.message));
