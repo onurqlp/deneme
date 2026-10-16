@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#070c15">
 <meta name="description" content="COIN.LIVE: ücretsiz canlı USDT perpetual coin radarı, otomatik risk ve teyitli AL/SAT/BEKLE panosu.">
 <title>COIN.LIVE | Akıllı Futures Masası</title>
-<link rel="stylesheet" href="./board.css?v=1">
+<link rel="stylesheet" href="./board.css?v=2">
 </head>
 <body>
 <main class="shell">
@@ -19,10 +19,15 @@
   </div>
 </header>
 <div id="error" class="dataErr" style="display:none"></div>
+<section class="healthStrip" id="healthStrip" aria-live="polite">
+  <span class="healthIcon" id="healthIcon">●</span>
+  <div class="healthText"><strong id="healthTitle">VERİ KAYNAKLARI KONTROL EDİLİYOR</strong><small id="healthDetails">Canlı fiyat + kapanmış mumlar doğrulanana kadar al/sat kapalıdır.</small></div>
+  <span class="healthTimestamp" id="healthTimestamp">—</span>
+</section>
 <section class="intro">
   <div class="eyebrow">OTOMATİK 15M · 1H · 4H ANALİZİ</div>
   <h1>Coin seçme. <span class="blue">Sonucu gör.</span></h1>
-  <p>100 coin canlı radarında fiyat, momentum, hacim ve erken hareket adayları otomatik sıralanır. Uygun sinyal yoksa sistem açıkça <strong>BEKLE</strong> der.</p>
+  <p>100 coin içinden <strong>%0,6–1 erken hızlanma</strong>, destek/direnç eşiği, hacim ve 1H/4H yönü otomatik taranır. Erken uyarı işlem değildir; kapanmış mum teyidi yoksa <strong>BEKLE</strong>.</p>
 </section>
 <section class="hero">
   <div>
@@ -60,11 +65,18 @@
   </div>
   <div>
     <section class="panel">
-      <div class="panelHead"><h3>🌋 Erken Hareket Radarı</h3><p>Henüz AL/SAT olmayan ama dikkat edilmesi gerekenler</p></div>
-      <div id="earlyWatch"><div class="newsEmpty">Analizler yükleniyor.</div></div>
+      <div class="panelHead"><h3>⚡ KIVILCIM · Erken Fırsat Radarı</h3><p>%1 hareketi kovalamak yerine, fiyat henüz eşiğe yaklaşırken izler.</p></div>
+      <div class="edgeBanner">
+        <div class="edgeHeadline" id="edgeHeadline">CANLI MUM VERİSİ BEKLENİYOR</div>
+        <div class="rankSub" id="edgeStatus">15M + 1H + 4H · olağandışı hacim · destek/direnç</div>
+      </div>
+      <div id="edgeCandidates"><div class="newsEmpty">Fırsat taraması birazdan başlayacak.</div></div>
+      <div class="panelHead"><h3>🔔 Son Uyarılar</h3><p>İlk hızlanma ve eşik yaklaşımı · otomatik, 15 dk tekrarlama koruması</p></div>
+      <div id="edgeAlertLog"><div class="newsEmpty">Henüz tetiklenen uyarı yok.</div></div>
+      <div id="earlyWatch" hidden></div>
     </section>
     <section class="panel">
-      <div class="panelHead"><h3>🛡️ Sistem Riski · Otomatik</h3><p>100 USDT varsayılan sermaye · 10x · izole örnek</p></div>
+      <div class="panelHead"><h3>🛡️ Sistem Riski · Otomatik</h3><p>100 USDT varsayılan · 10x izole · işlem başına hedeflenen hesap riski en fazla %1*</p></div>
       <div id="riskBreakdown" class="detailRows"><div class="detailRow"><span>Risk bütçesi</span><b>Seviyeye göre hesaplanır</b></div></div>
     </section>
     <section class="panel">
@@ -78,7 +90,7 @@
   <div class="panelHead"><h3>📡 Canlı Borsa Tabelası · 100 Parite</h3><p>Otomatik sıralama; fiyatları ve teyit durumunu elle seçmene gerek yok.</p></div>
   <div class="scroller"><table class="board"><thead><tr><th>#</th><th>COIN</th><th>FİYAT</th><th>24 SAAT</th><th>HACİM</th><th>RADAR</th><th>KARAR</th></tr></thead><tbody id="rows"><tr><td colspan="7" class="newsEmpty">Piyasa verisi bekleniyor...</td></tr></tbody></table></div>
 </section>
-<div class="foot">COIN.LIVE • Ücretsiz halka açık vadeli işlem verileri. Borsa API'si engellenirse en son güncellenmiş GitHub veri yedeği kullanılır; kaynağın yaşı gösterilir. AL/SAT yalnızca yeterli, güncel ve aynı borsadan analiz verisi varsa görünür. Tarayıcı açıkken alarm ve bildirim çalışabilir. Sinyaller istatistiksel olarak doğrulanmış bir başarı oranı veya kesin kâr garantisi değildir. Gerçek para emri gönderilmez.</div>
+<div class="foot">COIN.LIVE • Ücretsiz halka açık vadeli işlem verileri. Borsa API'si engellenirse en son güncellenmiş GitHub veri yedeği kullanılır; kaynağın yaşı gösterilir. AL/SAT yalnızca yeterli, güncel ve aynı borsadan analiz verisi varsa görünür. Tarayıcı açıkken erken uyarı, ses ve izin verilen bildirimler çalışabilir. %0,6–1 fiyat hareketi ya da radar puanı kazanç olasılığı değildir. Sinyaller istatistiksel olarak doğrulanmış bir başarı oranı veya kesin kâr garantisi değildir. Gerçek para emri gönderilmez. *Stop kaybı %1 hedefini aşabilir; komisyon/kayma varsayımı tüm koşulları kapsamaz. 24/7 bildirim için ayrı bir sunucu gerekir.</div>
 </main>
 <div class="modal" id="calculatorModal" role="dialog" aria-modal="true" aria-label="Mini teminat hesap makinesi">
   <div class="modalCard">
@@ -91,5 +103,6 @@
     <p>İzole kaldıraçta tasfiye/stop kayması riski vardır; belirtilen kayıp azami garanti değildir.</p>
   </div>
 </div>
-<script src="./board.js?v=1" defer></script>
+<script src="./board.js?v=2" defer></script>
+<script src="./edge.js?v=1" defer></script>
 </body></html>
