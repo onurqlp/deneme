@@ -112,7 +112,7 @@
     else hover.textContent="EMA20 (sarı) · EMA50 (mor) · Seçilen zaman aralığı: "+P.tf+" · Fiyat ve hedefler teyit gerektirir.";
     levelLegend.textContent="Grafik üzerindeki TP seviyeleri gelecekteki hareketi tahmin etmez; koşullu 1R / 2R / 3R hedefleridir. Kapanmamış son mum değişebilir.";
   }
-  new ResizeObserver(drawChart).observe(chart);
+  if(typeof ResizeObserver!=="undefined")new ResizeObserver(drawChart).observe(chart);else window.addEventListener("resize",drawChart);
 
   async function newsRefresh(){
     P.lastNewsCheck=Date.now();$("newsSource").textContent="CryptoCompare · kontrol ediliyor";
@@ -185,7 +185,7 @@
       ["Hedef 1 · 1R",valid?fmt(o.targets[0]):"—"],
       ["Hedef 2 · 2R",valid?fmt(o.targets[1]):"—"],
       ["Hedef 3 · 3R",valid?fmt(o.targets[2]):"—"],
-      ["10x brüt ROI / TP3",valid?"+"+(pl.stopPercent*3*10).toFixed(1)+"%":"—"],
+      ["Kaldıraç sonrası brüt ROI / TP3",valid?"+"+(pl.stopPercent*3*number($("lev").value,10)).toFixed(1)+"%":"—"],
       ["Teminat · seçilen kaldıraç",valid?money(pl.margin):"—"],
       ["Pozisyon nominal",valid?money(pl.notional):"—"],
       ["Stopta planlı kayıp",valid?money(pl.loss):"—"],
@@ -199,7 +199,6 @@
     $("paperOpen").disabled=!valid;
     $("paperOpen").textContent=valid?"Bu sinyali SANAL aç":"Sinyal teyidi bekleniyor";
   }
-  $("manualAlertSymbol").onchange=renderCustom;
   $("customAlertAdd").onclick=()=>{
     const sym=$("chartCoin").value,o=S.items.get(sym),price=Number($("customAlertPrice").value);
     const dir=$("customAlertDir").value;
@@ -288,7 +287,7 @@
     $("paperBalance").textContent=money(paper.balance);
     $("paperEquity").textContent=money(paper.balance+pnl);
     $("paperStreak").textContent=String(paper.lossStreak)+"/2";
-    $("paperOpen").disabled=!!a||paper.paused;
+    const current=S.items.get(S.selected); $("paperOpen").disabled=!!a||paper.paused||!S.connected||!current||current.sig==="BEKLE"||!current.techAt||Date.now()-current.techAt>600000;
     $("paperClose").disabled=!a;
     $("paperTrade").innerHTML=a?'<strong>'+safe(a.symbol)+' · '+(a.side>0?"LONG":"SHORT")+' '+a.lev+'x</strong><div class="analysisRow"><span>Giriş</span><b>'+fmt(a.entry)+'</b></div><div class="analysisRow"><span>Anlık / paper</span><b>'+(o?fmt(o.price):"—")+'</b></div><div class="analysisRow"><span>Kalan nominal</span><b>'+usd(a.remaining*a.entry)+'</b></div><div class="analysisRow"><span>Stop</span><b>'+fmt(a.stop)+'</b></div><div class="analysisRow"><span>Hedef</span><b>'+a.targets.map(fmt).join(" / ")+'</b></div><div class="analysisRow"><span>Gerçekleşmemiş PnL (tahmini)</span><b class="'+(pnl>=0?"green":"red")+'">'+money(pnl)+'</b></div>':'Sanal pozisyon açık değil. AL/SAT sinyalli coin seçerek risk sınırı içinde örnek pozisyon başlat.';
     $("paperLog").innerHTML=paper.events.length?paper.events.slice(0,24).map(e=>'<div class="analysisRow"><span>'+safe(dateString(e.time)+" · "+e.label)+'</span><b class="'+(e.pnl>=0?"green":"red")+'">'+money(e.pnl)+'</b></div>').join(""):'<span class="proMuted">İşlem kaydı henüz yok.</span>';
