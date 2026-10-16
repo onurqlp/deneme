@@ -21,7 +21,18 @@ function syncCoinLive(){
   const data=JSON.parse(response.getContentText());
   if(!Array.isArray(data.signals)||!data.provider||!data.fetched_at)throw Error("Invalid signal data");
   const stamp=Date.parse(data.fetched_at);
-  if(!Number.isFinite(stamp)||Math.abs(Date.now()-stamp)>20*60000)throw Error("Signal snapshot is stale");
+  if(!Number.isFinite(stamp))throw Error("Invalid snapshot timestamp");
+  const freshnessMinutes=Math.round((Date.now()-stamp)/60000);
+  if(freshnessMinutes>20||freshnessMinutes< -2){
+   const settings=ss.getSheetByName("AYARLAR");
+   settings.getRange("A2:C4").setValues([
+    ["Son kontrol",new Date(),"Veri güncelliği kontrol edildi"],
+    ["Durum","VERİ ESKİ","Son analiz "+freshnessMinutes+" dakika önce; sinyal kaydedilmedi"],
+    ["Kaynak",data.provider,"GitHub Actions zamanlanmış çalışmasını bekliyor"]
+   ]);
+   console.log("COIN.LIVE: Snapshot "+freshnessMinutes+" dakika eski. Yeni sinyal kaydı yapılmadı.");
+   return;
+  }
   const last=sh.getLastRow();
   const existing=new Set(last>1?sh.getRange(2,1,last-1,1).getValues().flat().filter(Boolean):[]);
   const added=[];
@@ -41,7 +52,7 @@ function syncCoinLive(){
   ss.getSheetByName("AYARLAR").getRange("A2:C4").setValues([
    ["Son başarılı senkronizasyon",new Date(),"Google Apps Script"],
    ["Kaynak",data.provider,"Kaynak ve OHLC aynı borsa olmalı"],
-   ["Yeni sinyal",added.length,"Sadece AL/SAT kaydı; BEKLE kaydedilmez"]]);
+   ["Yeni sinyal",added.length,"Güncel AL/SAT kayıtları; BEKLE kaydedilmez"]]);
   SpreadsheetApp.flush();
  }finally{lock.releaseLock();}
 }
