@@ -1,0 +1,62 @@
+
+/* COIN.LIVE PRO — incremental visual layer; keeps existing dashboard intact */
+:root{--cyan:#61c7ff;--purple:#b39bff}
+#proWorkspace{margin:16px 0}
+.proBand{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0}
+.proStat{background:#111d30;border:1px solid #28364e;padding:13px 15px;border-radius:13px;min-width:0}
+.proStat span{font-size:10px;color:var(--muted);letter-spacing:.5px;font-weight:750;display:block}
+.proStat strong{display:block;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proStat small{display:block;color:#89a6c2;font-size:10px}
+.paneGrid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr);gap:14px}
+.proPanel{background:linear-gradient(145deg,#101c2f,#0c1424);border:1px solid #2a3a53;border-radius:15px;overflow:hidden}
+.proHead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:16px;border-bottom:1px solid #28364a}
+.proHead h2{font-size:16px;letter-spacing:-.3px}
+.proTools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.proTools button,.proTools select,.tinyBtn{border:1px solid #344862;background:#1a2b43;color:#b8cce8;padding:6px 9px;border-radius:8px;font:inherit;font-size:12px;cursor:pointer}
+.proTools button.active{color:#fff;background:#28517d;border-color:#488dcd}
+.proHead .tinyTag{font-size:10px;color:#a5bad5}
+#proChart{display:block;width:100%;height:380px;touch-action:pan-y;background:#0a1423;cursor:crosshair}
+#chartHover{padding:0 15px 10px;font-variant-numeric:tabular-nums;color:#8aa9ca;font-size:11px;min-height:24px}
+#chartLegend{padding:12px 14px;display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#a5bad3}
+.chartDot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.proRight{padding:15px}
+.proRight .signalbig{margin-right:6px}
+.proStrong{font-size:23px;font-weight:850;letter-spacing:-.6px;margin:7px 0}
+.proMuted{color:var(--muted);font-size:12px}
+.signalLabels{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.signalLabels span{border:1px solid #32435f;border-radius:6px;padding:4px 7px;font-size:10px}
+.analysisList{padding-top:10px}
+.analysisRow{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #23324a;font-size:12px;gap:10px}
+.analysisRow span{color:#a2b7d0}
+.analysisRow b{font-variant-numeric:tabular-nums;text-align:right}
+.proGridLower{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(310px,.8fr);gap:14px;margin-top:14px}
+.newsFeed{max-height:465px;overflow:auto}
+.newsItem{padding:13px 15px;border-bottom:1px solid #26344c;display:block;color:#dae9fa}
+.newsItem:hover{background:#17273f}
+.newsItem strong{display:block;font-size:12px;line-height:1.5;font-weight:650}
+.newsItem small{color:#8cabc8;font-size:10px;display:block;margin-top:5px}
+.newsSources{display:flex;gap:8px;flex-wrap:wrap;padding:13px;border-top:1px solid #26344c}
+.newsSources a{font-size:11px;border:1px solid #34506d;padding:5px 9px;border-radius:7px;color:#a4d2ff}
+.paperTop{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:14px}
+.paperTop div{padding:12px;background:#18273e;border:1px solid #2b405b;border-radius:10px}
+.paperTop small{color:#8faac7;font-size:10px;display:block}
+.paperTop b{font-size:18px;font-variant-numeric:tabular-nums}
+.paperTrade{margin:0 14px 12px;padding:11px;border:1px solid #355174;background:#15243a;border-radius:10px;font-size:12px}
+.paperLog{max-height:250px;overflow:auto;padding:0 14px 14px}
+.paperLog .analysisRow{font-size:11px}
+.paperButtons{display:flex;gap:9px;padding:0 14px 14px;flex-wrap:wrap}
+.paperButtons button{flex:1;background:#1c3651;border:1px solid #3b6286;border-radius:9px;padding:10px;color:#e7f3ff;font-weight:700;cursor:pointer}
+.paperButtons .danger{background:#43202d;border-color:#79394a}
+.paperOptions{padding:0 14px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:#9db5cf;font-size:11px}
+.paperOptions input{width:90px}
+.proDisclaimer{font-size:11px;color:#8ea7c3;padding:10px 14px 14px;line-height:1.65}
+.newsFail{padding:15px;color:#edc78b;font-size:12px}
+.proAlertBox{margin:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.proAlertBox input{max-width:110px}
+.proAlertBox label{font-size:11px;color:#9fb6d2}
+.proAlertBox button{padding:8px 11px;border:1px solid #3d5877;border-radius:8px;background:#214262;color:#e5f4ff;cursor:pointer}
+#customAlertList{margin:8px 0;max-height:116px;overflow:auto}
+.customAlarm{display:flex;justify-content:space-between;align-items:center;gap:5px;padding:5px 2px;font-size:11px;border-bottom:1px solid #263950}
+.customAlarm button{border:none;background:none;color:#ff8099;cursor:pointer}
+@media(max-width:1040px){.paneGrid,.proGridLower{grid-template-columns:1fr}.proBand{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:580px){.proBand{grid-template-columns:repeat(2,minmax(0,1fr))}.proStat{padding:11px}#proChart{height:310px}.proHead{padding:12px}.paperTop b{font-size:15px}}
