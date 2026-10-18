@@ -162,12 +162,14 @@
 
   document.querySelectorAll("#examFilters button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#examFilters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");const k=b.dataset.kind;document.querySelectorAll("[data-exam]").forEach(c=>c.style.display=(k==="all"||c.dataset.exam.split(" ").includes(k))?"flex":"none")}));
   const telcCountdown=document.getElementById("telcCountdown"),telcStatus=document.getElementById("telcStatus");
-  function countdown(){
-    const target=new Date("2026-08-30T10:00:00+03:00"),now=new Date(),d=target-now;
-    if(d<=0){telcCountdown.textContent="Bu tarih geçti — güncel oturum için AYDA’ya sor.";telcStatus.textContent="Tarih geçti";telcStatus.classList.remove("success");telcStatus.classList.add("info");return}
-    const days=Math.floor(d/86400000),hours=Math.floor((d%86400000)/3600000);telcCountdown.textContent=`Sınava ${days} gün ${hours} saat kaldı`;
+  function showExamDateGuidance(){
+    if(!telcCountdown||!telcStatus)return;
+    telcCountdown.textContent="Güncel bilgiler başvuru öncesinde teyit edilir.";
+    telcStatus.textContent="Güncel tarih teyidi";
+    telcStatus.classList.remove("success");
+    telcStatus.classList.add("info");
   }
-  countdown();setInterval(countdown,60000);
+  showExamDateGuidance();
 
   renderUnits("A2");renderResources();renderRec();renderExam();
 })();
