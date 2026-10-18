@@ -281,3 +281,13 @@ button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}img,svg
 }
 @media(max-width:360px){.nav-actions{gap:6px}.ex-mini-cta{font-size:10px;padding-inline:9px}.ex-brand-text strong{font-size:15px}.hero h1{font-size:40px}.preview-window-top{padding:10px;font-size:8px}.preview-sequence{gap:4px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* AYDA first-party lesson evidence */
+.teacher-video-feature{display:grid;grid-template-columns:.8fr 1.2fr;gap:43px;align-items:center;margin-top:34px;background:#eef1f3;border:1px solid #e1e6e9;border-radius:12px;padding:32px 34px}
+.teacher-video-copy h3{font-size:clamp(26px,3vw,38px);line-height:1.18;letter-spacing:-.052em;color:#152e4c;margin:17px 0}
+.teacher-video-copy p{font-size:13px;line-height:1.8;color:#64758a;margin:0}
+.teacher-video-copy .text-arrow-link{margin-top:23px}
+.teacher-video-frame{aspect-ratio:16/9;background:#102541;border-radius:9px;overflow:hidden;box-shadow:0 20px 40px rgba(16,37,65,.13)}
+.teacher-video-frame iframe{border:0;width:100%;height:100%;display:block}
+@media(max-width:860px){.teacher-video-feature{grid-template-columns:1fr;gap:22px}.teacher-video-copy p{max-width:600px}}
+@media(max-width:680px){.teacher-video-feature{margin-top:25px;padding:19px;border-radius:10px}.teacher-video-copy h3{font-size:29px}.teacher-video-copy p{font-size:12.5px}}
