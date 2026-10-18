@@ -47,9 +47,9 @@
   function updateLeads(){
     $$('.ex-wa').forEach(a=>a.href=waUrl());
     const summary=$('#ex-wizard-summary');
-    if(summary)summary.textContent='Hedefin: '+goalNames[state.goal]+' · Seviye: '+state.level+'. Seçimlerini istediğin zaman değiştirebilirsin.';
+    if(summary)summary.textContent='Hedefiniz: '+goalNames[state.goal]+' · Seviye: '+state.level+'. Seçimlerinizi istediğiniz zaman değiştirebilirsiniz.';
     const course=$('#ex-course-title');
-    if(course)course.textContent=state.level+' Almanca programını keşfet';
+    if(course)course.textContent=state.level+' Almanca programını keşfedin';
     const lead=$('#ex-course-lead');
     if(lead)lead.textContent=state.goal==='sinav'?'Sınav hedefini ve uygun eğitim yolunu birlikte belirleyelim. Hazırlık ve sınav kaydı ayrı süreçlerdir.':state.goal==='almanya'?'Aile birleşimi, mesleki eğitim, iş veya üniversite hedefin için seviyene göre bir çalışma planı konuşalım.':'Canlı ders, tekrar, speaking ve dijital çalışma alanlarını kapsayan güncel seçenekleri incele.';
     const panelLevel=state.level==='B2'?'B1':state.level;
