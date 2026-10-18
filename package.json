@@ -1,0 +1,13 @@
+{
+  "name": "ayda-experience-quality",
+  "private": true,
+  "version": "2.1.0",
+  "description": "Browser regression tests for AYDA marketing and student demo",
+  "scripts": {
+    "test:smoke": "node tests/site-smoke.cjs",
+    "test:mobile": "playwright test --config=playwright.config.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0"
+  }
+}
