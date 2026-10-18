@@ -300,3 +300,18 @@ button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}img,svg
 .ex-lab-main .ex-tab .ex-eyebrow{color:#79572f}
 .ex-brand-text small{color:#33475e}
 @media(max-width:680px){.ex-brand-text small{font-size:9px}}
+
+/* Final small-screen hardening: prevent intrinsic-width overflow without hiding content */
+.ex-wizard-grid>*,.method-inner>*,.section-head>*,.ex-lab-shell>*,.ex-lab-main>*,.ex-proof-grid>*,
+.ex-voice-grid>*,.program-grid>*,.ex-final>*,.nav-shell>*,.hero-container>*{min-width:0}
+.ex-wizard-summary,.ex-feedback,.ex-tab p,.ex-faq p,.ex-final p{overflow-wrap:break-word}
+@media(max-width:680px){
+  .hero,.hero-container,.ex-page-section,.ex-lab,.programs,.platform-section{max-width:100%}
+  .ex-quickbar a{min-width:0;overflow-wrap:anywhere}
+  .ex-wizard-footer .ex-button,.ex-tab-footer .ex-button,.ex-final-actions .ex-button{max-width:100%}
+}
+@media(max-width:345px){
+  .ex-header .ex-mini-cta{display:none}
+  .hero h1{font-size:clamp(36px,11.5vw,40px)}
+  .ex-steps button{font-size:9.5px;letter-spacing:-.01em}
+}
