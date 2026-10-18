@@ -99,7 +99,7 @@
     $$('.ex-tab').forEach((el,i)=>el.classList.toggle('active',i===state.step));
     const status=$('#ex-progress-label');if(status) status.textContent=(state.step+1)+' / 4 aşama';
     const bar=$('#ex-progress-total');if(bar)bar.style.width=((state.step+1)*25)+'%';
-    if(state.step===1){const frame=$('#ex-lesson-video');if(frame&&!frame.src&&frame.dataset.src)frame.src=frame.dataset.src}
+    if(state.step===1){const frame=$('#ex-lesson-video');if(frame&&!frame.getAttribute('src')&&frame.dataset.src)frame.setAttribute('src',frame.dataset.src)}
     emit('demo_step_view',{step:state.step+1,level:state.level});
   }
   function resetQuiz(){
@@ -135,11 +135,14 @@
   $$('.ex-open-panel').forEach(b=>b.addEventListener('click',()=>{
     emit('open_student_panel',{level:state.level});
     const view=b.dataset.panelView||'practice';
+    const actualLevel=state.level==='B2'?'B1':state.level;
+    const selectedLevel=$('.level-tabs button[data-level="'+actualLevel+'"]');
+    if(selectedLevel)selectedLevel.click();
     const nav=$('.app-nav[data-view="'+view+'"]');
     if(nav)nav.click();
     else $('#demo')?.scrollIntoView();
   }));
-  $$('.ex-wa').forEach(a=>a.addEventListener('click',()=>emit('whatsapp_click',{goal:state.goal,level:state.level,completed:state.finished,placement:a.dataset.placement||'page'})));
+  $$('.ex-wa').forEach(a=>a.addEventListener('click',()=>emit('whatsapp_click',{goal:state.goal,level:state.level,completed:state.finished,placement:a.dataset.placement||'page',experiment:'ayda_hero_v1',variant:heroVariant})));
   $$('.ex-course-link').forEach(a=>a.addEventListener('click',()=>emit('course_link_click',{goal:state.goal,level:state.level})));
   const oldRec=$('#recordPlay');
   if(oldRec){
@@ -156,6 +159,23 @@
   }
   const scheduleTile=$('#app-schedule .schedule-card[data-exam="telc"]');
   if(scheduleTile) scheduleTile.setAttribute('aria-hidden','true');
+
+  /* Two consent-neutral headline variants; events become measurable when GA4/GTM is configured */
+  const variantKey='ayda_experiment_hero_v1';
+  let heroVariant='A';
+  try{
+    heroVariant=localStorage.getItem(variantKey);
+    if(heroVariant!=='A'&&heroVariant!=='B'){
+      heroVariant=Math.random()<.5?'A':'B';
+      localStorage.setItem(variantKey,heroVariant);
+    }
+  }catch(e){heroVariant='A'}
+  if(heroVariant==='B'){
+    const heading=$('#ex-title');
+    if(heading)heading.innerHTML='Canlı derste öğren. <span>Dersten sonra da ilerle.</span>';
+  }
+  emit('experiment_exposure',{experiment:'ayda_hero_v1',variant:heroVariant});
+
   renderLesson();renderQuiz();updateLeads();setStep(0);
   const params=new URLSearchParams(location.search);if(params.get('demo')==='1')$('#basla')?.scrollIntoView();
 })();
