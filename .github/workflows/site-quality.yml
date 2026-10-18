@@ -10,6 +10,8 @@ on:
       - "style.css"
       - "script.js"
       - "favicon.svg"
+      - "package.json"
+      - "playwright.config.cjs"
       - "tests/**"
       - ".github/workflows/site-quality.yml"
   pull_request:
@@ -21,6 +23,8 @@ on:
       - "style.css"
       - "script.js"
       - "favicon.svg"
+      - "package.json"
+      - "playwright.config.cjs"
       - "tests/**"
       - ".github/workflows/site-quality.yml"
   workflow_dispatch:
@@ -28,6 +32,7 @@ permissions:
   contents: read
 jobs:
   smoke:
+    name: Source integrity
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -35,5 +40,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Static site smoke test
-        run: node tests/site-smoke.cjs
+      - run: node tests/site-smoke.cjs
+  mobile:
+    name: Mobile and desktop Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install test runner
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Test responsive layout, menus, learning flow and links
+        run: npm run test:mobile
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ayda-mobile-test-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
