@@ -1,0 +1,39 @@
+name: MİTO Finans APK
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mito-finans/**'
+      - '.github/workflows/mito-finans-apk.yml'
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Expand offline source bundle
+        run: tar -xzf mito-finans/bundle.tar.gz
+      - name: Run financial calculation tests
+        run: node --test mito-finans/tests/core.test.cjs
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Bundle offline app assets
+        run: |
+          mkdir -p mito-finans/android/app/src/main/assets
+          cp mito-finans/index.html mito-finans/styles.css mito-finans/core.js mito-finans/app.js mito-finans/icon.svg mito-finans/manifest.webmanifest mito-finans/android/app/src/main/assets/
+      - name: Build Android APK
+        working-directory: mito-finans/android
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mito-finans-debug-apk
+          path: mito-finans/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101f35"><title>MİTO Finans</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#101f35;color:#e8fff8;font:16px system-ui,sans-serif;text-align:center}main{padding:26px}b{display:block;font-size:36px;letter-spacing:-2px;margin-bottom:12px}small{color:#a8bfc8}a{color:#85e5cc}</style></head><body><main><b>MİTO Finans</b><p id="status">Uygulama hazırlanıyor…</p><small>Çevrimdışı kişisel finans yönetimi</small></main>
+<script>
+(async function(){
+ const status=document.getElementById('status');
+ try{
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  if(typeof DecompressionStream==='undefined')throw Error('Bu tarayıcı sıkıştırılmış uygulamayı açamıyor. Güncel Chrome kullan.');
+  const response=await fetch('./bundle.tar.gz');
+  if(!response.ok)throw Error('Uygulama paketi yüklenemedi.');
+  const archive=new Uint8Array(await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+  const dec=new TextDecoder(),files={};let offset=0;
+  while(offset+512<=archive.length){
+   const head=archive.subarray(offset,offset+512);
+   if(head.every(b=>b===0))break;
+   const name=dec.decode(head.subarray(0,100)).split('\0')[0];
+   const prefix=dec.decode(head.subarray(345,500)).split('\0')[0];
+   const sizeText=dec.decode(head.subarray(124,136)).replace(/\0.*$/,'').trim();
+   const size=parseInt(sizeText||'0',8)||0;
+   const path=prefix?prefix+'/'+name:name;
+   const begin=offset+512,end=begin+size;
+   if(end>archive.length)throw Error('Paket eksik.');
+   if(size>0&&size<3e6)files[path]=dec.decode(archive.subarray(begin,end));
+   offset=begin+Math.ceil(size/512)*512;
+  }
+  let html=files['mito-finans/index.html'],css=files['mito-finans/styles.css'],core=files['mito-finans/core.js'],app=files['mito-finans/app.js'];
+  if(!html||!css||!core||!app)throw Error('Uygulama kaynakları bulunamadı.');
+  html=html.replace('<link rel="manifest" href="manifest.webmanifest">','').replace('<link rel="icon" href="icon.svg" type="image/svg+xml">','');
+  html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>');
+  html=html.replace('<script src="core.js"><\/script>','<script>'+core+'<\/script>');
+  html=html.replace('<script src="app.js"><\/script>','<script>'+app+'<\/script>');
+  document.open();document.write(html);document.close();
+ }catch(err){
+  status.textContent='Uygulama açılamadı: '+err.message;
+  const a=document.createElement('a');a.href='./bundle.tar.gz';a.textContent='Kaynak paketini indir';status.after(a);
+ }
+})();
+</script></body></html>
