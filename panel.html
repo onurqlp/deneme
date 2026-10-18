@@ -11,6 +11,19 @@
 body{background:#f3f5f8}main#top{min-height:0}.demo-section{width:100%;padding:12px;max-width:1600px;margin:auto}.app-shell{min-height:calc(100dvh - 150px)}
 .demo-section>.section-heading{display:none!important}
 @media(max-width:760px){.panel-return{padding:9px 13px}.panel-return b{font-size:12px}.panel-return small{font-size:10px}.panel-return a{font-size:11px}.demo-section{padding:0}.app-shell{min-height:calc(100dvh - 125px)}}
+
+/* Trustworthy recording example: never simulate playback of private content. */
+#app-recordings .fake-player,#app-recordings .record-list{display:none!important}
+#app-recordings .recording-layout{display:block;max-width:910px}
+.real-recording-example{background:white;border:1px solid #dfe5ec;border-radius:14px;overflow:hidden;margin:15px 0}
+.recording-example-heading{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:17px 20px;background:#f6f8fa;color:#1b3855;border-bottom:1px solid #e3e7ed}
+.recording-example-heading strong{font-size:14px}.recording-example-heading small{font-size:11px;color:#6d7d8e}
+.recording-example-video{aspect-ratio:16/9;background:#102541;max-height:590px}
+.recording-example-video iframe{display:block;width:100%;height:100%;border:0}
+.real-recording-example>a{display:block;padding:16px 20px;font-size:12px;color:#284c72;font-weight:800;text-decoration:none}
+.real-recording-example>a:hover{text-decoration:underline}
+@media(max-width:760px){.recording-example-heading{padding:14px}.real-recording-example>a{padding:15px}}
+
 </style>
 </head><body>
 <header class="panel-return"><div><b>AYDA / ÖĞRENCİ PLATFORMU</b><small>Kayıt öncesi sınırlı, etkileşimli demo</small></div><a href="./#deneyim">← Tanıtıma dön</a></header>
@@ -139,10 +152,15 @@ body{background:#f3f5f8}main#top{min-height:0}.demo-section{width:100%;padding:1
             </section>
 
             <section class="app-view" id="app-recordings">
-              <div class="app-page-head"><span>CANLI DERS KAYITLARI</span><h3>Dersi kaçırırsan kayıt ekranından tekrar et.</h3><p>Bu oynatıcı özel bir öğrenci kaydını yayınlamaz; gerçek paneldeki kullanım şeklini gösterir.</p></div>
+              <div class="app-page-head"><span>CANLI DERS KAYITLARI</span><h3>Dersi kaçırırsan kayıt ekranından tekrar et.</h3><p>Bu bölüm, gerçek öğrenci kayıtlarını paylaşmadan derslere erişim düzenini tanıtır. Halka açık öğretmen videosunu izleyebilirsiniz.</p></div>
               <div class="recording-layout">
                 <div>
-                  <div class="fake-player">
+                  <div class="real-recording-example">
+      <div class="recording-example-heading"><strong>AYDA · Halka açık ders örneği</strong><small>Özel ders kaydı veya öğrenci görüntüsü değildir.</small></div>
+      <div class="recording-example-video"><iframe loading="lazy" title="Onur Hoca Almanca Akkusativ ve Dativ" src="https://www.youtube-nocookie.com/embed/hBnZy7tWF-A" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+      <a href="https://www.youtube.com/@aydadil" target="_blank" rel="noopener noreferrer">AYDA'nın halka açık diğer derslerini izle ↗</a>
+    </div>
+    <div class="fake-player">
                     <div class="fake-stage">
                       <span id="recordChip">A2 • CANLI DERS KAYDI</span>
                       <h3 id="recordTitle">Wohin mit der Kommode?</h3>
