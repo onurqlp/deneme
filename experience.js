@@ -52,7 +52,12 @@
     if(course)course.textContent=state.level+' Almanca programını keşfet';
     const lead=$('#ex-course-lead');
     if(lead)lead.textContent=state.goal==='sinav'?'Sınav hedefini ve uygun eğitim yolunu birlikte belirleyelim. Hazırlık ve sınav kaydı ayrı süreçlerdir.':state.goal==='almanya'?'Aile birleşimi, mesleki eğitim, iş veya üniversite hedefin için seviyene göre bir çalışma planı konuşalım.':'Canlı ders, tekrar, speaking ve dijital çalışma alanlarını kapsayan güncel seçenekleri incele.';
-    $('.ex-choice').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.exGoal===state.goal)));
+    const panelLevel=state.level==='B2'?'B1':state.level;
+    const panelUrl='panel.html?level='+encodeURIComponent(panelLevel)+'&view=practice';
+    const fullLink=$('#ex-panel-full'), mobileLink=$('#ex-panel-mobile');
+    if(fullLink)fullLink.href=panelUrl;
+    if(mobileLink)mobileLink.href=panelUrl;
+    $$('.ex-choice').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.exGoal===state.goal)));
     $$('.ex-levels button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.exLevel===state.level)));
   }
   function renderLesson(){
@@ -163,8 +168,11 @@
     }
   }catch(e){heroVariant='A'}
   if(heroVariant==='B'){
-    const heading=$('#ex-title');
-    if(heading)heading.innerHTML='Canlı derste öğren. <span>Dersten sonra da ilerle.</span>';
+    const heroLink=$('.hero-actions .ex-button');
+    if(heroLink){
+      const textNode=Array.from(heroLink.childNodes).find(node=>node.nodeType===3);
+      if(textNode)textNode.textContent='Örnek derse ücretsiz başlayın ';
+    }
   }
   emit('experiment_exposure',{experiment:'ayda_hero_v1',variant:heroVariant});
 
