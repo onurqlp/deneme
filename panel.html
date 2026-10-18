@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="tr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102541"><meta name="robots" content="noindex,follow">
+<title>AYDA | Öğrenci Platformu Tanıtımı</title>
+<link rel="stylesheet" href="style.css?v=20261018-7">
+<style>
+.panel-return{position:relative;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:57px;background:#fbf9f5;padding:10px max(18px,calc((100vw - 1490px)/2));border-bottom:1px solid #dee4ea;font-family:system-ui,sans-serif}
+.panel-return b{font-size:13px;letter-spacing:.035em;color:#102541}.panel-return small{color:#64748b;font-size:11px;display:block;margin-top:2px}
+.panel-return a{display:inline-flex;justify-content:center;align-items:center;border-radius:10px;background:#102541;color:white;text-decoration:none;padding:11px 14px;font-size:12px;font-weight:800;min-height:40px}
+body{background:#f3f5f8}main#top{min-height:0}.demo-section{width:100%;padding:12px;max-width:1600px;margin:auto}.app-shell{min-height:calc(100dvh - 150px)}
+.demo-section>.section-heading{display:none!important}
+@media(max-width:760px){.panel-return{padding:9px 13px}.panel-return b{font-size:12px}.panel-return small{font-size:10px}.panel-return a{font-size:11px}.demo-section{padding:0}.app-shell{min-height:calc(100dvh - 125px)}}
+</style>
+</head><body>
+<header class="panel-return"><div><b>AYDA / ÖĞRENCİ PLATFORMU</b><small>Kayıt öncesi sınırlı, etkileşimli demo</small></div><a href="./#deneyim">← Tanıtıma dön</a></header>
+<main id="top"><section class="section demo-section" id="demo">
+      <div class="section-heading">
+        <div><span class="eyebrow dark">TIKLA, DENE, KEŞFET</span><h2>Öğrenci paneli demosu</h2><p>Kayıt öncesi hazırlanmış sınırlı ve etkileşimli tanıtım hesabıdır. Gerçek panelde içerikler öğrencinin seviyesine göre açılır.</p></div>
+      </div>
+
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <div class="app-brand"><span>A</span><b>AYDA Öğrenci</b></div>
+          <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="appMenuPanel"><span>Menü</span><b aria-hidden="true">☰</b></button>
+          <div class="app-menu-panel" id="appMenuPanel">
+          <button class="app-nav active" data-view="dashboard">⌂ <span>Ana Sayfa</span></button>
+          <button class="app-nav" data-view="replays">↻ <span>Ders Tekrarları</span></button>
+          <button class="app-nav" data-view="practice">✎ <span>Tekrar & Alıştırma</span></button>
+          <button class="app-nav" data-view="recordings">● <span>Canlı Ders Kayıtları</span></button>
+          <button class="app-nav" data-view="library">▥ <span>Dijital Kütüphane</span></button>
+          <button class="app-nav" data-view="exam">✓ <span>Sınav Hazırlık</span></button>
+          <button class="app-nav" data-view="schedule">◫ <span>Sınav Takvimi</span></button>
+          <div class="sidebar-resources">
+            <p>Tanıtımdan doğru sayfaya geç.</p>
+            <a href="https://www.aydadil.com/" target="_blank" rel="noopener"><span>↗</span> AYDA Ana Site</a>
+            <a href="https://www.aydadil.com/#kurslar" target="_blank" rel="noopener"><span>↗</span> Kurslar & Program</a>
+            <a href="https://www.aydadil.com/#seviye-testleri" target="_blank" rel="noopener"><span>↗</span> Seviye Testleri</a>
+            <a href="https://www.aydadil.com/sinavhazirlik/" target="_blank" rel="noopener"><span>↗</span> Sınav Platformu</a>
+            <a href="https://www.aydadil.com/bibliothek/" target="_blank" rel="noopener"><span>↗</span> Online Kütüphane</a>
+          </div>
+          </div>
+        </aside>
+
+        <div class="app-main">
+          <div class="app-topbar">
+            <div><b id="appTitle">Ana Sayfa</b><small>Kayıt öncesi örnek öğrenci hesabı</small></div>
+            <span class="demo-account">DEMO • A2</span>
+          </div>
+
+          <div class="app-content">
+            <section class="app-view active" id="app-dashboard">
+              <div class="welcome-card">
+                <div><span>ÖRNEK ÖĞRENCİ PANELİ</span><h3>Bugünkü çalışmana devam et.</h3><p>Ders tekrarların, alıştırmaların, kütüphanen ve sınav hazırlığın aynı yerde.</p><button class="button primary app-jump" data-view="practice">A2 dersini dene →</button></div>
+                <div class="progress-box"><small>DEMO · ÖRNEK İLERLEME</small><b>%38</b><div class="progress-line"><i></i></div><span>9 / 24 ünite görüntülendi</span></div>
+              </div>
+              <div class="mini-grid">
+                <button class="mini-action app-jump" data-view="replays"><b>Ders Tekrarları</b><span>Tarihe göre kayıt arşivi</span></button>
+                <button class="mini-action app-jump" data-view="practice"><b>A2 Alıştırma</b><span>Ünite + soru çöz</span></button>
+                <button class="mini-action app-jump" data-view="recordings"><b>Canlı Ders Kayıtları</b><span>Öğrenci kayıt ekranı</span></button>
+                <button class="mini-action app-jump" data-view="exam"><b>Sınav Hazırlık</b><span>Mini denemeyi çöz</span></button>
+              </div>
+              <div class="dashboard-course">
+                <div><span class="level-badge">A2</span><h3>A2 Almanca</h3><p>Menschen A2 ünite tekrarları, konu özeti, gramer mantığı, kontrollü alıştırmalar ve ek video kaynakları.</p></div>
+                <button class="button secondary app-jump" data-view="practice">Derse gir</button>
+              </div>
+            </section>
+            <section class="app-view" id="app-replays">
+              <div class="app-page-head" id="ders-tekrarlari">
+                <span>DERS TEKRARLARI</span>
+                <h3>Tarihe göre tekrar arşivi</h3>
+                <p>Öğrenci, işlenen dersleri tarih sırasıyla görür ve tekrar etmek istediği kaydı açar. Aşağıdaki tarihler demo arşiv görünümünü temsil eder.</p>
+              </div>
+
+              <div class="replay-workspace">
+                <div class="replay-archive">
+                  <div class="replay-month">
+                    <div class="replay-month-head"><b>Haziran 2026</b><span>4 kayıt</span></div>
+                    <button class="replay-row active" data-replay="0">
+                      <time>11.06.2026</time><div><b>11.06.2026 Dersi Tekrarı</b><span>A2 • Wohnen & Wechselpräpositionen</span></div><i>▶</i>
+                    </button>
+                    <button class="replay-row" data-replay="1">
+                      <time>09.06.2026</time><div><b>09.06.2026 Dersi Tekrarı</b><span>A2 • wenn-Nebensatz</span></div><i>▶</i>
+                    </button>
+                    <button class="replay-row" data-replay="2">
+                      <time>06.06.2026</time><div><b>06.06.2026 Dersi Tekrarı</b><span>A2 • Perfekt tekrar</span></div><i>▶</i>
+                    </button>
+                    <button class="replay-row" data-replay="3">
+                      <time>04.06.2026</time><div><b>04.06.2026 Dersi Tekrarı</b><span>A2 • Kelime & Sprechen</span></div><i>▶</i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="replay-viewer">
+                  <div class="replay-video-shell">
+                    <iframe id="replayFrame"
+                      src="https://www.youtube-nocookie.com/embed/videoseries?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&rel=0"
+                      title="AYDA ders tekrarları örnek playlist"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+                  </div>
+                  <div class="replay-info">
+                    <div>
+                      <span id="replayDate">11.06.2026 • A2</span>
+                      <h4 id="replayTitle">11.06.2026 Dersi Tekrarı</h4>
+                      <p id="replayDesc">Wohnen & Wechselpräpositionen • örnek tekrar akışı</p>
+                    </div>
+                    <a class="button secondary" href="https://youtube.com/playlist?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&si=NtZqMyOhFVGQ71Fb" target="_blank" rel="noopener">AYDA YouTube ↗</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="youtube-promo-mini">
+                <div><span>ÜCRETSİZ ÖRNEKLER</span><h4>AYDA YouTube ders tekrarları</h4><p>Kayıt olmadan önce anlatım tarzını görmek isteyenler için verdiğin resmi playlist bu alana bağlı.</p></div>
+                <a class="button primary" href="https://youtube.com/playlist?list=PLQwhOGFlptnJEKUTuUAAuvhZneyunFEcW&si=NtZqMyOhFVGQ71Fb" target="_blank" rel="noopener">Playlisti aç ↗</a>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-practice">
+              <div class="app-page-head"><span>TEKRAR & ALIŞTIRMA</span><h3>Bir üniteyi öğrenci gibi aç.</h3><p>Örnek içerik; tam kurs içeriğinin yalnızca küçük bir bölümünü gösterir.</p></div>
+              <div class="level-tabs">
+                <button data-level="A1">A1</button><button class="active" data-level="A2">A2</button><button data-level="B1">B1</button>
+              </div>
+              <div id="unitGrid" class="unit-grid"></div>
+            </section>
+
+            <section class="app-view" id="app-lesson">
+              <button class="back-link" id="backUnits">← Ünitelere dön</button>
+              <div class="lesson-head"><span id="lessonLevel">A2 • ÜNİTE 1</span><h3 id="lessonTitle">Mein Opa war auch schon Bäcker.</h3><p id="lessonTopic">Berufe und Familie</p></div>
+              <div class="lesson-grid">
+                <div class="lesson-main">
+                  <div class="video-placeholder"><div class="play-circle">▶</div><b>Konu anlatım / tekrar videosu</b><small>Gerçek öğrenci hesabında ilgili ders videosu burada açılır.</small></div>
+                  <article class="panel"><h4>Konu özeti</h4><p id="lessonSummary"></p><div id="lessonExamples" class="example-list"></div></article>
+                  <article class="panel"><h4>Mini alıştırma</h4><p id="quizQuestion" class="quiz-question"></p><div id="quizOptions"></div><div id="quizFeedback" class="feedback"></div></article>
+                </div>
+                <aside class="panel lesson-side"><h4>Bu ünitede</h4><div id="lessonMeta" class="meta-list"></div><h4>Çalışma akışı</h4><ol><li>Videoyu izle</li><li>Mantığı hatırla</li><li>Alıştırmayı çöz</li><li>Kütüphane / sınav kaynağına geç</li></ol></aside>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-recordings">
+              <div class="app-page-head"><span>CANLI DERS KAYITLARI</span><h3>Dersi kaçırırsan kayıt ekranından tekrar et.</h3><p>Bu oynatıcı özel bir öğrenci kaydını yayınlamaz; gerçek paneldeki kullanım şeklini gösterir.</p></div>
+              <div class="recording-layout">
+                <div>
+                  <div class="fake-player">
+                    <div class="fake-stage">
+                      <span id="recordChip">A2 • CANLI DERS KAYDI</span>
+                      <h3 id="recordTitle">Wohin mit der Kommode?</h3>
+                      <p id="recordDesc">Wechselpräpositionen • Wo? / Wohin?</p>
+                      <button id="recordPlay" class="player-button" type="button">▶</button>
+                    </div>
+                    <div class="player-bottom"><div class="player-progress"><i id="recordProgress"></i></div><div><span id="recordTime">00:00 / 01:18:00</span><small>Demo oynatıcı</small></div></div>
+                  </div>
+                  <div class="info-note">YouTube’daki örnek videolar herkese açıktır. Canlı ders kayıtları ise yalnızca ilgili öğrenci erişimine açılan kayıtları temsil eder.</div>
+                </div>
+                <div class="record-list" id="recordList">
+                  <button class="record-item active" data-rec="0"><span>A2</span><div><b>Wohin mit der Kommode?</b><small>1 sa 18 dk • Wechselpräpositionen</small></div></button>
+                  <button class="record-item" data-rec="1"><span>A2</span><div><b>Wenn es warm ist ...</b><small>1 sa 11 dk • wenn-Nebensatz</small></div></button>
+                  <button class="record-item" data-rec="2"><span>B1</span><div><b>obwohl / trotzdem</b><small>1 sa 24 dk • karşıtlık</small></div></button>
+                  <button class="record-item" data-rec="3"><span>ET</span><div><b>Haftalık etüt tekrarı</b><small>52 dk • eksik tamamlama</small></div></button>
+                </div>
+              </div>
+            </section>
+
+            <section class="app-view" id="app-library">
+              <div class="app-page-head"><span>DİJİTAL KÜTÜPHANE</span><h3>Ders dışı kaynakları seviyene göre filtrele.</h3><p>Materyal, video, konu anlatımı, Quizlet ve sınav kaynaklarından örnekler.</p></div>
+              <div class="library-layout">
+                <div class="library-filters" id="libraryFilters">
+                  <button class="active" data-filter="ALL">Tümü</button><button data-filter="A1">A1</button><button data-filter="A2">A2</button><button data-filter="B1">B1</button><button data-filter="SINAV">Sınav</button>
+                </div>
+                <div id="resourceGrid" class="resource-grid"></div>
+              </div>
+              <div class="info-note">Gerçek AYDA kütüphanesinde A1–B2 kaynakları, Drive dosyaları, YouTube listeleri, Quizlet ve online egzersizler sınıf koduyla açılır. <a href="https://www.aydadil.com/bibliothek/" target="_blank" rel="noopener">Kütüphane girişini gör ↗</a></div>
+            </section>
+
+            <section class="app-view" id="app-exam">
+              <div class="app-page-head"><span>SINAV HAZIRLIK</span><h3>telc · Goethe · ÖSD hedefi olan öğrenci ne görür?</h3><p>Seviye ve sınava göre okuma, dinleme, yazma ve konuşma çalışmaları ayrıca planlanabilir.</p></div>
+              <div class="exam-program-grid">
+                <article><b>A1</b><h4>Başlangıç sınav pratiği</h4><p>Kelime, form, temel okuma ve basit üretim.</p></article>
+                <article class="featured"><b>A2</b><h4>telc / Goethe / ÖSD</h4><p>Kelime, Lesen, Schreiben ve Sprechen odaklı çalışma.</p></article>
+                <article><b>B1–B2</b><h4>Üretim + strateji</h4><p>Deneme analizi, yazma düzeltmesi ve sözlü prova.</p></article>
+              </div>
+              <div class="exam-demo">
+                <div class="panel">
+                  <div class="quiz-top"><h4>Mini sınav hazırlık denemesi</h4><span id="examProgress">1 / 3</span></div>
+                  <p id="examQuestion" class="quiz-question"></p>
+                  <div id="examOptions"></div>
+                  <div id="examFeedback" class="feedback"></div>
+                  <div class="quiz-actions"><button class="button primary" id="examCheck">Cevabı kontrol et</button><button class="button secondary" id="examNext" hidden>Sonraki →</button><button class="button secondary" id="examRestart" hidden>Baştan başla</button></div>
+                </div>
+                <aside class="tip-card"><span>AYDA SINAV TÜYOSU</span><h4 id="examTipTitle">Form kelimeleri</h4><p id="examTip"></p><div id="examScoreWrap" hidden><b id="examScore">0 / 3</b><small>Demo skoru</small></div></aside>
+              </div>
+              <div class="info-note">A1–B2 telc ve Goethe çalışma alanları seviye bazında şifreli erişimle sunulur. <a href="https://www.aydadil.com/sinavhazirlik/" target="_blank" rel="noopener">AYDA sınav hazırlık platformunu gör ↗</a></div>
+            </section>
+
+            <section class="app-view" id="app-schedule">
+              <div class="app-page-head"><span>SINAV TAKVİMİ</span><h3>Hedef sınav tarihini çalışma planına bağla.</h3><p>Doğrulanmış tarih varsa gösterilir; doğrulanmamış tarih üretilmez.</p></div>
+              <div class="filter-tabs" id="examFilters"><button class="active" data-kind="all">Tümü</button><button data-kind="telc">telc</button><button data-kind="osd">ÖSD</button></div>
+              <div class="schedule-grid">
+                <article class="schedule-card" data-exam="telc"><span class="status success" id="telcStatus">Yaklaşan sınav</span><small>telc Deutsch A2</small><h4>30 Ağustos 2026</h4><p>AYDA’nın daha önce paylaşılan A2 sınav bilgilendirme sayfasındaki tarih.</p><b id="telcCountdown" class="countdown"></b><button class="button secondary app-jump" data-view="exam">Hazırlık demosunu aç</button></article>
+                <article class="schedule-card" data-exam="osd"><span class="status info">Güncel tarih teyidi</span><small>ÖSD • A1–B2</small><h4>Tarihi AYDA’dan sor</h4><p>Bu demoda doğrulanmamış ÖSD tarihi gösterilmez. Seviye ve merkez bilgisine göre güncel oturum teyit edilir.</p><a class="button secondary" href="https://wa.me/905409112503?text=Merhaba%20AYDA%2C%20%C3%96SD%20s%C4%B1nav%20tarihleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">Güncel ÖSD tarihini sor</a></article>
+                <article class="schedule-card" data-exam="telc osd"><span class="status info">Planlama</span><small>Sınav hedefi</small><h4>Tarih → çalışma takvimi</h4><p>Sınava kalan süre; genel Almanca, deneme, yazma düzeltmesi ve sözlü prova yoğunluğunu değiştirir.</p><a class="button secondary" href="https://www.aydadil.com/sinavhazirlik/" target="_blank" rel="noopener">Sınav hazırlığı ↗</a></article>
+              </div>
+              <div class="info-note">Güncel İstanbul ÖSD ve telc tarihleri için <a href="https://www.aydadil.com/#sinav-takvimi" target="_blank" rel="noopener">AYDA ana sitesindeki sınav takvimini aç ↗</a>. Resmî şart ve prosedürlerde ilgili sınav kurumunun duyurusu esastır.</div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section></main>
+<script src="script.js?v=20261018-7"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var lev=params.get('level'),view=params.get('view');
+  if(lev==='A1'||lev==='A2'||lev==='B1'){var button=document.querySelector('.level-tabs button[data-level="'+lev+'"]');if(button)button.click();}
+  if(view==='practice'||view==='replays'||view==='library'||view==='exam'||view==='recordings'||view==='schedule'){
+    var button=document.querySelector('.app-nav[data-view="'+view+'"]');if(button)button.click();
+  }
+})();
+</script></body></html>
