@@ -1,5 +1,33 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101f35"><title>MİTO Finans</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#101f35;color:#e8fff8;font:16px system-ui,sans-serif;text-align:center}main{padding:26px}b{display:block;font-size:36px;letter-spacing:-2px;margin-bottom:12px}small{color:#a8bfc8}a{color:#85e5cc}</style></head><body><main><b>MİTO Finans</b><p id="status">Uygulama hazırlanıyor…</p><small>Çevrimdışı kişisel finans yönetimi</small></main>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101f35">
+<meta name="description" content="MİTO Finans, kredi kartı ekstrelerinizi, kredilerinizi, taksitlerinizi, son ödeme tarihlerinizi ve gelirlerinizi tek yerden yönetmeniz için tasarlanmış çevrimdışı kişisel finans uygulamasıdır.">
+<title>MİTO Finans | Tüm Ödemeleriniz, Tek Bir Kontrol Merkezi</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 75% 0%,#244961 0%,#101f35 47%,#0c172a 100%);color:#f0fafb;padding:24px}
+main{width:min(440px,100%);text-align:center} .mark{display:inline-grid;place-items:center;width:68px;height:68px;border-radius:19px;background:#69e2c3;color:#102a35;font-weight:850;font-size:36px;box-shadow:0 18px 46px #0004}
+.tag{margin:24px 0 9px;font-size:11px;letter-spacing:.23em;font-weight:800;color:#8bdbcb}
+h1{margin:0;font-size:clamp(30px,7vw,44px);font-weight:790;letter-spacing:-.05em}
+.lead{font-size:16px;line-height:1.75;color:#b6cad2;margin:17px auto 25px;max-width:380px}
+#status{font-size:13px;color:#83e2cf;min-height:22px}
+.progress{height:3px;max-width:180px;margin:13px auto 28px;border-radius:100px;background:#345166;overflow:hidden}
+.progress::after{content:"";display:block;height:100%;width:44%;border-radius:inherit;background:#72e8ca;animation:move 1.1s ease-in-out infinite alternate}
+@keyframes move{from{transform:translateX(0)}to{transform:translateX(135%)}}
+a{font-size:13px;color:#a7fae1;text-underline-offset:4px}small{display:block;margin-top:14px;color:#91a8b9;font-size:12px}
+</style></head>
+<body><main>
+<div class="mark" aria-hidden="true">M</div>
+<p class="tag">MİTO FİNANS · KİŞİSEL KONTROL MERKEZİ</p>
+<h1>Tüm ödemeleriniz.<br>Tek bir net tablo.</h1>
+<p class="lead">Kredi kartlarınızı, kredilerinizi, taksitlerinizi ve gelirlerinizi tek bir yerden takip edin. Son ödeme tarihlerini kaçırmadan finansal durumunuzu görün.</p>
+<p id="status" role="status">Finans paneliniz açılıyor…</p><div class="progress" aria-hidden="true"></div>
+<a href="./kullanim.html">Kısa kullanım rehberi</a>
+<small>Hesap gerektirmez · Kayıtlar bu cihazda tutulur</small>
+</main>
 <script>
 (async function(){
  const status=document.getElementById('status');
@@ -26,7 +54,7 @@
   let html=files['mito-finans/index.html'],css=files['mito-finans/styles.css'],core=files['mito-finans/core.js'],app=files['mito-finans/app.js'];
   if(!html||!css||!core||!app)throw Error('Uygulama kaynakları bulunamadı.');
   html=html.replace('<link rel="manifest" href="manifest.webmanifest">','').replace('<link rel="icon" href="icon.svg" type="image/svg+xml">','');
-  html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>');
+  html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>');\n  html=html.replace('</footer>',' <a href="./kullanim.html" style="color:#177d72;text-decoration:underline;margin-left:8px">Kullanım rehberi</a></footer>');
   html=html.replace('<script src="core.js"><\/script>','<script>'+core+'<\/script>');
   html=html.replace('<script src="app.js"><\/script>','<script>'+app+'<\/script>');
   document.open();document.write(html);document.close();
