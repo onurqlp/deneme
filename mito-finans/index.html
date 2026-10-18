@@ -54,7 +54,8 @@ a{font-size:13px;color:#a7fae1;text-underline-offset:4px}small{display:block;mar
   let html=files['mito-finans/index.html'],css=files['mito-finans/styles.css'],core=files['mito-finans/core.js'],app=files['mito-finans/app.js'];
   if(!html||!css||!core||!app)throw Error('Uygulama kaynakları bulunamadı.');
   html=html.replace('<link rel="manifest" href="manifest.webmanifest">','').replace('<link rel="icon" href="icon.svg" type="image/svg+xml">','');
-  html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>');\n  html=html.replace('</footer>',' <a href="./kullanim.html" style="color:#177d72;text-decoration:underline;margin-left:8px">Kullanım rehberi</a></footer>');
+  html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>');
+  html=html.replace('</footer>',' <a href="./kullanim.html" style="color:#177d72;text-decoration:underline;margin-left:8px">Kullanım rehberi</a></footer>');
   html=html.replace('<script src="core.js"><\/script>','<script>'+core+'<\/script>');
   html=html.replace('<script src="app.js"><\/script>','<script>'+app+'<\/script>');
   document.open();document.write(html);document.close();
