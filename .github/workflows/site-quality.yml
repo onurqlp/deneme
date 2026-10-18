@@ -1,0 +1,39 @@
+name: AYDA Site Quality
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "panel.html"
+      - "experience.css"
+      - "experience.js"
+      - "style.css"
+      - "script.js"
+      - "favicon.svg"
+      - "tests/**"
+      - ".github/workflows/site-quality.yml"
+  pull_request:
+    paths:
+      - "index.html"
+      - "panel.html"
+      - "experience.css"
+      - "experience.js"
+      - "style.css"
+      - "script.js"
+      - "favicon.svg"
+      - "tests/**"
+      - ".github/workflows/site-quality.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Static site smoke test
+        run: node tests/site-smoke.cjs
